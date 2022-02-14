@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   List.associate = function (models) {
-    // associations can be defined here
+    List.hasMany(models.Task, { foreignKey: 'listId'})
+    List.belongsTo(models.User, { foreignKey: 'userId'})
+    List.belongsTo(models.Category, { foreignKey: 'categoryId'})
   };
   return List;
 };

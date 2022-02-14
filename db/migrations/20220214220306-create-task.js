@@ -25,11 +25,13 @@ module.exports = {
       },
       listId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Lists" }
       },
       userId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Users" }
       },
       dueDate: {
         type: Sequelize.STRING
