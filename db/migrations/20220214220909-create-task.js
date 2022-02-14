@@ -1,24 +1,43 @@
 'use strict';
-
-const { Model } = require("sequelize/types");
-
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Categories', {
+    return queryInterface.createTable('Tasks', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
         allowNull: false,
+        type: Sequelize.STRING(100)
+      },
+      description: {
         type: Sequelize.STRING
+      },
+      experienceReward: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      completed: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
+      listId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: "Lists" }
       },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "Users" }
+      },
+      dueDate: {
+        type: Sequelize.STRING
+      },
+      dueTime: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +50,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Categories');
+    return queryInterface.dropTable('Tasks');
   }
 };
