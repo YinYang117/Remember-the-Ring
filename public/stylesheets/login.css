@@ -1,0 +1,116 @@
+@import url(//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
+@font-face {
+    font-family: "Apple Chancery";
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
+}
+
+body {
+    font-family: 'Apple Chancery';
+    background-color: #E7C087;
+}
+
+.page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vw;
+    width: 100vw;
+    max-height: 1080px;
+}
+
+.left-page-container {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #341B14;
+    color: #E7C087;
+    gap: 5%;
+    height: 100vh;
+    width: 50vw;
+    text-align: center;
+}
+
+#isengard-map {
+    max-width: 100%;
+    height: auto;
+}
+
+#gandalf-quote {
+    font-size: 22px;
+}
+
+.right-page-container {
+    grid-column: 2;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    border-left: 6px solid #841818;
+    width: 50vw;
+    height: 100vh;
+}
+
+.right-page-nav {
+    grid-row: 1;
+    display: flex;
+    justify-content: right;
+    width: 50vw;
+    align-items: center;
+}
+
+.nav-buttons {
+    grid-column: 3;
+    margin-right: 50px;
+}
+
+#sign-up-button {
+    opacity: 0.5;
+    text-decoration: none;
+    border: 3px solid #841818;
+    background-color: #C46928;
+    font-size: 18px;
+    border-radius: 3px;
+    padding: 5px 25px;
+}
+
+#home-button {
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.right-page-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.form input {
+    height: 40px;
+    font-family: 'Apple Chancery';
+    font-size: 18px;
+}
+
+h1 {
+    font-size: 22px;
+}
+
+#submit-button {
+    font-family: 'Apple Chancery';
+    border: 3px solid #841818;
+    border-radius: 3px;
+    background-color: #C46928;
+    margin-top: 20px;
+    height: 40px;
+}
