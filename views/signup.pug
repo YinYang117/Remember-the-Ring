@@ -1,0 +1,33 @@
+extends layout 
+
+append head 
+  link(rel="stylesheet" href="/stylesheets/signup.css")
+
+block content
+  div(class="page-container")
+    div(class="left-page-container")
+      h2 Join people from all over Middle Earth
+      img(id="isengard-map" src="http://localhost:8080/public/images/isengard-helms-deep-map.png" alt="middle-earth")
+      h2 in their quest to get organized
+    div(class="right-page-container")
+      div(class="right-page-nav")
+        div(class="nav-buttons")
+          a(id="home-button" href="") Home
+          a(id="log-in-button" href="") Log in
+      div(class="right-page-body")
+        form(action='/users/signup' method='post' class="form")
+          h1 Sign up for free
+          input(type="hidden" name="_csrf" value=csrfToken)
+          label(for="firstName") First Name 
+          input(type="text" name="firstName" value=user.firstName)
+          label(for="lastName") Last Name
+          input(type="text" name="lastName" value=user.lastName) 
+          label(for="email") Email
+          input(type="email" name="email" value=user.email)
+          label(for="password") Password
+          input(type="string" name="password")
+          label(for="confirmPassword") Confirm Password
+          input(type="string" name="confirmPassword")
+          button(id="submit-button") Sign up!
+
+//- TODO NEEDS INPUT ON LABELS, LINKS FINISHED AND MOBILE OPTIMIZATION
