@@ -21,8 +21,12 @@ block content
                 form(action='/users/login' method='post' class="form")
                     h1 Ventured here before? Log in!
                     input(type="hidden" name="_csrf" value=csrfToken)
-                    label(for="email") Email
+                    label(for="email")
+                        | Email
+                        span(class="error-messages")=errors.email
                     input(type="email" name="email" value=email)
-                    label(for="password") Password
+                    label(for="password")
+                        | Password
+                        span(class="error-messages")=errors.password
                     input(type="string" name="password")
                     button(id="submit-button") Log in!

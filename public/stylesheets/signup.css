@@ -92,17 +92,26 @@ h2 {
 .form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
+    text-align: left;
+}
+
+
+form {
+    justify-content: center;
+    align-items: left
 }
 
 .form h1 {
     margin-bottom: 15px;
+    justify-content: left;
 }
 
 .form input {
     height: 40px;
     font-family: 'Apple Chancery';
     font-size: 18px;
+    width: 350px;
 }
 
 #submit-button {
@@ -112,4 +121,26 @@ h2 {
     background-color: #C46928;
     margin-top: 20px;
     height: 40px;
+    width: 350px;
+}
+
+.error-messages {
+    color: red;
+    margin-left: 20px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+#password-details {
+    font-size: 12px;
+}
+
+ul {
+    margin-top: 20px;
+    font-size: 12px;
+    margin-left: 20px;
+}
+
+li {
+    font-size: 12px;
 }
