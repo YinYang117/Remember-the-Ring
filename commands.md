@@ -14,3 +14,6 @@ npx sequelize model:generate --name Category --attributes name:string
 npx dotenv sequelize db:migrate
 
 psql -U remember_the_ring_app remember_the_ring < node_modules/connect-pg-simple/table.sql
+
+npm i --save express-async-handler
+npm i csurf
