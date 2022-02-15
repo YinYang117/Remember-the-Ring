@@ -17,3 +17,6 @@ psql -U remember_the_ring_app remember_the_ring < node_modules/connect-pg-simple
 
 npm i --save express-async-handler
 npm i csurf
+
+npm i express-validator
+npm i bcryptjs
