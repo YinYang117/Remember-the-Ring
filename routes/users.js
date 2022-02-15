@@ -8,7 +8,6 @@ const asyncHandler = require('express-async-handler')
 const csrf = require('csurf');
 const { loginUser, logoutUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
-const router = express.Router();
 
 router.get('/signup', csrfProtection, ((req, res) => {
   // ^ Removed async
@@ -90,9 +89,8 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
     // !!!!!! TODO CHANGE THIS to the user login homepage
     res.redirect('/');
-
   } else {
-    const errors = validationErrors.array().map((error) => error.msg);
+    const errors = validationErrors.array();
     res.render('signup', {
       title: 'Wizard Signup',
       user,
@@ -104,7 +102,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
 router.get('/login', csrfProtection, (req, res, next) => {
   res.render('login', {
-    title: 'Wizard loggin in',
+    title: 'Wizard Login',
     csrfToken: req.csrfToken(),
   })
 });
@@ -142,7 +140,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
       };
     }
     errors.push('Login failed, please try again')
-  } else { errors = validationErrors.array().map((error) => error.msg) }
+  } else errors = validationErrors.array()
 
   res.render('login', {
     title: 'Wizard Login',
@@ -152,7 +150,9 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   });
 }));
 
-router.post('/logout')
+router.post('/logout', (req, res) => {
+  
+})
 
 // THIS IS STRICTLY FOR TEST PURPOSES DELETE WHEN LISTS ROUTE IS SETUP
 router.get('/list_test', csrfProtection, asyncHandler(async (req, res, next) => {

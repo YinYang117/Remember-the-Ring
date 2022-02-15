@@ -18,11 +18,11 @@ block content
                     a(id="home-button" href="") Home
                     a(id="sign-up-button" href="") Sign up
             div(class="right-page-body")
-                form(action='/users/signup' method='post' class="form")
+                form(action='/users/login' method='post' class="form")
                     h1 Ventured here before? Log in!
                     input(type="hidden" name="_csrf" value=csrfToken)
                     label(for="email") Email
-                    input(type="email" name="email" value=user.email)
+                    input(type="email" name="email" value=email)
                     label(for="password") Password
                     input(type="string" name="password")
                     button(id="submit-button") Log in!
