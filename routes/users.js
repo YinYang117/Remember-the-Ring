@@ -64,7 +64,7 @@ const userValidators = [
     })
 ];
 
-router.post('/signup', asyncHandler(async (req, res) => {
+router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, res) => {
   const {
     firstName,
     lastName,
@@ -75,7 +75,9 @@ router.post('/signup', asyncHandler(async (req, res) => {
   const user = User.build({
     email,
     firstName,
-    lastName
+    lastName,
+    currentLevel: 1,
+    currentExp: 0
   });
 
   const validationErrors = validationResult(req)

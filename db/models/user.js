@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     currentExp: {
       allowNull: false,
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     },
   }, {});
   User.associate = function(models) {
