@@ -16,52 +16,59 @@ router.get('/signup', csrfProtection, ((req, res) => {
   res.render('signup', {
     title: 'Wizard Signup',
     user: {},
+    errors: {},
     csrfToken: req.csrfToken(),
   });
 }))
 
 const userValidators = [
   check('firstName')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a First Name')
     .isLength({ max: 50 })
-    .withMessage('Please limit First Names to 50 characters.'),
+    .withMessage('Please limit First Names to 50 characters.')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a First Name'),
   check('lastName')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a Last Name')
     .isLength({ max: 50 })
-    .withMessage('Please limit Last Names to 50 characters.'),
-  check('email')
+    .withMessage('Please limit Last Names to 50 characters.')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide an Email')
-    .isLength({ max: 255 })
-    .withMessage('Please limit Last Names to 255 characters.')
-    .isEmail()
-    .withMessage('Email is not valid')
+    .withMessage('Please provide a Last Name'),
+  check('email')
     .custom((email) => {
       return User.findOne({ where: { email } })
         .then((user) => {
           if (user) return Promise.reject('The provided Email is already being used')
         })
-    }),
-  check('password')
+    })
+    .isLength({ max: 255 })
+    .withMessage('Please limit Last Names to 255 characters.')
+    .isEmail()
+    .withMessage('Email is not valid')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password')
+    .withMessage('Please provide an Email'),
+  check('password')
+    .matches(/^(?=.*[a-z])/, 'g')
+    .withMessage('Password must contain at least 1 lowercase letter')
+    .matches(/^(?=.*[A-Z])/, 'g')
+    .withMessage('Password must contain at least 1 uppercase letter')
+    .matches(/^(?=.*[0-9])/, 'g')
+    .withMessage('Password must contain at least 1 number')
+    .matches(/^(?=.*[!@#$%^&*])/, 'g')
+    .withMessage('Password must contain at least 1 special character (i.e. "!@#$%^&*")')
     .isLength({ max: 50 })
     .withMessage('Please limit passwords to 50 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
-    .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
-  check('confirmPassword')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password')
-    .isLength({ max: 50 })
-    .withMessage('Confirm Password can not be longer then 50 characters')
+    .withMessage('Please provide a password'),
+  check('confirmPassword')
     .custom((confirmedPass, { req }) => {
       if (confirmedPass !== req.body.password) {
         throw new Error('Confirm Password did not match password')
       }
       return true;
     })
+    .isLength({ max: 50 })
+    .withMessage('Confirm Password can not be longer then 50 characters')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password')
 ];
 
 router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, res) => {
@@ -90,7 +97,11 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     // !!!!!! TODO CHANGE THIS to the user login homepage
     res.redirect('/');
   } else {
-    const errors = validationErrors.array();
+    const errors = {}
+    validationErrors.array().forEach(err => {
+      errors[err.param]= err.msg
+    });
+
     res.render('signup', {
       title: 'Wizard Signup',
       user,
@@ -102,6 +113,8 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
 router.get('/login', csrfProtection, (req, res, next) => {
   res.render('login', {
+    errors: {},
+    loginErrors: [],
     title: 'Wizard Login',
     csrfToken: req.csrfToken(),
   })
@@ -124,7 +137,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
     password
   } = req.body;
 
-  let errors = [];
+  let loginErrors = [];
   const validationErrors = validationResult(req);
 
   if (validationErrors.isEmpty()) {
@@ -139,13 +152,27 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
       };
     }
-    errors.push('Login failed, please try again')
-  } else errors = validationErrors.array()
+    loginErrors.push('Login failed, please try again')
+  } else {
+    const errors = {}
+    validationErrors.array().forEach(err => {
+      errors[err.param] = err.msg
+    });
+
+    res.render('login', {
+      title: 'Wizard Login',
+      email,
+      errors,
+      loginErrors: [],
+      csrfToken: req.csrfToken()
+    });
+  }
 
   res.render('login', {
     title: 'Wizard Login',
     email,
-    errors,
+    errors: {},
+    loginErrors,
     csrfToken: req.csrfToken()
   });
 }));
