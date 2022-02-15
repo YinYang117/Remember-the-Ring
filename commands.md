@@ -19,3 +19,4 @@ npm i --save express-async-handler
 npm i csurf
 
 npm i express-validator
+npm i bcryptjs

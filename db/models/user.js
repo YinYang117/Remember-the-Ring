@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     currentLevel: {
       allowNull: false,
       type: DataTypes.INTEGER
-    }
+    },
+    currentExp: {
+      allowNull: false,
+      type: Sequelize.INTEGER
+    },
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Task, { foreignKey: 'userId'})

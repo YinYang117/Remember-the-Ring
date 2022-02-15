@@ -1,10 +1,6 @@
 const express = require('express');
-
-// adding express validator
-// also added npm i express-validator to commands
 const { check, validationResult } = require('express-validator');
-
-// import db for user creation and queries
+const bcrypt = require('bcryptjs');
 const { db, User } = require('../db/models');
 
 const asyncHandler = require('express-async-handler')
@@ -15,7 +11,7 @@ const router = express.Router();
 
 router.get('/signup', csrfProtection, ((req, res) => {
   // ^ Removed async
-  const user = db.User.build();
+  const user = User.build();
 
   res.render('signup', {
     title: 'Wizard Signup',
@@ -59,7 +55,7 @@ const userValidators = [
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password')
     .isLength({ max: 50 })
-    .withMessage({ 'Confirm Password can not be longer then 50 characters'})
+    .withMessage('Confirm Password can not be longer then 50 characters')
     .custom((confirmedPass, { req }) => {
       if (confirmedPass !== req.body.password) {
         throw new Error('Confirm Password did not match password')
