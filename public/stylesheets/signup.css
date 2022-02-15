@@ -95,6 +95,10 @@ h2 {
     width: 300px;
 }
 
+.form h1 {
+    margin-bottom: 15px;
+}
+
 .form input {
     height: 40px;
     font-family: 'Apple Chancery';

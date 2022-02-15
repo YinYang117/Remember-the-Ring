@@ -100,10 +100,34 @@ body {
 .logo-area {
     grid-row: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     max-width: 235px;
     justify-content: center;
 }
+
+.list-area {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100vw;
+}
+
+.new-task-form-container {
+    margin-top: 30px;
+}
+
+.new-task-form-container #new-task-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#new-task-form input {
+    height: 40px;
+    font-family: 'Apple Chancery';
+    width: 400px;
+}
+
 
 #logo {
     max-height: 70px;
