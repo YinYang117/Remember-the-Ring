@@ -75,7 +75,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10%;
+    gap: 5%;
 }
 
 #middle-earth-map {

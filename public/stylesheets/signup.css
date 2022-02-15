@@ -1,0 +1,64 @@
+@import url(//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
+@font-face {
+    font-family: "Apple Chancery";
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
+}
+
+body {
+    font-family: 'Apple Chancery';
+    background-color: #E7C087;
+}
+
+.page-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vw;
+    width: 100vw;
+    max-height: 1080px;
+}
+
+.left-page-container {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #341B14;
+    color: #E7C087;
+    gap: 5%;
+    height: 100vh;
+}
+
+#isengard-map {
+    max-width: 100%;
+    height: auto;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+.right-page-container {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-left: 6px solid #841818;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#submit-button {
+    font-family: 'Apple Chancery';
+    
+}
