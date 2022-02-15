@@ -8,7 +8,7 @@ const csrfProtection = csrf({ cookie: true });
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
-
+  
 router.get('/signup', csrfProtection, asyncHandler(async(req, res) => {
 
   res.render('signup', {
