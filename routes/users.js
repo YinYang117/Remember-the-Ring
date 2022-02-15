@@ -49,8 +49,14 @@ const userValidators = [
     .withMessage('Please provide a password')
     .isLength({ max: 50 })
     .withMessage('Please limit passwords to 50 characters')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
-    .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
+    .matches(/^(?=.*[a-z])/, 'g')
+    .withMessage('Password must contain at least 1 lowercase letter')
+    .matches(/^(?=.*[A-Z])/, 'g')
+    .withMessage('Password must contain at least 1 uppercase letter')
+    .matches(/^(?=.*[0-9])/, 'g')
+    .withMessage('Password must contain at least 1 number')
+    .matches(/^(?=.*[!@#$%^&*])/, 'g')
+    .withMessage('Password must contain at least 1 special character (i.e. "!@#$%^&*")'),
   check('confirmPassword')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password')
