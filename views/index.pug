@@ -7,5 +7,14 @@ append head
   script(src="/javascripts/index.js" type="module" defer)
 
 block content
-  h1= title
-  p Welcome to your Project Skeleton
+  div(class='page-container')
+    div(class='nav-bar')
+      div(class='upper-left-nav')
+        img(id='logo' src="http://localhost:8080/public/images/ring-transparent-background.png")
+        h1(id="logo-text")
+          | remember
+          br
+          | the ring
+      div(class='upper-right-nav')
+        a(href="") Log in
+        a(href="") Sign Up 
