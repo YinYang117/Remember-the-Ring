@@ -32,6 +32,7 @@ body {
     color: #E7C087;
     gap: 5%;
     height: 100vh;
+    width: 50vw;
 }
 
 #isengard-map {
@@ -45,11 +46,47 @@ h2 {
 
 .right-page-container {
     grid-column: 2;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    border-left: 6px solid #841818;
+    width: 50vw;
+    height: 100vh;
+}
+
+.right-page-nav {
+    grid-row: 1;
+    display: flex;
+    justify-content: right;
+    width: 50vw;
+    align-items: center;
+}
+
+.nav-buttons {
+    grid-column: 3;
+    margin-right: 50px;
+}
+
+#log-in-button {
+    opacity: 0.5;
+    text-decoration: none;
+    border: 3px solid #841818;
+    background-color: #C46928;
+    font-size: 18px;
+    border-radius: 3px;
+    padding: 5px 25px;
+}
+
+#home-button {
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.right-page-body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    border-left: 6px solid #841818;
+    justify-content: center;
 }
 
 .form {
@@ -58,7 +95,17 @@ h2 {
     width: 300px;
 }
 
+.form input {
+    height: 40px;
+    font-family: 'Apple Chancery';
+    font-size: 18px;
+}
+
 #submit-button {
     font-family: 'Apple Chancery';
-    
+    border: 3px solid #841818;
+    border-radius: 3px;
+    background-color: #C46928;
+    margin-top: 20px;
+    height: 40px;
 }
