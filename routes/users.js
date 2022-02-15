@@ -2,30 +2,28 @@ const express = require('express');
 
 // adding express validator
 // also added npm i express-validator to commands
-const {check, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 // import db for user creation and queries
 const { db, User } = require('../db/models');
 
 const asyncHandler = require('express-async-handler')
-const csrf = require('csurf')
+const csrf = require('csurf');
+const { loginUser, logoutUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
 const router = express.Router();
-
-// Deleted get /users route
 
 router.get('/signup', csrfProtection, ((req, res) => {
   // ^ Removed async
   const user = db.User.build();
 
   res.render('signup', {
-    // Pass variables like 'title' into pugs from here
+    title: 'Wizard Signup',
     user: {},
-    // deleted errors. shouldn't need errors in this scope.
     csrfToken: req.csrfToken(),
   });
 }))
- 
+
 const userValidators = [
   check('firstName')
     .exists({ checkFalsy: true })
@@ -41,15 +39,69 @@ const userValidators = [
     .exists({ checkFalsy: true })
     .withMessage('Please provide an Email')
     .isLength({ max: 255 })
-    .withMessage('Please limit Last Names to 255 characters.'),
-  //check unique
-  //check pass
-  //compare pass's
+    .withMessage('Please limit Last Names to 255 characters.')
+    .isEmail()
+    .withMessage('Email is not valid')
+    .custom((email) => {
+      return User.findOne({ where: { email } })
+        .then((user) => {
+          if (user) return Promise.reject('The provided Email is already being used')
+        })
+    }),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password')
+    .isLength({ max: 50 })
+    .withMessage('Please limit passwords to 50 characters')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
+    .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
+  check('confirmPassword')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password')
+    .isLength({ max: 50 })
+    .withMessage({ 'Confirm Password can not be longer then 50 characters'})
+    .custom((confirmedPass, { req }) => {
+      if (confirmedPass !== req.body.password) {
+        throw new Error('Confirm Password did not match password')
+      }
+      return true;
+    })
 ];
 
-router.post('/signup', asyncHandler(async(req, res) => {
+router.post('/signup', asyncHandler(async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    password
+  } = req.body;
 
-}))
+  const user = User.build({
+    email,
+    firstName,
+    lastName
+  });
+
+  const validationErrors = validationResult(req)
+
+  if (validationErrors.isEmpty()) {
+    user.hashedPassword = await bcrypt.hash(password, 10);
+    await user.save();
+    loginUser(req, res, user);
+
+    // !!!!!! TODO CHANGE THIS to the user login homepage
+    res.redirect('/');
+
+  } else {
+    const errors = validationErrors.array().map((error) => error.msg);
+    res.render('signup', {
+      title: 'Wizard Signup',
+      user,
+      errors,
+      csrfToken: req.csrfToken(),
+    });
+  }
+}));
 
 router.get('/login', (req, res) => {
 
