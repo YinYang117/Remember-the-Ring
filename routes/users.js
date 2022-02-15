@@ -102,8 +102,6 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
       errors[err.param]= err.msg
     });
 
-
-    console.log(errors)
     res.render('signup', {
       title: 'Wizard Signup',
       user,
@@ -115,6 +113,8 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
 router.get('/login', csrfProtection, (req, res, next) => {
   res.render('login', {
+    errors: {},
+    loginErrors: [],
     title: 'Wizard Login',
     csrfToken: req.csrfToken(),
   })
@@ -137,7 +137,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
     password
   } = req.body;
 
-  let errors = [];
+  let loginErrors = [];
   const validationErrors = validationResult(req);
 
   if (validationErrors.isEmpty()) {
@@ -152,18 +152,27 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
       };
     }
-    errors.push('Login failed, please try again')
+    loginErrors.push('Login failed, please try again')
   } else {
     const errors = {}
     validationErrors.array().forEach(err => {
       errors[err.param] = err.msg
+    });
+
+    res.render('login', {
+      title: 'Wizard Login',
+      email,
+      errors,
+      loginErrors: [],
+      csrfToken: req.csrfToken()
     });
   }
 
   res.render('login', {
     title: 'Wizard Login',
     email,
-    errors,
+    errors: {},
+    loginErrors,
     csrfToken: req.csrfToken()
   });
 }));
