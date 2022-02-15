@@ -36,8 +36,98 @@ body {
     display: flex;
     grid-column: 1;
     align-items: center;
-    justify-content: right;
+    justify-content: center;
 }
+
+#welcome-user{
+    font-size: 22px;
+}
+
+.center-nav {
+    grid-column: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form input {
+    width: 250px;
+    height: 40px;
+    font-family: 'Apple Chancery';
+    font-size: 18px;
+}
+
+.search-form button {
+    height: 40px;
+}
+
+
+.upper-right-nav {
+    display: flex;
+    grid-column: 3;
+    align-items: center;
+    justify-content: left;
+}
+
+#sign-out-button {
+    text-decoration: none;
+    border: 2px solid #841818;
+    border-radius: 3px;
+    background-color: #C46928;
+    padding: 5px 25px;
+    margin-left: 25px;
+    font-size: 18px;
+}
+
+.body-container {
+    display: grid;
+    grid-template-columns: 235px 1fr 1fr;
+    width: 100vw;
+}
+
+.list-sidebar {
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    width: 235px;
+}
+
+.logo-area {
+    grid-row: 1;
+    display: flex;
+    align-items: flex-end;
+    max-width: 235px;
+    justify-content: center;
+}
+
+.list-area {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100vw;
+}
+
+.new-task-form-container {
+    margin-top: 30px;
+}
+
+.new-task-form-container #new-task-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#new-task-form input {
+    height: 40px;
+    font-family: 'Apple Chancery';
+    width: 400px;
+}
+
 
 #logo {
     max-height: 70px;
@@ -48,52 +138,6 @@ body {
     font-size: 18px;
 }
 
-.upper-right-nav {
-    display: flex;
-    grid-column: 3;
-    align-items: center;
-    justify-content: left;
-}
-
-#sign-up-button {
-    text-decoration: none;
-    border: 2px solid #841818;
-    border-radius: 3px;
-    background-color: #C46928;
-    padding: 5px 25px;
-    margin-left: 25px;
-    font-size: 18px;
-}
-
-#log-in-button {
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.body-container {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5%;
-}
-
-#middle-earth-map {
-    max-width: 598px;
-    max-height: 422px;
-    border: 3px solid #841818;
-    border-radius: 4px;
-}
-
 h1 {
     font-size: 36px;
-}
-
-#sign-up-free-button {
-    text-decoration: none;
-    border: 2px solid #841818;
-    border-radius: 3px;
-    background-color: #C46928;
-    padding: 5px 25px;
-    font-size: 18px;
 }

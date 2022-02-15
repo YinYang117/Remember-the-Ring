@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
   
-router.get('/signup', csrfProtection, asyncHandler(async(req, res) => {
+router.get('/signup', csrfProtection, asyncHandler(async (req, res, next) => {
 
   res.render('signup', {
     user: {},
@@ -18,9 +18,27 @@ router.get('/signup', csrfProtection, asyncHandler(async(req, res) => {
   });
 }))
 
-router.post('/signup', asyncHandler(async(req, res) => {
+router.post('/signup', csrfProtection, asyncHandler(async (req, res, next) => {
 
 }))
+
+router.get('/login', csrfProtection, asyncHandler(async (req, res, next) => {
+  res.render('login', {
+    user: {},
+    errors: [],
+    csrfToken: req.csrfToken(),
+  })
+}));
+
+
+// THIS IS STRICTLY FOR TEST PURPOSES DELETE WHEN LISTS ROUTE IS SETUP
+router.get('/list_test', csrfProtection, asyncHandler(async (req, res, next) => {
+  res.render('lists', {
+    user: {},
+    errors: [],
+    csrfToken: req.csrfToken(),
+  })
+}));
 
 
 
