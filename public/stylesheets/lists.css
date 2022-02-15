@@ -1,0 +1,119 @@
+@import url(//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
+@font-face {
+    font-family: "Apple Chancery";
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
+}
+
+body {
+    font-family: 'Apple Chancery';
+    background-color: #E7C087;
+}
+
+.page-container {
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    height: 100vw;
+    width: 100vw;
+    max-height: 1080px;
+}
+
+.nav-bar {
+    display:grid;
+    grid-template-columns: 2fr 5fr 2fr;
+    align-items: center;
+    height: 100px;
+    width: 100vw;
+    background-color: #341B14;
+    color: #E7C087;
+}
+
+.upper-left-nav {
+    display: flex;
+    grid-column: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+#welcome-user{
+    font-size: 22px;
+}
+
+.center-nav {
+    grid-column: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form input {
+    width: 250px;
+    height: 40px;
+    font-family: 'Apple Chancery';
+    font-size: 18px;
+}
+
+.search-form button {
+    height: 40px;
+}
+
+
+.upper-right-nav {
+    display: flex;
+    grid-column: 3;
+    align-items: center;
+    justify-content: left;
+}
+
+#sign-out-button {
+    text-decoration: none;
+    border: 2px solid #841818;
+    border-radius: 3px;
+    background-color: #C46928;
+    padding: 5px 25px;
+    margin-left: 25px;
+    font-size: 18px;
+}
+
+.body-container {
+    display: grid;
+    grid-template-columns: 235px 1fr 1fr;
+    width: 100vw;
+}
+
+.list-sidebar {
+    grid-column: 1;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    width: 235px;
+}
+
+.logo-area {
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    max-width: 235px;
+    justify-content: center;
+}
+
+#logo {
+    max-height: 70px;
+    max-width: 103.25px;
+}
+
+#logo-text {
+    font-size: 18px;
+}
+
+h1 {
+    font-size: 36px;
+}

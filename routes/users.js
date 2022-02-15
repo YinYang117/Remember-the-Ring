@@ -31,6 +31,16 @@ router.get('/login', csrfProtection, asyncHandler(async (req, res, next) => {
 }));
 
 
+// THIS IS STRICTLY FOR TEST PURPOSES DELETE WHEN LISTS ROUTE IS SETUP
+router.get('/list_test', csrfProtection, asyncHandler(async (req, res, next) => {
+  res.render('lists', {
+    user: {},
+    errors: [],
+    csrfToken: req.csrfToken(),
+  })
+}));
+
+
 
 
 module.exports = router;
