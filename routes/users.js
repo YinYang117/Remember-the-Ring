@@ -5,7 +5,7 @@ const express = require('express');
 const {check, validationResult } = require('express-validator');
 
 // import db for user creation and queries
-const db = require('../db/models');
+const { db, User } = require('../db/models');
 
 const asyncHandler = require('express-async-handler')
 const csrf = require('csurf')
@@ -42,7 +42,9 @@ const userValidators = [
     .withMessage('Please provide an Email')
     .isLength({ max: 255 })
     .withMessage('Please limit Last Names to 255 characters.'),
-
+  //check unique
+  //check pass
+  //compare pass's
 ];
 
 router.post('/signup', asyncHandler(async(req, res) => {
