@@ -8,7 +8,6 @@ const asyncHandler = require('express-async-handler')
 const csrf = require('csurf');
 const { loginUser, logoutUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
-const router = express.Router();
 
 router.get('/signup', csrfProtection, ((req, res) => {
   // ^ Removed async
@@ -90,9 +89,8 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
     // !!!!!! TODO CHANGE THIS to the user login homepage
     res.redirect('/');
-
   } else {
-    const errors = validationErrors.array().map((error) => error.msg);
+    const errors = validationErrors.array();
     res.render('signup', {
       title: 'Wizard Signup',
       user,
@@ -102,14 +100,59 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
   }
 }));
 
-router.get('/login', csrfProtection, asyncHandler(async (req, res, next) => {
+router.get('/login', csrfProtection, (req, res, next) => {
   res.render('login', {
-    user: {},
-    errors: [],
+    title: 'Wizard Login',
     csrfToken: req.csrfToken(),
   })
+});
+
+const loginValidators = [
+  check('email')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Email Address'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Password'),
+];
+
+router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    password
+  } = req.body;
+
+  let errors = [];
+  const validationErrors = validationResult(req);
+
+  if (validationErrors.isEmpty()) {
+    const user = await User.findOne({ where: { email } });
+    if (user !== null) {
+      const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
+      if (passwordMatch) {
+        loginUser(req, res, user);
+
+        //!!!!!!!!!!!!!!!!!!!!!!! homepage
+        return res.redirect('/');
+
+      };
+    }
+    errors.push('Login failed, please try again')
+  } else errors = validationErrors.array()
+
+  res.render('login', {
+    title: 'Wizard Login',
+    email,
+    errors,
+    csrfToken: req.csrfToken()
+  });
 }));
 
+router.post('/logout', (req, res) => {
+  
+})
 
 // THIS IS STRICTLY FOR TEST PURPOSES DELETE WHEN LISTS ROUTE IS SETUP
 router.get('/list_test', csrfProtection, asyncHandler(async (req, res, next) => {
