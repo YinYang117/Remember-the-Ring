@@ -102,6 +102,24 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
   }
 }));
 
+router.get('/login', csrfProtection, asyncHandler(async (req, res, next) => {
+  res.render('login', {
+    user: {},
+    errors: [],
+    csrfToken: req.csrfToken(),
+  })
+}));
+
+
+// THIS IS STRICTLY FOR TEST PURPOSES DELETE WHEN LISTS ROUTE IS SETUP
+router.get('/list_test', csrfProtection, asyncHandler(async (req, res, next) => {
+  res.render('lists', {
+    user: {},
+    errors: [],
+    csrfToken: req.csrfToken(),
+  })
+}));
+
 
 
 
