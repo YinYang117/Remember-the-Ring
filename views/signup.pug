@@ -7,13 +7,13 @@ block content
   div(class="page-container")
     div(class="left-page-container")
       h2 Join people from all over Middle Earth
-      img(id="isengard-map" src="http://localhost:8080/public/images/isengard-helms-deep-map.png" alt="middle-earth")
+      img(id="isengard-map" src=" ../images/isengard-helms-deep-map.png" alt="middle-earth")
       h2 in their quest to get organized
     div(class="right-page-container")
       div(class="right-page-nav")
         div(class="nav-buttons")
-          a(id="home-button" href="http://localhost:8080/") Home
-          a(id="log-in-button" href="http://localhost:8080/users/login") Log in
+          a(id="home-button" href="/") Home
+          a(id="log-in-button" href="/users/login") Log in
       div(class="right-page-body")
         form(action='/users/signup' method='post')
           h1 Sign up for free

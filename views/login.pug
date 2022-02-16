@@ -6,7 +6,7 @@ append head
 block content
     div(class="page-container")
         div(class="left-page-container")
-            img(id="isengard-map" src="http://localhost:8080/public/images/shire.png" alt="shire")
+            img(id="isengard-map" src="../images/shire.png" alt="shire")
             h2(id="gandalf-quote")
                 | All we have to decide is what to do
                 br
@@ -16,8 +16,8 @@ block content
         div(class="right-page-container")
             div(class="right-page-nav")
                 div(class="nav-buttons")
-                    a(id="home-button" href="http://localhost:8080/") Home
-                    a(id="sign-up-button" href="http://localhost:8080/users/signup") Sign up
+                    a(id="home-button" href="/") Home
+                    a(id="sign-up-button" href="/users/signup") Sign up
             div(class="right-page-body")
                 form(action='/users/login' method='post')
                     each error in loginErrors
