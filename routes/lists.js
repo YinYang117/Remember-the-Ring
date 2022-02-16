@@ -6,7 +6,7 @@ const { logoutUser, restoreUser, requireAuth } = require('../auth');
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
-router.get('/all', restoreUser, asyncHandler(async (req, res) => {
+router.get('/', restoreUser, asyncHandler(async (req, res) => {
     const { userId } = req.session.auth
 
     const user = await User.findOne({
@@ -15,11 +15,8 @@ router.get('/all', restoreUser, asyncHandler(async (req, res) => {
         }
     })
     if (user) {
-        res.render('allTasks', )
-
-
+        res.render('lists', { userId: userId })
     }
-
 }));
 
 module.exports = router;

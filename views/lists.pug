@@ -1,12 +1,12 @@
 doctype html
 html
-  head
-      block head
+    head
         title= title
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(href="//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery" rel="stylesheet" type="text/css")
         link(rel="stylesheet" href="/stylesheets/lists.css")
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+        script(src='/javascripts/lists.js' type='module' defer)
 
 
 
@@ -26,17 +26,23 @@ div(class='page-container')
                 input(type="text" placeholder="Search...")
                 button(id="search-button") Search
         div(class='upper-right-nav')
-            span Welcome User
+            span(id=userId class='user-id') Welcome User
             a(id="sign-out-button" href="") Sign out
     div(class="body-container")
         div(class="list-sidebar")
+            ul
+                li#all-tasks All Tasks
+                li#today-tasks Today
+                li#tomorrow-tasks Tomorrow
+                li#this-week-tasks This Week
+            ul#user-lists Your Lists
 
         div(class="list-area")
             div(class="new-task-form-container")
                 form(id="new-task-form" action="")
                     input(type="text" placeholder="Create new task...")
-                    input(type="text" placeholder="Add due date...")
+                    input(type='text' placeholder='Add description')
+                    input(type="date" placeholder="Add due date...")
                     input(type="text" placeholder="Add due by time")
-            ul
-                li This is where tasks will go
-block content
+                    button(type='submit' id='new-task-submit') Submit
+            ul#user-current-list-tasks
