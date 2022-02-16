@@ -15,34 +15,34 @@ block content
           a(id="home-button" href="") Home
           a(id="log-in-button" href="") Log in
       div(class="right-page-body")
-        form(action='/users/signup' method='post' class="form")
+        form(action='/users/signup' method='post')
           h1 Sign up for free
           input(type="hidden" name="_csrf" value=csrfToken)
-          label(for="firstName")
-            | First name
+          div(class="label-container")
+            label(for="firstName") First name
             span(class="error-messages")=errors.firstName
-
           input(type="text" name="firstName" value=user.firstName)
-          label(for="lastName")
-            | Last Name
+          div(class="label-container")
+            label(for="lastName") Last Name
             span(class="error-messages")=errors.lastName
           input(type="text" name="lastName" value=user.lastName) 
-          label(for="email")
-            | Email
+          div(class="label-container")
+            label(for="email") Email
             span(class="error-messages")=errors.email
           input(type="text" name="email" value=user.email)
-          label(for="password")
-            | Password*
+          div(class="label-container")
+            label(for="password") Password*
             span(class="error-messages")=errors.password
           input(type="string" name="password")
-          label(for="confirmPassword")
-            | Confirm Password
+          div(class="label-container")
+            label(for="confirmPassword") Confirm Password
             span(class="error-messages")=errors.confirmPassword
           input(type="string" name="confirmPassword")
           button(id="submit-button") Sign up!
           ul *Password must contain one:
             li lowercase letter
             li uppercase letter
+            li number
             li special character ("!@#$%^&*")
           
 
