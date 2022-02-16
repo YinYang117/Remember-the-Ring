@@ -101,7 +101,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     validationErrors.array().forEach(err => {
       errors[err.param]= err.msg
     });
-
+    console.log(validationErrors)
     res.render('signup', {
       title: 'Wizard Signup',
       user,
@@ -110,6 +110,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     });
   }
 }));
+
 
 router.get('/login', csrfProtection, (req, res, next) => {
   res.render('login', {

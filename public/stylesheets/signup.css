@@ -128,12 +128,14 @@ form input {
 
 ul {
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 20px;
+    opacity: 0.4;
+    list-style: circle;
 }
 
 li {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .label-container {

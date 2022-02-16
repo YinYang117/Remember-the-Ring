@@ -16,13 +16,13 @@ block content
         div(class="right-page-container")
             div(class="right-page-nav")
                 div(class="nav-buttons")
-                    a(id="home-button" href="") Home
-                    a(id="sign-up-button" href="") Sign up
+                    a(id="home-button" href="http://localhost:8080/") Home
+                    a(id="sign-up-button" href="http://localhost:8080/users/signup") Sign up
             div(class="right-page-body")
                 form(action='/users/login' method='post')
-                    h1 Ventured here before? Log in!
                     each error in loginErrors
                         span(class="login-fail-span")=error
+                    h1 Ventured here before? Log in!
                     input(type="hidden" name="_csrf" value=csrfToken)
                     div(class="label-container")
                         label(for="email") Email
