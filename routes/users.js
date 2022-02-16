@@ -1,10 +1,10 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const { db, User } = require('../db/models');
+const { User, Category, List } = require('../db/models');
 const router = express.Router();
 
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
 const csrf = require('csurf');
 const { loginUser, logoutUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
@@ -92,6 +92,15 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
   if (validationErrors.isEmpty()) {
     user.hashedPassword = await bcrypt.hash(password, 10);
     await user.save();
+    console.log(user)
+
+    const category = Category.build({
+      name: "Work",
+      userId: user.id
+    })
+    await category.save();
+
+    
     loginUser(req, res, user);
 
     // !!!!!! TODO CHANGE THIS to the user login homepage
@@ -178,17 +187,9 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 }));
 
 router.post('/logout', (req, res) => {
-  
+
 })
 
-// THIS IS STRICTLY FOR TEST PURPOSES DELETE WHEN LISTS ROUTE IS SETUP
-router.get('/list_test', csrfProtection, asyncHandler(async (req, res, next) => {
-  res.render('lists', {
-    user: {},
-    errors: [],
-    csrfToken: req.csrfToken(),
-  })
-}));
 
 
 
