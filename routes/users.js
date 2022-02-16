@@ -103,7 +103,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
     loginUser(req, res, user);
 
-    res.redirect('/lists');
+    res.redirect(`/lists/${user.id}`);
   } else {
     const errors = {}
     validationErrors.array().forEach(err => {
@@ -157,7 +157,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
         loginUser(req, res, user);
 
         //!!!!!!!!!!!!!!!!!!!!!!! homepage
-        return res.redirect('/lists');
+        res.redirect(`/lists/${user.id}`);
 
       };
     }

@@ -1,7 +1,11 @@
-document.addEventListener('DOMContentLoaded', (event)=>{
+document.addEventListener('DOMContentLoaded', async (event)=>{
     //const userCookie = localStorage.getItem('sessionCookie.sid')
-    const userId = document.querySelector('.user-id')
-    console.log(userId.id)
+    const userId = document.URL.split('/lists/')[1];
+    console.log(userId);
+
+    const res = await fetch(`/lists/info/${userId}`);
+    const userInfo = await res.json();
+    console.log(userInfo)
 
     const listElement = document.querySelector('#user-lists');
 
