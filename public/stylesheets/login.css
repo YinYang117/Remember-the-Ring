@@ -90,13 +90,13 @@ body {
     justify-content: center;
 }
 
-.form {
+form {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
 }
 
-.form input {
+form input {
     height: 40px;
     font-family: 'Apple Chancery';
     font-size: 18px;
@@ -119,6 +119,21 @@ h1 {
 .error-messages {
     color: red;
     margin-left: 20px;
-    font-size: 14px;
+    font-size: 12px;
     font-family: sans-serif;
+}
+
+.label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form label {
+    font-size: 20px;
+}
+
+.login-fail-span {
+    color: red;
+    
 }

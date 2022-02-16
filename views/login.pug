@@ -6,6 +6,7 @@ append head
 block content
     div(class="page-container")
         div(class="left-page-container")
+            img(id="isengard-map" src="http://localhost:8080/public/images/shire.png" alt="shire")
             h2(id="gandalf-quote")
                 | All we have to decide is what to do
                 br
@@ -18,18 +19,17 @@ block content
                     a(id="home-button" href="") Home
                     a(id="sign-up-button" href="") Sign up
             div(class="right-page-body")
-                form(action='/users/login' method='post' class="form")
-                    ul 
-                        each error in loginErrors
-                            li=error
+                form(action='/users/login' method='post')
                     h1 Ventured here before? Log in!
+                    each error in loginErrors
+                        span(class="login-fail-span")=error
                     input(type="hidden" name="_csrf" value=csrfToken)
-                    label(for="email")
-                        | Email
+                    div(class="label-container")
+                        label(for="email") Email
                         span(class="error-messages")=errors.email
                     input(type="email" name="email" value=email)
-                    label(for="password")
-                        | Password
+                    div(class="label-container")
+                        label(for="password") Password
                         span(class="error-messages")=errors.password
                     input(type="string" name="password")
                     button(id="submit-button") Log in!
