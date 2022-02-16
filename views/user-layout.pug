@@ -1,0 +1,42 @@
+doctype html
+html
+  head
+      block head
+        title= title
+        link(rel='stylesheet' href='/stylesheets/reset.css')
+        link(href="//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery" rel="stylesheet" type="text/css")
+        link(rel="stylesheet" href="/stylesheets/lists.css")
+        link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+
+
+
+
+div(class='page-container')
+    div(class='nav-bar')
+        div(class='upper-left-nav')
+            div(class="logo-area")
+                img(id='logo' src="../images/ring-transparent-background.png" alt="remember-the-ring-logo")
+                h1(id="logo-text")
+                    | Remember
+                    br
+                    | the Ring
+        div(class='center-nav')
+            form(class="search-form" action="")
+                label(for="search")
+                input(type="text" placeholder="Search...")
+                button(id="search-button") Search
+        div(class='upper-right-nav')
+            span Welcome User
+            a(id="sign-out-button" href="") Sign out
+    div(class="body-container")
+        div(class="list-sidebar")
+
+        div(class="list-area")
+            div(class="new-task-form-container")
+                form(id="new-task-form" action="")
+                    input(type="text" placeholder="Create new task...")
+                    input(type="text" placeholder="Add due date...")
+                    input(type="text" placeholder="Add due by time")
+            ul
+                li This is where tasks will go
+block content

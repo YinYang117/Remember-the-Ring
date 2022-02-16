@@ -100,11 +100,10 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     })
     await category.save();
 
-    
+
     loginUser(req, res, user);
 
-    // !!!!!! TODO CHANGE THIS to the user login homepage
-    res.redirect('/');
+    res.redirect('/lists/all');
   } else {
     const errors = {}
     validationErrors.array().forEach(err => {
@@ -158,7 +157,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
         loginUser(req, res, user);
 
         //!!!!!!!!!!!!!!!!!!!!!!! homepage
-        return res.redirect('/');
+        return res.redirect('/lists/all');
 
       };
     }
