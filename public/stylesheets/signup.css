@@ -89,25 +89,20 @@ h2 {
     justify-content: center;
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    width: 350px;
-    text-align: left;
-}
 
 
 form {
     justify-content: center;
-    align-items: left
+    display: flex;
+    flex-direction: column;
+    width: 350px;
 }
 
-.form h1 {
+form h1 {
     margin-bottom: 15px;
-    justify-content: left;
 }
 
-.form input {
+form input {
     height: 40px;
     font-family: 'Apple Chancery';
     font-size: 18px;
@@ -126,21 +121,29 @@ form {
 
 .error-messages {
     color: red;
-    margin-left: 20px;
-    font-size: 14px;
-    font-family: sans-serif;
-}
-
-#password-details {
     font-size: 12px;
+    font-family: sans-serif;
+    
 }
 
 ul {
     margin-top: 20px;
     font-size: 12px;
     margin-left: 20px;
+    opacity: 0.4;
+    list-style: circle;
 }
 
 li {
     font-size: 12px;
+}
+
+.label-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+form label {
+    font-size: 20px;
 }

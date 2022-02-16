@@ -24,27 +24,27 @@ router.get('/signup', csrfProtection, ((req, res) => {
 const userValidators = [
   check('firstName')
     .isLength({ max: 50 })
-    .withMessage('Please limit First Names to 50 characters.')
+    .withMessage('First name has a 50 character limit')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a First Name'),
+    .withMessage('Please provide a first name'),
   check('lastName')
     .isLength({ max: 50 })
-    .withMessage('Please limit Last Names to 50 characters.')
+    .withMessage('Last name has a 50 character limit')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a Last Name'),
+    .withMessage('Please provide a last Name'),
   check('email')
     .custom((email) => {
       return User.findOne({ where: { email } })
         .then((user) => {
-          if (user) return Promise.reject('The provided Email is already being used')
+          if (user) return Promise.reject('Email already in use')
         })
     })
     .isLength({ max: 255 })
-    .withMessage('Please limit Last Names to 255 characters.')
+    .withMessage('Email has a 255 character limit')
     .isEmail()
     .withMessage('Email is not valid')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide an Email'),
+    .withMessage('Please provide an email'),
   check('password')
     .matches(/^(?=.*[a-z])/, 'g')
     .withMessage('Password must contain at least 1 lowercase letter')
@@ -53,9 +53,9 @@ const userValidators = [
     .matches(/^(?=.*[0-9])/, 'g')
     .withMessage('Password must contain at least 1 number')
     .matches(/^(?=.*[!@#$%^&*])/, 'g')
-    .withMessage('Password must contain at least 1 special character (i.e. "!@#$%^&*")')
+    .withMessage('Password must contain 1 special character')
     .isLength({ max: 50 })
-    .withMessage('Please limit passwords to 50 characters')
+    .withMessage('Passwords has a 50 character limit')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password'),
   check('confirmPassword')
@@ -66,7 +66,7 @@ const userValidators = [
       return true;
     })
     .isLength({ max: 50 })
-    .withMessage('Confirm Password can not be longer then 50 characters')
+    .withMessage('50 character limit')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a password')
 ];
@@ -110,7 +110,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     validationErrors.array().forEach(err => {
       errors[err.param]= err.msg
     });
-
+    console.log(validationErrors)
     res.render('signup', {
       title: 'Wizard Signup',
       user,
@@ -119,6 +119,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     });
   }
 }));
+
 
 router.get('/login', csrfProtection, (req, res, next) => {
   res.render('login', {
