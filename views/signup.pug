@@ -18,16 +18,32 @@ block content
         form(action='/users/signup' method='post' class="form")
           h1 Sign up for free
           input(type="hidden" name="_csrf" value=csrfToken)
-          label(for="firstName") First Name 
+          label(for="firstName")
+            | First name
+            span(class="error-messages")=errors.firstName
+
           input(type="text" name="firstName" value=user.firstName)
-          label(for="lastName") Last Name
+          label(for="lastName")
+            | Last Name
+            span(class="error-messages")=errors.lastName
           input(type="text" name="lastName" value=user.lastName) 
-          label(for="email") Email
-          input(type="email" name="email" value=user.email)
-          label(for="password") Password
+          label(for="email")
+            | Email
+            span(class="error-messages")=errors.email
+          input(type="text" name="email" value=user.email)
+          label(for="password")
+            | Password*
+            span(class="error-messages")=errors.password
           input(type="string" name="password")
-          label(for="confirmPassword") Confirm Password
+          label(for="confirmPassword")
+            | Confirm Password
+            span(class="error-messages")=errors.confirmPassword
           input(type="string" name="confirmPassword")
           button(id="submit-button") Sign up!
+          ul *Password must contain one:
+            li lowercase letter
+            li uppercase letter
+            li special character ("!@#$%^&*")
+          
 
 //- TODO NEEDS INPUT ON LABELS, LINKS FINISHED AND MOBILE OPTIMIZATION
