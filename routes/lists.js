@@ -71,11 +71,3 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
 }))
 
 module.exports = router;
-
-
-// const today = new Date()
-// const year = today.getFullYear().toString;
-// const month = (today.getMonth()+1).toString();
-// const tomorrow = (today.getDate()+1).toString();
-// const fulldate = [year, month, tomorrow]
-// const ourFormat = fulldate.join('-')
