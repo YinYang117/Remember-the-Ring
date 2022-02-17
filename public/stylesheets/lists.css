@@ -145,6 +145,12 @@ body {
     width: 757px;
 }
 
+.task-list-area {
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
+}
+
 .new-task-form-container {
     margin-top: 30px;
 }
@@ -248,13 +254,13 @@ h1 {
     height: 28px;
     background-color: #e6e6e6;
     border-radius: 13px;
-    width: 40%;
+    width: 60%;
 }
 
 #exp {
     display: block;
     height: 100%;
-    width: 50%;
+    width: 0px;
     background-color: #C46928;
     border-radius: 13px 0px 0px 13px;
 }
@@ -297,4 +303,8 @@ h1 {
 
 #finished-tasks-list li{
     text-align: left;
+}
+
+li {
+    list-style: circle;
 }
