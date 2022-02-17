@@ -18,7 +18,11 @@ document.addEventListener('DOMContentLoaded', async (event)=>{
             const li = document.createElement('li');
             const listArea = document.querySelector('.list-area')
             li.innerHTML = elem.title
+            li.id = elem.id
             listArea.append(li);
+            li.addEventListener('click', (event) => {
+                console.log(elem.description);
+            })
         })
     })
 })
