@@ -156,6 +156,8 @@ body {
 
 .new-task-form-container {
     margin-top: 30px;
+    padding-bottom: 15px;
+    border-bottom: #40404020 solid 2px;
 }
 
 .new-task-form-container #new-task-form {
@@ -169,8 +171,9 @@ body {
     font-family: 'Apple Chancery';
     width: 500px;
     background-color: #FFFFFF80;
-    border: #CDCDCD solid 1px;
+    border: #40404020 solid 1px;
     padding-left: 10px;
+    
 
 }
 
@@ -243,9 +246,12 @@ h1 {
 }
 
 #user-level {
-    font-size: 48px;
     border-bottom: #841818 4px solid;
     margin-bottom: 20px;
+}
+
+#user-level span {
+    font-size: 48px;
 }
 
 #gandalf {

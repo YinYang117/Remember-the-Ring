@@ -16,7 +16,7 @@ router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
         }
     })
     if (user) {
-        res.render('lists', { userId: userId })
+        res.render('lists', { userId: userId, user })
     }
 }));
 
@@ -67,7 +67,7 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     });
     
     console.log(newTask, 'New task created!')
-
+    return
 }))
 
 module.exports = router;
