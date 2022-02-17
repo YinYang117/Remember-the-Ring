@@ -93,11 +93,9 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
         return dbFormatedDate;
     }
 
-
-
     for (let i = 0; i < (7 - today.getDay()); i++) {
         let iDay = dateFormatter(today + i)
-        let tasks = Task.findAll({
+        let tasks = await Task.findAll({
             where: {
                 [Op.and]: [{ userId: userId }, { dueDate: iDay }]
             },
@@ -107,7 +105,28 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     }
     console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
 
-    return res.json({ tasksArray })
+    // const nextSunday = () => {
+    //     let date = new Date();
+    //     let now = date.getDay();
+
+    //     let diff = 6 - now;
+    //     diff = diff < 1 ? 7 + diff : diff;
+
+    //     let nextSunday = date.getTime() + (1000 * 60 * 60 * 24 * diff);
+
+    //     const sunday = new Date(nextSunday);
+
+    //     const year = sunday.getFullYear();
+    //     const month = (sunday.getMonth() + 1).toString();
+    //     const dayNum = (sunday.getDate()).toString();
+    //     const fulldate = [year, month, dayNum]
+    //     const ourFormat = fulldate.join('-')
+    //     return ourFormat
+    // };
+
+    // console.log('Next Sunday!!!!!!!!!!!!!!!!', nextSunday())
+
+    return res.json({tasksArray})
 }));
 
 

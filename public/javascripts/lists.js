@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         else if (e.target.id === 'this-week-tasks') {
             const res = await fetch(`/lists/this-week-tasks/${userId}`);
             const { tasksArray } = await res.json();
+        
             tasksArray.forEach(el => {
                 const li = document.createElement('li');
                 const taskArea = document.querySelector('.task-list');
