@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', async (event)=>{
     // const res = await fetch(`/lists/info/${userId}`);
     // const userInfo = await res.json();
 
+
     const listElement = document.querySelector('#user-lists');
     console.log(sessionStorage)
 
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async (event)=>{
 
 
     allTasks.addEventListener('click', async (event) => {
-        const res = await fetch(`/lists/info/${userId}`);
+        const res = await fetch(`/lists/${userId}/tasks`);
         const userInfo = await res.json();
         console.log(userInfo.userTasks);
         userInfo.userTasks.forEach(elem => {

@@ -186,22 +186,26 @@ body {
 
 #task-date-input{
     height: 100%;
-    width: 150px;
+    min-width: 150px;
     border-radius: 0px 0px 0px 10px;
 }
 
 #task-time-input{
     height: 100%;
-    width: 100px;
+    min-width: 100px;
 }
 
 #new-task-submit {
     height: 100%;
-    width: 150px;
+    min-width: 150px;
     border-radius: 0px 0px 10px 0px;
     background-color: #FFFFFF80;
     border: #CDCDCD solid 1px;
 
+}
+
+#task-exp-input {
+    min-width: 25px;
 }
 
 #logo {

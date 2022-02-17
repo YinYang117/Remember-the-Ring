@@ -41,9 +41,17 @@ const requireAuth = (req, res) => {
   return next();
 };
 
+const checkUser = (req, res) => {
+  console.log(req.params.userId);
+  console.log(req.session.auth.userId);
+  if (req.params.userId !== req.session.auth.userId || !req.session.auth.userId) return res.redirect('/user/login')
+  return next();
+}
+
 module.exports = {
   loginUser,
   logoutUser,
   restoreUser,
-  requireAuth
+  requireAuth,
+  checkUser
 };
