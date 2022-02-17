@@ -6,7 +6,7 @@ const { logoutUser, restoreUser, requireAuth, checkUser  } = require('../auth');
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
-router.get('/:userId(\\d+)', asyncHandler(async (req, res) => {
+router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
     console.log("log is here #############",req.session.auth)
     const { userId } = req.session.auth
 
@@ -28,7 +28,7 @@ router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next
     return res.json({userTasks})
 }));
 
-router.get('/:userId(\\d+)/lists', asyncHandler(async (req, res, next) => {
+router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const userLists = await List.findAll({
         where: { userId: userId }
@@ -36,7 +36,7 @@ router.get('/:userId(\\d+)/lists', asyncHandler(async (req, res, next) => {
     return res.json({ userLists })
 }));
 
-router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, next) => {
+router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', checkUser, asyncHandler(async (req, res, next) => {
     const taskId = req.params.taskId
     const userTask = await Task.findOne({
         where: { taskId: taskId }
@@ -44,7 +44,7 @@ router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, n
     return res.json({ userTask })
 }));
 
-router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
+router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const listId = req.params.listId;
     const taskList = await Task.findAll({
         where: { listId: listId}
@@ -52,7 +52,7 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', asyncHandler(async (req, 
     return res.json({ taskList })
 }));
 
-router.post('/:userId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
+router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const { title, description, experienceReward, dueDate, dueTime } = req.body;
     const userId = req.params.userId
     const userIdParsed = parseInt(userId, 10);

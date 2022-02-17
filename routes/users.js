@@ -6,7 +6,7 @@ const router = express.Router();
 
 const asyncHandler = require('express-async-handler');
 const csrf = require('csurf');
-const { loginUser, logoutUser } = require('../auth');
+const { loginUser, logoutUser, restoreUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
 
 router.get('/signup', csrfProtection, ((req, res) => {

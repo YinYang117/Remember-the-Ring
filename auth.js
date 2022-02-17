@@ -1,4 +1,5 @@
 const db = require('./db/models');
+const createError = require('http-errors');
 
 const loginUser = (req, res, user) => {
   req.session.auth = {
@@ -36,16 +37,15 @@ const restoreUser = async (req, res, next) => {
   }
 };
 
-const requireAuth = (req, res) => {
-  if (!res.locals.authenticated) return res.redirect('/user/login');
+const requireAuth = (req, res, next) => {
+  if (!res.locals.authenticated) return res.redirect('/users/login');
   return next();
 };
 
-const checkUser = (req, res) => {
-  console.log(req.params.userId);
-  console.log(req.session.auth.userId);
-  if (req.params.userId !== req.session.auth.userId || !req.session.auth.userId) return res.redirect('/user/login')
-  return next();
+const checkUser = async (req, res, next) => {
+  const paramsId = parseInt(req.params.userId, 10)
+  if (req.session.auth.userId !== paramsId) next(createError(404));
+  next();
 }
 
 module.exports = {
