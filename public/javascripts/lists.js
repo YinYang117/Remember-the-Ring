@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
-            const res = await fetch(`/lists/info/${userId}`);
+            const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
             userInfo.userTasks.forEach(elem => {
                 const li = document.createElement('li');
@@ -57,6 +57,19 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             })
         }
 
-
+        else if (e.target.id === 'this-week-tasks') {
+            const res = await fetch(`/lists/this-week-tasks/${userId}`);
+            const { tasksArray } = await res.json();
+            tasksArray.forEach(el => {
+                const li = document.createElement('li');
+                const taskArea = document.querySelector('.task-list');
+                li.innerHTML = el.title;
+                li.id = el.id;
+                taskArea.append(li);
+                li.addEventListener('click', (e) => {
+                    console.log(el.description);
+                })
+            })
+        }
     })
 })

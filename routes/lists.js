@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize');
 const { check, validationResult } = require('express-validator');
-const { logoutUser, restoreUser, requireAuth, checkUser  } = require('../auth');
+const { logoutUser, restoreUser, requireAuth, checkUser } = require('../auth');
 
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
@@ -26,7 +26,7 @@ router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next
     const userTasks = await Task.findAll({
         where: { userId: userId }
     });
-    return res.json({userTasks})
+    return res.json({ userTasks })
 }));
 
 router.get('/:userId(\\d+)/lists', asyncHandler(async (req, res, next) => {
@@ -51,7 +51,7 @@ router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
         where: {
             [Op.and]: [{ userId: userId }, { dueDate: dbFormatedDate }]
         },
-        order: [ ['dueTime', 'ASC'] ]
+        order: [['dueTime', 'ASC']]
     })
 
     return res.json({ tasksToday });
@@ -71,11 +71,46 @@ router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
         where: {
             [Op.and]: [{ userId: userId }, { dueDate: dbFormatedDate }]
         },
-        order: [ ['dueTime', 'ASC']]
+        order: [['dueTime', 'ASC']]
     })
 
     return res.json({ tasksTomorrow })
 }));
+
+router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const tasksArray = [];
+
+    const today = new Date()
+
+    const dateFormatter = (date) => {
+        const year = date.getFullYear().toString;
+        const month = (date.getMonth() + 1).toString();
+        const currentDay = date.getDate().toString();
+        const fulldate = [year, month, currentDay];
+        const dbFormatedDate = fulldate.join('-');
+
+        return dbFormatedDate;
+    }
+
+
+
+    for (let i = 0; i < (7 - today.getDay()); i++) {
+        let iDay = dateFormatter(today + i)
+        let tasks = Task.findAll({
+            where: {
+                [Op.and]: [{ userId: userId }, { dueDate: iDay }]
+            },
+            order: [['dueTime', 'ASC']]
+        })
+        tasksArray.push(...tasks)
+    }
+    console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
+
+    return res.json({ tasksArray })
+}));
+
+
 
 router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, next) => {
     const taskId = req.params.taskId
@@ -88,7 +123,7 @@ router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, n
 router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
     const listId = req.params.listId;
     const taskList = await Task.findAll({
-        where: { listId: listId}
+        where: { listId: listId }
     });
     return res.json({ taskList })
 }));
@@ -102,6 +137,7 @@ router.post('/:userId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
         description,
         experienceReward: experienceReward || 10,
         completed: false,
+        listId: 1,
         userId: userIdParsed,
         dueDate,
         dueTime
