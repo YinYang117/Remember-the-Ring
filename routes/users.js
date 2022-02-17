@@ -133,8 +133,6 @@ const loginValidators = [
 
 router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, res) => {
   const {
-    firstName,
-    lastName,
     email,
     password
   } = req.body;
@@ -149,7 +147,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
       if (passwordMatch) {
         loginUser(req, res, user);
 
-        res.redirect(`/lists/${user.id}`);
+        return res.redirect(`/lists/${user.id}`);
       };
     }
     loginErrors.push('Login failed, please try again')

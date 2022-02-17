@@ -32,7 +32,7 @@ app.use(
   session({
     name: 'sessionCookie.sid',
     secret: sessionSecret,
-    store,
+    store: store,
     saveUninitialized: false,
     resave: false,
   })
