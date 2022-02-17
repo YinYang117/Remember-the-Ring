@@ -1,12 +1,24 @@
 document.addEventListener('DOMContentLoaded', async (event)=>{
-    //const userCookie = localStorage.getItem('sessionCookie.sid')
     const userId = document.URL.split('/lists/')[1];
-    console.log(userId);
 
-    const res = await fetch(`/lists/info/${userId}`);
-    const userInfo = await res.json();
-    console.log(userInfo)
+    // const res = await fetch(`/lists/info/${userId}`);
+    // const userInfo = await res.json();
 
     const listElement = document.querySelector('#user-lists');
 
+
+    const allTasks = document.getElementById('all-tasks')
+
+
+    allTasks.addEventListener('click', async (event) => {
+        const res = await fetch(`/lists/info/${userId}`);
+        const userInfo = await res.json();
+        console.log(userInfo.userTasks);
+        userInfo.userTasks.forEach(elem => {
+            const li = document.createElement('li');
+            const listArea = document.querySelector('.list-area')
+            li.innerHTML = elem.title
+            listArea.append(li);
+        })
+    })
 })

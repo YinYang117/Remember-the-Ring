@@ -1,7 +1,7 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const { User, Category, List } = require('../db/models');
+const { User, List } = require('../db/models');
 const router = express.Router();
 
 const asyncHandler = require('express-async-handler');
@@ -93,13 +93,6 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     user.hashedPassword = await bcrypt.hash(password, 10);
     await user.save();
     console.log(user)
-
-    const category = Category.build({
-      name: "Work",
-      userId: user.id
-    })
-    await category.save();
-
 
     loginUser(req, res, user);
 
