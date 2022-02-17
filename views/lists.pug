@@ -31,17 +31,42 @@ div(class='page-container')
     div(class="body-container")
         div(class="body-styling-container")
             div(class="list-sidebar")
-                ul#user-lists Your Lists
-                    li#all-tasks All Tasks
-                    li#today-tasks Today
-                    li#tomorrow-tasks Tomorrow
-                    li#this-week-tasks This Week
-                ul#user-made-lists Lists
+                div(class="default-lists")
+                    ul#user-lists Your Lists
+                        li#all-tasks All Tasks
+                        li#today-tasks Today
+                        li#tomorrow-tasks Tomorrow
+                        li#this-week-tasks This Week
+                div(class="user-made-lists-container")
+                    ul#user-made-lists Lists
             div(class="task-area")
                 div(class="new-task-form-container")
                     form(id="new-task-form" action="")
-                        input(type="text" placeholder="Create new task...")
-                        input(type='text' placeholder='Add description')
-                        input(type="date" placeholder="Add due date...")
-                        input(type="text" placeholder="Add due by time")
-                        button(type='submit' id='new-task-submit') Submit
+                        input(type="text" placeholder="Create new task..." id="task-name-input")
+                        input(type='text' placeholder='Add description' id="task-description-input")
+                        div(class="date-time-container")
+                            input(type="date" placeholder="Add due date..." id="task-date-input")
+                            input(type="time" placeholder="Add due by time" id="task-time-input")
+                            button(type='submit' id='new-task-submit') Submit
+            div(class="right-page-container")
+                div(class="right-page-content")
+                    span(id="user-level") Level 1
+                    img(src="../images/gandalf.png" alt="gandalf-image" id="gandalf")
+                    div(id="exp-bar")
+                        div(id="exp")
+                    div(class="task-summaries")
+                        div(id="unfinished-tasks-box")
+                            | 0
+                            br
+                            | Tasks
+                        div(id="finished-tasks-box")
+                            | 0
+                            br
+                            | completed
+                    span(class="finished-tasks-container")
+                        ul(id="finished-tasks-list") Finished Tasks
+                            li ex 1
+                            li ex 2
+                            li ex 3
+                            li ex 4
+                            li ex 5
