@@ -12,22 +12,23 @@
 body {
     font-family: 'Apple Chancery';
     background-color: #E7C087;
+    height: 100vh;
+    width: 100vw;
 }
 
 .page-container {
     display: grid;
     grid-template-rows: 100px 1fr;
-    height: 100vw;
-    width: 100vw;
-    max-height: 1080px;
+    height: 100%;
+    width: 100%;
 }
 
 .nav-bar {
     display:grid;
     grid-template-columns: 2fr 5fr 2fr;
     align-items: center;
-    height: 100px;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background-color: #341B14;
     color: #E7C087;
 }
@@ -78,6 +79,7 @@ body {
     text-decoration: none;
     border: 2px solid #841818;
     border-radius: 3px;
+    height: 50%;
     background-color: #C46928;
     padding: 5px 25px;
     margin-left: 25px;
@@ -85,31 +87,68 @@ body {
 }
 
 .body-container {
+    width: 100%;
+    height: 100%;
+}
+
+.body-styling-container {
     display: grid;
-    grid-template-columns: 235px 1fr 1fr;
-    width: 100vw;
+    grid-template-columns: 235px 15fr 15fr 1fr;
+    height: 95%;
+    width: 95%;
+    margin-top: 20px;
+    background-color: #FFFFFF20;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px ;
+    align-items: center;
+
 }
 
 .list-sidebar {
     grid-column: 1;
     display: grid;
-    grid-template-rows: 100px 1fr;
-    width: 235px;
+    grid-template-rows: 150px 1fr;
+    width: 155px;
+    height: 95%;
+    background-color: #FFFFFF20;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px ;
+    padding: 10px 0px 0px 15px;
+}
+
+.list-sidebar li {
+    margin-left: 15px;
+}
+
+.default-lists {
+    grid-row: 1;
+}
+
+.user-made-lists-container {
+    grid-row: 2;
 }
 
 .logo-area {
-    grid-row: 1;
     display: flex;
     align-items: flex-end;
     max-width: 235px;
     justify-content: center;
 }
 
-.list-area {
+.task-area {
     grid-column: 2;
     display: flex;
     flex-direction: column;
-    height: 100vw;
+    height: 95%;
+    background-color: #FFFFFF20;
+    border-radius: 10px;
+    width: 757px;
+}
+
+.task-list-area {
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
 }
 
 .new-task-form-container {
@@ -125,9 +164,42 @@ body {
 #new-task-form input {
     height: 40px;
     font-family: 'Apple Chancery';
-    width: 400px;
+    width: 500px;
+    background-color: #FFFFFF80;
+    border: #CDCDCD solid 1px;
+    padding-left: 10px;
+
 }
 
+.date-time-container {
+    display: flex;
+    height: 40px;
+    width: 500px;
+}
+
+#task-name-input{
+    border-radius: 10px 10px 0px 0px;
+}
+
+#task-date-input{
+    height: 100%;
+    width: 150px;
+    border-radius: 0px 0px 0px 10px;
+}
+
+#task-time-input{
+    height: 100%;
+    width: 100px;
+}
+
+#new-task-submit {
+    height: 100%;
+    width: 150px;
+    border-radius: 0px 0px 10px 0px;
+    background-color: #FFFFFF80;
+    border: #CDCDCD solid 1px;
+
+}
 
 #logo {
     max-height: 70px;
@@ -140,4 +212,99 @@ body {
 
 h1 {
     font-size: 36px;
+}
+
+.right-page-container {
+    grid-column: 3;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.right-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 95%;
+    background-color: #FFFFFF20;
+    border-radius: 10px;
+    width: 398px;
+}
+
+#user-level {
+    font-size: 48px;
+    border-bottom: #841818 4px solid;
+    margin-bottom: 20px;
+}
+
+#gandalf {
+    display: block;
+    max-width:200px;
+    max-height:350.11px;
+    width: auto;
+    height: auto;
+}
+
+#exp-bar {
+    box-sizing: content-box;
+    height: 28px;
+    background-color: #e6e6e6;
+    border-radius: 13px;
+    width: 60%;
+}
+
+#exp {
+    display: block;
+    height: 100%;
+    width: 0px;
+    background-color: #C46928;
+    border-radius: 13px 0px 0px 13px;
+}
+
+.task-summaries {
+    margin-top: 30px;
+    display: flex;
+    width: 198px;
+    height: 60px;
+}
+
+#unfinished-tasks-box {
+    height: 100%;
+    width: 99px;
+    background-color: #841818;
+    text-align: center;
+    align-items: center;
+    border-radius: 3px 0px 0px 3px;
+}
+
+#finished-tasks-box {
+    height: 100%;
+    width: 99px;
+    background-color: #C46928;
+    text-align: center;
+    align-items: center;
+    border-radius: 0px 3px 3px 0px;
+}
+
+.finished-tasks-container {
+    width: 198px;
+    height: 150px;
+    padding-left: 15px;
+}
+
+#finished-tasks-list {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#finished-tasks-list li{
+    text-align: left;
+}
+
+li {
+    list-style: circle;
 }

@@ -24,7 +24,6 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       listId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "Lists" }
       },
