@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', async (event)=>{
         console.log(userInfo.userTasks);
         userInfo.userTasks.forEach(elem => {
             const li = document.createElement('li');
-            const listArea = document.querySelector('.list-area')
+            const taskArea = document.querySelector('.task-list')
             li.innerHTML = elem.title
             li.id = elem.id
-            listArea.append(li);
+            taskArea.append(li);
             li.addEventListener('click', (event) => {
                 console.log(elem.description);
             })

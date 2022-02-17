@@ -52,6 +52,8 @@ body {
     border-left: 6px solid #841818;
     width: 50vw;
     height: 100vh;
+    align-items: center;
+    align-content: center;
 }
 
 .right-page-nav {
