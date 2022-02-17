@@ -95,7 +95,11 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
     loginUser(req, res, user);
 
-    res.redirect(`/lists/${user.id}`);
+    req.session.save(() => {
+      res.redirect(`/lists/${user.id}`);
+    });
+    return
+    
   } else {
     const errors = {}
     validationErrors.array().forEach(err => {
@@ -145,7 +149,10 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
     if (passwordMatch && user) {
       loginUser(req, res, user);
 
-      res.redirect(`/lists/${user.id}`);
+      req.session.save(() => {
+        res.redirect(`/lists/${user.id}`);
+      });
+      return
     }
     loginErrors.push('Login failed, please try again')
   } else {

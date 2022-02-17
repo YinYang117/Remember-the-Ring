@@ -150,6 +150,9 @@ body {
     width: 100%;
     height: 100%;
 }
+.task-list {
+    padding: 30px;
+}
 
 .new-task-form-container {
     margin-top: 30px;
