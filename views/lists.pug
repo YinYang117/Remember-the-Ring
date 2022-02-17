@@ -53,7 +53,10 @@ div(class='page-container')
                     ul(class="task-list")
             div(class="right-page-container")
                 div(class="right-page-content")
-                    span(id="user-level") Level 1
+                    div(id="user-level")
+                        span Current level:  
+                        span=user.currentLevel
+
                     img(src="../images/gandalf.png" alt="gandalf-image" id="gandalf")
                     div(id="exp-bar")
                         div(id="exp")

@@ -7,8 +7,8 @@ const { logoutUser, restoreUser, requireAuth, checkUser } = require('../auth');
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
-router.get('/:userId(\\d+)', asyncHandler(async (req, res) => {
-    console.log("log is here #############", req.session.auth)
+router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
+    console.log("log is here #############",req.session.auth)
     const { userId } = req.session.auth
 
     const user = await User.findOne({
@@ -17,7 +17,7 @@ router.get('/:userId(\\d+)', asyncHandler(async (req, res) => {
         }
     })
     if (user) {
-        res.render('lists', { userId: userId })
+        res.render('lists', { userId: userId, user })
     }
 }));
 
@@ -29,7 +29,7 @@ router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next
     return res.json({ userTasks })
 }));
 
-router.get('/:userId(\\d+)/lists', asyncHandler(async (req, res, next) => {
+router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const userLists = await List.findAll({
         where: { userId: userId }
@@ -120,7 +120,7 @@ router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, n
     return res.json({ userTask })
 }));
 
-router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
+router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const listId = req.params.listId;
     const taskList = await Task.findAll({
         where: { listId: listId }
@@ -128,7 +128,7 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', asyncHandler(async (req, 
     return res.json({ taskList })
 }));
 
-router.post('/:userId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
+router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const { title, description, experienceReward, dueDate, dueTime } = req.body;
     const userId = req.params.userId
     const userIdParsed = parseInt(userId, 10);
@@ -144,15 +144,7 @@ router.post('/:userId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
     });
 
     console.log(newTask, 'New task created!')
-
+    return
 }))
 
 module.exports = router;
-
-
-// const today = new Date()
-// const year = today.getFullYear().toString;
-// const month = (today.getMonth()+1).toString();
-// const tomorrow = (today.getDate()+1).toString();
-// const fulldate = [year, month, tomorrow]
-// const ourFormat = fulldate.join('-')
