@@ -28,8 +28,17 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         else if (e.target.id === 'today-tasks') {
             const res = await fetch(`/lists/today/${userId}`);
-            const tasksToday = await res.json();
+            const { tasksToday } = await res.json();
+            tasksToday.forEach(el => {
+                const li = document.createElement('li');
+                const taskArea = document.querySelector('.task-list');
+                li.innerHTML = el.title;
+                li.id = el.id;
+                taskArea.append(li);
+                li.addEventListener('click', (e) => {
+                    console.log(el.description);
+                })
+            })
         }
-
     })
 })
