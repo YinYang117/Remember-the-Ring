@@ -6,8 +6,9 @@ const { logoutUser, restoreUser, requireAuth } = require('../auth');
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
-router.get('/:userId(\\d+)', asyncHandler(async (req, res) => {
-    console.log("***************", req.session.auth)
+router.get('/:userId(\\d+)', restoreUser, asyncHandler(async (req, res) => {
+    // res.locals.user
+    // can pull userId from res.locals.user
     const { userId } = req.session.auth
 
     const user = await User.findOne({
@@ -42,7 +43,7 @@ router.post('/:userId(\\d+)/tasks', asyncHandler(async (req, res, next) => {
         completed: false,
         userId: userIdParsed
     });
-    
+
     console.log(newTask, 'New task created!')
 
 }))
