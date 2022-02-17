@@ -6,7 +6,8 @@ const { logoutUser, restoreUser, requireAuth } = require('../auth');
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
-router.get('/:userId(\\d+)', restoreUser, asyncHandler(async (req, res) => {
+router.get('/:userId(\\d+)', asyncHandler(async (req, res) => {
+    console.log("log is here #############",req.session.auth)
     const { userId } = req.session.auth
 
     const user = await User.findOne({

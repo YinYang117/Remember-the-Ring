@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async (event)=>{
     // const userInfo = await res.json();
 
     const listElement = document.querySelector('#user-lists');
-
+    console.log(sessionStorage)
 
     const allTasks = document.getElementById('all-tasks')
 

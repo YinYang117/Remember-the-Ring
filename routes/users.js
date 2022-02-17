@@ -10,7 +10,6 @@ const { loginUser, logoutUser } = require('../auth');
 const csrfProtection = csrf({ cookie: true });
 
 router.get('/signup', csrfProtection, ((req, res) => {
-  // ^ Removed async
   const user = User.build();
 
   res.render('signup', {
@@ -100,7 +99,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
   } else {
     const errors = {}
     validationErrors.array().forEach(err => {
-      errors[err.param]= err.msg
+      errors[err.param] = err.msg
     });
     console.log(validationErrors)
     res.render('signup', {
@@ -133,8 +132,6 @@ const loginValidators = [
 
 router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, res) => {
   const {
-    firstName,
-    lastName,
     email,
     password
   } = req.body;
@@ -144,15 +141,11 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
   if (validationErrors.isEmpty()) {
     const user = await User.findOne({ where: { email } });
-    if (user !== null) {
-      const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
-      if (passwordMatch) {
-        loginUser(req, res, user);
+    const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
+    if (passwordMatch && user) {
+      loginUser(req, res, user);
 
-        //!!!!!!!!!!!!!!!!!!!!!!! homepage
-        res.redirect(`/lists/${user.id}`);
-
-      };
+      res.redirect(`/lists/${user.id}`);
     }
     loginErrors.push('Login failed, please try again')
   } else {

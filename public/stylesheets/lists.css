@@ -12,22 +12,23 @@
 body {
     font-family: 'Apple Chancery';
     background-color: #E7C087;
+    height: 100vh;
+    width: 100vw;
 }
 
 .page-container {
     display: grid;
     grid-template-rows: 100px 1fr;
-    height: 100vw;
-    width: 100vw;
-    max-height: 1080px;
+    height: 100%;
+    width: 100%;
 }
 
 .nav-bar {
     display:grid;
     grid-template-columns: 2fr 5fr 2fr;
     align-items: center;
-    height: 100px;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     background-color: #341B14;
     color: #E7C087;
 }
@@ -78,6 +79,7 @@ body {
     text-decoration: none;
     border: 2px solid #841818;
     border-radius: 3px;
+    height: 50%;
     background-color: #C46928;
     padding: 5px 25px;
     margin-left: 25px;
@@ -85,16 +87,33 @@ body {
 }
 
 .body-container {
+    width: 100%;
+    height: 100%;
+}
+
+.body-styling-container {
     display: grid;
     grid-template-columns: 235px 1fr 1fr;
-    width: 100vw;
+    height: 95%;
+    width: 95%;
+    margin-top: 20px;
+    background-color: #FFFFFF20;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px ;
+    align-items: center;
+
 }
 
 .list-sidebar {
     grid-column: 1;
     display: grid;
     grid-template-rows: 100px 1fr;
-    width: 235px;
+    width: 155px;
+    height: 80%;
+    margin-top: 1em;
+    background-color: #FFFFFF20;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px ;
 }
 
 .logo-area {
@@ -105,11 +124,15 @@ body {
     justify-content: center;
 }
 
-.list-area {
+.task-area {
     grid-column: 2;
     display: flex;
     flex-direction: column;
-    height: 100vw;
+    height: 911px;
+    background-color: #FFFFFF20;
+    margin-top: 20px;
+    border-radius: 10px;
+    width: 757px;
 }
 
 .new-task-form-container {

@@ -29,20 +29,19 @@ div(class='page-container')
             span(id=userId class='user-id') Welcome User
             a(id="sign-out-button" href="") Sign out
     div(class="body-container")
-        div(class="list-sidebar")
-            ul
-                li#all-tasks All Tasks
-                li#today-tasks Today
-                li#tomorrow-tasks Tomorrow
-                li#this-week-tasks This Week
-            ul#user-lists Your Lists
-
-        div(class="list-area")
-            div(class="new-task-form-container")
-                form(id="new-task-form" action="")
-                    input(type="text" placeholder="Create new task...")
-                    input(type='text' placeholder='Add description')
-                    input(type="date" placeholder="Add due date...")
-                    input(type="text" placeholder="Add due by time")
-                    button(type='submit' id='new-task-submit') Submit
-            ul#user-current-list-tasks
+        div(class="body-styling-container")
+            div(class="list-sidebar")
+                ul#user-lists Your Lists
+                    li#all-tasks All Tasks
+                    li#today-tasks Today
+                    li#tomorrow-tasks Tomorrow
+                    li#this-week-tasks This Week
+                ul#user-made-lists Lists
+            div(class="task-area")
+                div(class="new-task-form-container")
+                    form(id="new-task-form" action="")
+                        input(type="text" placeholder="Create new task...")
+                        input(type='text' placeholder='Add description')
+                        input(type="date" placeholder="Add due date...")
+                        input(type="text" placeholder="Add due by time")
+                        button(type='submit' id='new-task-submit') Submit
