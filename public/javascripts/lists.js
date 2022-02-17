@@ -40,5 +40,22 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 })
             })
         }
+
+        else if (e.target.id === 'tomorrow-tasks') {
+            const res = await fetch(`/lists/tomorrow/${userId}`);
+            const { tasksTomorrow } = await res.json();
+            tasksTomorrow.forEach(el => {
+                const li = document.createElement('li');
+                const taskArea = document.querySelector('.task-list');
+                li.innerHTML = el.title;
+                li.id = el.id;
+                taskArea.append(li);
+                li.addEventListener('click', (e) => {
+                    console.log(el.description);
+                })
+            })
+        }
+
+
     })
 })
