@@ -1,39 +1,74 @@
-extends layout
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet' href='/stylesheets/reset.css')
+        link(href="//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery" rel="stylesheet" type="text/css")
+        link(rel="stylesheet" href="/stylesheets/lists.css")
+        link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+        script(src='/javascripts/lists.js' type='module' defer)
 
-append head
-    //- add page specific styles by appending to the head
-    link(rel="stylesheet" href="/stylesheets/lists.css")
-    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
 
 
-    //- add page specific js
-    script(src="/javascripts/index.js" type="module" defer)
 
-block content
-    div(class='page-container')
-        div(class='nav-bar')
-            div(class='upper-left-nav')
-                p(id="welcome-user") Welcome user!
-            div(class='center-nav')
-                form(class="search-form" action="")
-                    label(for="search")
-                    input(type="text" placeholder="Search...")
-                    button(id="search-button") Search
-            div(class='upper-right-nav')
-                a(id="sign-out-button" href="") Sign out
-        div(class="body-container")
+div(class='page-container')
+    div(class='nav-bar')
+        div(class='upper-left-nav')
+            div(class="logo-area")
+                img(id='logo' src="../images/ring-transparent-background.png" alt="remember-the-ring-logo")
+                h1(id="logo-text")
+                    | Remember
+                    br
+                    | the Ring
+        div(class='center-nav')
+            form(class="search-form" action="")
+                label(for="search")
+                input(type="text" placeholder="Search...")
+                button(id="search-button") Search
+        div(class='upper-right-nav')
+            span(id=userId class='user-id') Welcome User
+            a(id="sign-out-button" href="") Sign out
+    div(class="body-container")
+        div(class="body-styling-container")
             div(class="list-sidebar")
-                div(class="logo-area")
-                    img(id='logo' src="../images/ring-transparent-background.png" alt="remember-the-ring-logo")
-                    h1(id="logo-text")
-                        | Remember
-                        br
-                        | the Ring
-            div(class="list-area")
+                div(class="default-lists")
+                    ul#user-lists Your Lists
+                        li#all-tasks All Tasks
+                        li#today-tasks Today
+                        li#tomorrow-tasks Tomorrow
+                        li#this-week-tasks This Week
+                div(class="user-made-lists-container")
+                    ul#user-made-lists Lists
+            div(class="task-area")
                 div(class="new-task-form-container")
                     form(id="new-task-form" action="")
-                        input(type="text" placeholder="Create new task...")
-                        input(type="text" placeholder="Add due date...")
-                        input(type="text" placeholder="Add due by time")
-                ul
-                    li This is where tasks will go
+                        input(type="text" placeholder="Create new task..." id="task-name-input")
+                        input(type='text' placeholder='Add description' id="task-description-input")
+                        div(class="date-time-container")
+                            input(type="date" placeholder="Add due date..." id="task-date-input")
+                            input(type="time" placeholder="Add due by time" id="task-time-input")
+                            button(type='submit' id='new-task-submit') Submit
+                div(class="task-list-area")
+                    ul(class="task-list")
+            div(class="right-page-container")
+                div(class="right-page-content")
+                    span(id="user-level") Level 1
+                    img(src="../images/gandalf.png" alt="gandalf-image" id="gandalf")
+                    div(id="exp-bar")
+                        div(id="exp")
+                    div(class="task-summaries")
+                        div(id="unfinished-tasks-box")
+                            | 0
+                            br
+                            | Tasks
+                        div(id="finished-tasks-box")
+                            | 0
+                            br
+                            | completed
+                    span(class="finished-tasks-container")
+                        ul(id="finished-tasks-list") Finished Tasks
+                            li ex 1
+                            li ex 2
+                            li ex 3
+                            li ex 4
+                            li ex 5
