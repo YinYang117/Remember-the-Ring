@@ -149,9 +149,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
       if (passwordMatch) {
         loginUser(req, res, user);
 
-        //!!!!!!!!!!!!!!!!!!!!!!! homepage
         res.redirect(`/lists/${user.id}`);
-
       };
     }
     loginErrors.push('Login failed, please try again')
