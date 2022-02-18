@@ -39,11 +39,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        await fetch ()
+                        await fetch(`/tasks/${elem.id}`, { method: "DELETE" });
                     })
                 })
             })
-            console.log("*****************Should be getting all tasks")
         }
 
         else if (e.target.id === 'today-tasks') {
