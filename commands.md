@@ -20,3 +20,4 @@ npm i csurf
 
 npm i express-validator
 npm i bcryptjs
+npm i connect-session-sequelize@^6.0.0
