@@ -1,9 +1,6 @@
-
-
-
-
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
+    console.log('User Id is here!!!!!!!!!!!!!', userId)
 
     // const res = await fetch(`/lists/info/${userId}`);
     // const userInfo = await res.json();
@@ -15,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
     defaultLists.addEventListener('click', async (e) => {
-
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
@@ -27,17 +23,19 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 li.innerHTML = elem.title
                 li.id = elem.id
                 taskArea.append(li);
-                li.addEventListener('click', (e) => {
+                li.addEventListener('click', async (event) => {
+                    const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
+                    const updateTaskValues = await updateTaskValuesRes.json();
                     const taskEditArea = document.querySelector(".task-edit-area")
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <form id="form-edit">
-                            <input type="text" name="title" placeholder=${elem.title} id="task-name-edit">
-                            <input type='text' name="description" placeholder=${elem.description} id="task-description-edit">
+                            <input type="text" name="title" placeholder="title" id="task-name-edit" value=${updateTaskValues.task.title}>
+                            <input type='text' name="description" placeholder="description" id="task-description-edit" value=${updateTaskValues.task.description}>
                             <div class="date-time-edit-container">
-                                <input type="date" name="dueDate" placeholder=${elem.dueDate} id="task-date-edit">
-                                <input type="time" name="dueTime" placeholder=${elem.dueTime} id="task-time-edit">
-                                <input type="number" name="experienceReward" placeholder=${elem.experienceReward} id="task-exp-edit">
+                                <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
+                                <input type="time" name="dueTime" id="task-time-edit" value=${updateTaskValues.task.dueTime}>
+                                <input type="number" name="experienceReward" placeholder="xp" id="task-exp-edit" value=${updateTaskValues.task.experienceReward}>
                             </div>
                             <button class="task-edit-update-button">Update</button>
                             <button class="task-edit-delete-button">Delete</button>
@@ -46,10 +44,11 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
+                        e.preventDefault();
                         const titleValue = document.getElementById("task-name-edit").value;
                         const descriptionValue = document.getElementById("task-description-edit").value;
                         const dateValue = document.getElementById("task-date-edit").value;
-                        const timeValue = document.getElementById("task-time-edit").value;
+                        const timeValue = document.getElementById("task-time-edit").value || null;
                         const experienceValue = document.getElementById("task-exp-edit").value;
 
                         const res = await fetch(`/tasks/${elem.id}`, {
@@ -57,12 +56,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: {
-                                
-
-                            }
-
+                            body: JSON.stringify({
+                                title: titleValue,
+                                description: descriptionValue,
+                                experienceReward: experienceValue,
+                                dueDate: dateValue,
+                                dueTime: timeValue
+                            })
                         })
+                        const updatedRes = await res.json();
+                        event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
 

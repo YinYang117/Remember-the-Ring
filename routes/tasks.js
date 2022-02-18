@@ -9,4 +9,44 @@ router.delete('/:taskId(\\d+)', asyncHandler(async (req, res) => {
     await doomedTask.destroy();
 }));
 
+router.put('/:taskId(\\d+)', asyncHandler(async (req, res) => {
+    const { title, description, experienceReward, dueDate, dueTime } = req.body;
+    const taskId = parseInt(req.params.taskId, 10);
+    const updatedTask = await Task.findByPk(taskId);
+
+
+    updatedTask.title = title;
+
+
+
+    updatedTask.description = description;
+
+
+
+    updatedTask.experienceReward = experienceReward;
+
+
+
+    updatedTask.dueDate = dueDate;
+
+
+
+    updatedTask.dueTime = dueTime;
+
+    await updatedTask.save();
+    console.log('Over Here!!!!!!!!!!!!!!', updatedTask)
+    return res.json({ updatedTask: updatedTask });
+}));
+
+router.get('/:taskId(\\d+)', asyncHandler(async (req, res) => {
+    const taskId = parseInt(req.params.taskId, 10);
+    const task = await Task.findOne({
+        where: {
+            id: taskId
+        }
+    })
+    console.log('Made it!!!!!!!!!!!!!!!!!!!!', task)
+    return res.json({ task: task })
+}));
+
 module.exports = router;
