@@ -31,7 +31,7 @@ router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next
     return res.json({ userTasks })
 }));
 
-router.get('/:userId(//d+)/tasks/search/', checkUser, asyncHandler(async (req, res) => {
+router.get('/:userId(\\d+)/tasks/search', checkUser, asyncHandler(async (req, res) => {
     // console.log("*###*#*#*#*#*#*#*##*#*# REQ BODY FOR SEARCHING")
     // console.log(req.body)
     const userId = req.params.userId;

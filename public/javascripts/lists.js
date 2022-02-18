@@ -8,25 +8,34 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     const taskSearchInput = document.getElementById('task-search-input')
     const taskSearchButton = document.getElementById('task-search-button')
-    taskSearchButton.addEventListener('click', async (event) => {
-        // If we add cookies to remember list selection, delete them
-        // save input in input field
-        // check to see if it's blank
-        // then take input and search titles of all tasks
-        // can I build this all in here, or do I need to make a fetch?
-        // let tasks = await Task.findAll({
-        //     where: {
-        //         [Op.and]: [{ userId: userId }, { title:  }]
-        //     },
-        //     order: [['dueTime', 'ASC']]
-        // })
-        // tasksArray.push(...tasks)
+    const taskSearchForm = document.querySelector('.search-form')
+    taskSearchForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        let input = document.getElementById('task-search-input').value
+        // input = input.toLowerCase();
+        console.log(input)
+
         const res = await fetch(`/lists/${userId}/tasks/search`);
-        // console.log("res", res)
-        // console.log("Res body", res.body)
-        userTasks = await res.json()
-        console.log("User Tasks", userTasks)
+        const userTasks = await res.json()
+        // console.log("User Tasks", userTasks)
+        console.log("userTasks . userTasks", userTasks.userTasks)
+        const filteredTasks = userTasks.userTasks.filter((task) => {
+            task.title.includes(input) || task.description.includes(input)
+        })
+
+        const taskListAllLi = document.querySelectorAll('.task-list > li')
+        console.log("Task List", taskListAllLi)
+        taskListAllLi.forEach((task) => {
+            task.remove()
+        })
+        const taskList = document.querySelector('.task-list')
+
+        console.log(filteredTasks)
+        // taskList.append(filteredTasks)
+
+        
+
     })
 
     const defaultLists = document.querySelector('.default-lists')
