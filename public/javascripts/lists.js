@@ -25,8 +25,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         // tasksArray.push(...tasks)
         event.preventDefault();
         const res = await fetch(`/lists/${userId}/tasks/search`);
-        console.log("res", res)
-        console.log("Res body", res.body)
+        // console.log("res", res)
+        // console.log("Res body", res.body)
+        userTasks = await res.json()
+        console.log("User Tasks", userTasks)
     })
 
     const defaultLists = document.querySelector('.default-lists')
