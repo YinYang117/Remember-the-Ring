@@ -156,6 +156,8 @@ body {
 
 .new-task-form-container {
     margin-top: 30px;
+    padding-bottom: 15px;
+    border-bottom: #40404020 solid 2px;
 }
 
 .new-task-form-container #new-task-form {
@@ -169,8 +171,9 @@ body {
     font-family: 'Apple Chancery';
     width: 500px;
     background-color: #FFFFFF80;
-    border: #CDCDCD solid 1px;
+    border: #40404020 solid 1px;
     padding-left: 10px;
+    
 
 }
 
@@ -186,22 +189,26 @@ body {
 
 #task-date-input{
     height: 100%;
-    width: 150px;
+    min-width: 150px;
     border-radius: 0px 0px 0px 10px;
 }
 
 #task-time-input{
     height: 100%;
-    width: 100px;
+    min-width: 100px;
 }
 
 #new-task-submit {
     height: 100%;
-    width: 150px;
+    min-width: 150px;
     border-radius: 0px 0px 10px 0px;
     background-color: #FFFFFF80;
     border: #CDCDCD solid 1px;
 
+}
+
+#task-exp-input {
+    min-width: 25px;
 }
 
 #logo {
@@ -239,9 +246,12 @@ h1 {
 }
 
 #user-level {
-    font-size: 48px;
     border-bottom: #841818 4px solid;
     margin-bottom: 20px;
+}
+
+#user-level span {
+    font-size: 48px;
 }
 
 #gandalf {
