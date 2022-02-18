@@ -32,17 +32,20 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         <p>${elem.experienceReward}</p>
                         <p>${elem.dueDate}</p>
                         <p>${elem.dueTime}</p>
+                        <div class="update-task"></div>
                         <button class="task-edit-update-button">Update</button>
                         <button class="task-edit-delete-button">Delete</button>
                     </div>`
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
+                        const updateDiv = document.querySelector('.update-task');
+                        updateDiv.innerHTML = ``
                         const res = await fetch(`/tasks/${elem.id}`, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            
+
                         })
 
                     })
