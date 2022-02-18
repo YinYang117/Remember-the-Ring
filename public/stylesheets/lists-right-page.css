@@ -1,0 +1,105 @@
+@import url(//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
+@font-face {
+    font-family: "Apple Chancery";
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
+}
+
+.right-page-container {
+    grid-column: 4;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.right-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 95%;
+    background-color: #FFFFFF20;
+    border-radius: 10px;
+    width: 398px;
+}
+
+#user-level {
+    border-bottom: #841818 4px solid;
+    margin-bottom: 20px;
+}
+
+#user-level span {
+    font-size: 48px;
+}
+
+#gandalf {
+    display: block;
+    max-width:200px;
+    max-height:350.11px;
+    width: auto;
+    height: auto;
+}
+
+#exp-bar {
+    box-sizing: content-box;
+    height: 28px;
+    background-color: #e6e6e6;
+    border-radius: 13px;
+    width: 60%;
+}
+
+#exp {
+    display: block;
+    height: 100%;
+    width: 0px;
+    background-color: #C46928;
+    border-radius: 13px 0px 0px 13px;
+}
+
+.task-summaries {
+    margin-top: 30px;
+    display: flex;
+    width: 198px;
+    height: 60px;
+    color: #E7C087;
+}
+
+#unfinished-tasks-box {
+    height: 100%;
+    width: 99px;
+    background-color: #841818;
+    text-align: center;
+    align-items: center;
+    border-radius: 3px 0px 0px 3px;
+}
+
+#finished-tasks-box {
+    height: 100%;
+    width: 99px;
+    background-color: #C46928;
+    text-align: center;
+    align-items: center;
+    border-radius: 0px 3px 3px 0px;
+}
+
+.finished-tasks-container {
+    width: 198px;
+    height: 150px;
+    padding-left: 15px;
+}
+
+#finished-tasks-list {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#finished-tasks-list li{
+    text-align: left;
+}

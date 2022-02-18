@@ -25,6 +25,7 @@ body {
 
 .nav-bar {
     display:grid;
+    grid-row: 1;
     grid-template-columns: 2fr 5fr 2fr;
     align-items: center;
     height: 100%;
@@ -87,13 +88,14 @@ body {
 }
 
 .body-container {
+    grid-row: 2;
     width: 100%;
     height: 100%;
 }
 
 .body-styling-container {
     display: grid;
-    grid-template-columns: 235px 15fr 15fr 1fr;
+    grid-template-columns: 235px 2fr 1fr 2fr 100px;
     height: 95%;
     width: 95%;
     margin-top: 20px;
@@ -101,7 +103,6 @@ body {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px ;
     align-items: center;
-
 }
 
 .list-sidebar {
@@ -135,81 +136,6 @@ body {
     justify-content: center;
 }
 
-.task-area {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    height: 95%;
-    background-color: #FFFFFF20;
-    border-radius: 10px;
-    width: 757px;
-}
-
-.task-list-area {
-    margin-top: 20px;
-    width: 100%;
-    height: 100%;
-}
-.task-list {
-    padding: 30px;
-}
-
-.new-task-form-container {
-    margin-top: 30px;
-    padding-bottom: 15px;
-    border-bottom: #40404020 solid 2px;
-}
-
-.new-task-form-container #new-task-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#new-task-form input {
-    height: 40px;
-    font-family: 'Apple Chancery';
-    width: 500px;
-    background-color: #FFFFFF80;
-    border: #40404020 solid 1px;
-    padding-left: 10px;
-    
-
-}
-
-.date-time-container {
-    display: flex;
-    height: 40px;
-    width: 500px;
-}
-
-#task-name-input{
-    border-radius: 10px 10px 0px 0px;
-}
-
-#task-date-input{
-    height: 100%;
-    min-width: 150px;
-    border-radius: 0px 0px 0px 10px;
-}
-
-#task-time-input{
-    height: 100%;
-    min-width: 100px;
-}
-
-#new-task-submit {
-    height: 100%;
-    min-width: 150px;
-    border-radius: 0px 0px 10px 0px;
-    background-color: #FFFFFF80;
-    border: #CDCDCD solid 1px;
-
-}
-
-#task-exp-input {
-    min-width: 25px;
-}
 
 #logo {
     max-height: 70px;
@@ -224,100 +150,53 @@ h1 {
     font-size: 36px;
 }
 
-.right-page-container {
-    grid-column: 3;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-}
 
-.right-page-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 95%;
-    background-color: #FFFFFF20;
-    border-radius: 10px;
-    width: 398px;
-}
-
-#user-level {
-    border-bottom: #841818 4px solid;
-    margin-bottom: 20px;
-}
-
-#user-level span {
-    font-size: 48px;
-}
-
-#gandalf {
-    display: block;
-    max-width:200px;
-    max-height:350.11px;
-    width: auto;
-    height: auto;
-}
-
-#exp-bar {
-    box-sizing: content-box;
-    height: 28px;
-    background-color: #e6e6e6;
-    border-radius: 13px;
-    width: 60%;
-}
-
-#exp {
-    display: block;
-    height: 100%;
-    width: 0px;
-    background-color: #C46928;
-    border-radius: 13px 0px 0px 13px;
-}
-
-.task-summaries {
-    margin-top: 30px;
-    display: flex;
-    width: 198px;
-    height: 60px;
-}
-
-#unfinished-tasks-box {
-    height: 100%;
-    width: 99px;
-    background-color: #841818;
-    text-align: center;
-    align-items: center;
-    border-radius: 3px 0px 0px 3px;
-}
-
-#finished-tasks-box {
-    height: 100%;
-    width: 99px;
-    background-color: #C46928;
-    text-align: center;
-    align-items: center;
-    border-radius: 0px 3px 3px 0px;
-}
-
-.finished-tasks-container {
-    width: 198px;
-    height: 150px;
-    padding-left: 15px;
-}
-
-#finished-tasks-list {
-    margin-top: 15px;
-    text-align: center;
-}
-
-#finished-tasks-list li{
-    text-align: left;
-}
 
 li {
-    list-style: circle;
+    list-style: none;
+}
+
+.task-edit-area {
+    grid-column: 3;
+}
+
+.task-edit-area-transition {
+    background-color: #FFFFFF20;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    border-radius: 0px 10px 10px 0px;
+    animation: slidein 0.7s cubic-bezier(.55,1.39,.87,1.01);
+}
+
+@keyframes slidein {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+
+    }
+
+}
+
+.task-edit-area-transition > * {
+    animation: task-edit-slide 0.7s cubic-bezier(.55,1.39,.87,1.01);
+}
+
+@keyframes task-edit-slide {
+    from {
+        width: 0%;
+        visibility: hidden;
+    }
+    
+    1% {
+        visibility: visible;
+    }
+
+    to {
+        width: 100%;
+    }
 }

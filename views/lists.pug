@@ -5,6 +5,8 @@ html
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(href="//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery" rel="stylesheet" type="text/css")
         link(rel="stylesheet" href="/stylesheets/lists.css")
+        link(rel="stylesheet" href="/stylesheets/lists-right-page.css")
+        link(rel="stylesheet" href="/stylesheets/lists-center-page.css")
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
         script(src='/javascripts/lists.js' type='module' defer)
 
@@ -26,7 +28,7 @@ div(class='page-container')
                 input(type="text" placeholder="Search...")
                 button(id="search-button") Search
         div(class='upper-right-nav')
-            span(id=userId class='user-id') Welcome User
+            span(id="welcome-user") Welcome #{user.firstName}
             a(id="sign-out-button" href="") Sign out
     div(class="body-container")
         div(class="body-styling-container")
@@ -51,12 +53,11 @@ div(class='page-container')
                             button(type='submit' id='new-task-submit') Submit
                 div(class="task-list-area")
                     ul(class="task-list")
+            div(class="task-edit-area" id="")
+            //- can add div things for task editing
             div(class="right-page-container")
                 div(class="right-page-content")
-                    div(id="user-level")
-                        span Current level:  
-                        span=user.currentLevel
-
+                    div(id="user-level") Current level: #{user.currentLevel}
                     img(src="../images/gandalf.png" alt="gandalf-image" id="gandalf")
                     div(id="exp-bar")
                         div(id="exp")

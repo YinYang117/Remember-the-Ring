@@ -1,0 +1,100 @@
+@import url(//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
+@font-face {
+    font-family: "Apple Chancery";
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
+    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
+    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
+}
+
+
+.task-area {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 95%;
+    max-height: 95%;
+    background-color: #FFFFFF20;
+    border-radius: 10px;
+    width: 757px;
+}
+
+.task-list-area {
+    margin-top: 0px;
+    width: 100%;
+    height: 900px;
+    overflow: scroll;
+}
+.task-list {
+    width: 99%;
+}
+
+.task-list:first-child li {
+    border-top: 0px;
+}
+
+.task-list li{
+    font-size: 18px;
+    padding: 10px 0px 10px 30px;
+    border-top: #40404020 solid 1px;
+    border-bottom: #40404020 solid 1px;
+}
+
+.new-task-form-container {
+    margin-top: 30px;
+    padding-bottom: 15px;
+    border-bottom: #40404020 solid 2px;
+}
+
+.new-task-form-container #new-task-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#new-task-form input {
+    height: 40px;
+    font-family: 'Apple Chancery';
+    width: 500px;
+    background-color: #FFFFFF80;
+    border: #40404020 solid 1px;
+    padding-left: 10px;
+    
+
+}
+
+.date-time-container {
+    display: flex;
+    height: 40px;
+    width: 500px;
+}
+
+#task-name-input{
+    border-radius: 10px 10px 0px 0px;
+}
+
+#task-date-input{
+    height: 100%;
+    min-width: 150px;
+    border-radius: 0px 0px 0px 10px;
+}
+
+#task-time-input{
+    height: 100%;
+    min-width: 100px;
+}
+
+#new-task-submit {
+    height: 100%;
+    min-width: 150px;
+    border-radius: 0px 0px 10px 0px;
+    background-color: #FFFFFF80;
+    border: #CDCDCD solid 1px;
+    
+}
+
+#task-exp-input {
+    min-width: 25px;
+}
