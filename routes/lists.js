@@ -3,6 +3,8 @@ const router = express.Router();
 const { Op } = require('sequelize');
 const { check, validationResult } = require('express-validator');
 const { logoutUser, restoreUser, requireAuth, checkUser } = require('../auth');
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
 
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
@@ -146,5 +148,16 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     console.log(newTask, 'New task created!')
     return
 }))
+
+router.post('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId;
+    const { title } = req.body;
+    const newList = await List.create({
+        title,
+        userId
+    });
+    console.log(newList, "New list created!");
+}))
+
 
 module.exports = router;

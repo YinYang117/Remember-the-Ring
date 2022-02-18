@@ -1,3 +1,7 @@
+
+
+
+
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
@@ -76,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         else if (e.target.id === 'this-week-tasks') {
             const res = await fetch(`/lists/this-week-tasks/${userId}`);
             const { tasksArray } = await res.json();
-        
+
             tasksArray.forEach(el => {
                 const li = document.createElement('li');
                 const taskArea = document.querySelector('.task-list');
@@ -88,5 +92,55 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 })
             })
         }
+    });
+
+    const userMadeLists = document.querySelector(".user-made-lists-container")
+
+    userMadeLists.addEventListener('click', async e => {
+
+        if (e.target.id === 'new-list-button') {
+            const newListWindow = document.createElement('div');
+            const hidePopUp = document.createElement('div');
+            const pageContainer = document.querySelector('.page-container');
+            const newListInput = document.createElement('input');
+            const newListSubmit = document.createElement('button');
+            const cancelListSubmit = document.createElement('button');
+            const createNewListText = document.createElement('p');
+            const newListButtonsDiv = document.createElement('div');
+            const newListForm = document.createElement('form');
+            const csrfInput = document.createElement('form');
+
+
+            newListWindow.append(createNewListText);
+            newListWindow.append(newListForm);
+            newListForm.append(csrfInput);
+            newListForm.append(newListInput);
+            newListForm.append(newListButtonsDiv);
+            newListButtonsDiv.append(newListSubmit);
+            newListButtonsDiv.append(cancelListSubmit);
+
+            hidePopUp.classList.toggle("hide-pop-up");
+            newListWindow.classList.toggle("new-list-window");
+            newListSubmit.className = 'new-list-submit';
+            cancelListSubmit.className = 'cancel-list-submit';
+            newListInput.setAttribute('name', 'title');
+            csrfInput.setAttribute("type", "hidden");
+            csrfInput.setAttribute("name", "_csrf");
+            // TODO Find out if this needs csrf
+
+            createNewListText.innerHTML = 'New list name:'
+            newListSubmit.innerHTML = 'Submit'
+            cancelListSubmit.innerHTML = 'Cancel'
+
+            document.body.insertBefore(hidePopUp, pageContainer);
+            hidePopUp.append(newListWindow);
+
+
+
+            hidePopUp.addEventListener('click', e => {
+                if (e.target.className === 'hide-pop-up') hidePopUp.remove();
+            });
+        }
     })
+
 })

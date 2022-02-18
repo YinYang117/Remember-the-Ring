@@ -40,7 +40,9 @@ div(class='page-container')
                         li#tomorrow-tasks Tomorrow
                         li#this-week-tasks This Week
                 div(class="user-made-lists-container")
-                    ul#user-made-lists Lists
+                    div(class="user-made-lists-header")
+                        button(id="new-list-button" type="button") +
+                        ul#user-made-lists Lists
             div(class="task-area")
                 div(class="new-task-form-container")
                     form(id="new-task-form" action=`/lists/${userId}/tasks` method="post")

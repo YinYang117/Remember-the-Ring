@@ -12,15 +12,15 @@
 body {
     font-family: 'Apple Chancery';
     background-color: #E7C087;
-    height: 100vh;
-    width: 100vw;
+    max-height: 100vh;
+    max-width: 100vw;
 }
 
 .page-container {
     display: grid;
     grid-template-rows: 100px 1fr;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
 }
 
 .nav-bar {
@@ -129,6 +129,30 @@ body {
     grid-row: 2;
 }
 
+.user-made-lists-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: left;
+    align-items: center;
+}
+
+/* .new-list-button {
+    display: inline-flex;
+    font-family: sans-serif;
+    border: #84181830 1px solid;
+    border-radius: 3px;
+    background-color: #C46928;
+    align-items: center;
+    font-size: 10px;
+    height: 10px;
+    width: 0px;
+    justify-content: center;
+    padding-bottom: 2.5px;
+    color: #E7C087;
+    margin-left: 5px;
+} */
+
 .logo-area {
     display: flex;
     align-items: flex-end;
@@ -154,6 +178,94 @@ h1 {
 
 li {
     list-style: none;
+}
+
+.hide-pop-up {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: #FFFFFF60;
+    animation: fadein 1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fadein {
+    from {
+        background-color: #FFFFFF00;
+    }
+    to {
+        background-color: #FFFFFF60;
+    }
+}
+
+.new-list-window {
+    position: absolute;
+    height: 250px;
+    width: 375px;
+    border: #841818 3px solid;
+    border-radius: 10px;
+    background-color: #E7C087;
+    animation: dropdown 1s cubic-bezier(1,1.27,.49,.99);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 1px 1px 10px black;
+}
+
+.new-list-window form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-list-window input {
+    width: 275px;
+    height: 35px;
+    border-radius: 3px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.new-list-window p {
+    font-size: 22px;
+}
+
+.new-list-window div {
+    width: 200px;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.new-list-window button {
+    height: 35px;
+    width: 75px;
+    border-radius: 3px;
+    color: #E7C087;
+}
+
+.new-list-submit {
+    background-color: #C46928;
+    border: none;
+}
+
+.cancel-list-submit {
+    background-color: #841818;
+    border: none;
+}
+@keyframes dropdown {
+    from {
+        margin-bottom: 150%;
+    }
+    to {
+        margin-bottom: 0%;
+    }
 }
 
 .task-edit-area {
