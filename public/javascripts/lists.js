@@ -4,11 +4,6 @@
 
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
-
-    // const res = await fetch(`/lists/info/${userId}`);
-    // const userInfo = await res.json();
-
-
     const listElement = document.querySelector('#user-lists');
 
     const taskSearchInput = document.getElementById('task-search-input')
