@@ -35,6 +35,18 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         <button class="task-edit-update-button">Update</button>
                         <button class="task-edit-delete-button">Delete</button>
                     </div>`
+                    const updateBtn = document.querySelector('.task-edit-update-button');
+                    updateBtn.addEventListener('click', async (e) => {
+                        const res = await fetch(`/tasks/${elem.id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            
+                        })
+
+                    })
+
                     const deleteBtn = document.querySelector('.task-edit-delete-button');
                     deleteBtn.addEventListener('click', async (e) => {
                         e.stopImmediatePropagation();
