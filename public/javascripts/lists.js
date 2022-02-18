@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const userInfo = await res.json();
             console.log("*************** User Info", userInfo)
             userInfo.userTasks.forEach(elem => {
+                const anchor = document.createElement('a')
                 const li = document.createElement('li');
+                anchor.append(li)
                 const taskArea = document.querySelector('.task-list')
                 li.innerHTML = elem.title
                 li.id = elem.id
