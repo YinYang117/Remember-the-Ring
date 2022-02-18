@@ -14,26 +14,39 @@ router.put('/:taskId(\\d+)', asyncHandler(async (req, res) => {
     const taskId = parseInt(req.params.taskId, 10);
     const updatedTask = await Task.findByPk(taskId);
 
-    if (title) {
-        updatedTask.title = title;
-    }
 
-    if (description) {
-        updatedTask.description = description;
-    }
+    updatedTask.title = title;
 
-    if (experienceReward) {
-        updatedTask.experienceReward = experienceReward;
-    }
 
-    if (dueDate) {
-        updatedTask.dueDate = dueDate;
-    }
 
-    if (dueTime) {
-        updatedTask.dueTime = dueTime;
-    }
-    await updatedTask.update()
+    updatedTask.description = description;
+
+
+
+    updatedTask.experienceReward = experienceReward;
+
+
+
+    updatedTask.dueDate = dueDate;
+
+
+
+    updatedTask.dueTime = dueTime;
+
+    await updatedTask.save();
+    console.log('Over Here!!!!!!!!!!!!!!', updatedTask)
+    return res.json({ updatedTask: updatedTask });
+}));
+
+router.get('/:taskId(\\d+)', asyncHandler(async (req, res) => {
+    const taskId = parseInt(req.params.taskId, 10);
+    const task = await Task.findOne({
+        where: {
+            id: taskId
+        }
+    })
+    console.log('Made it!!!!!!!!!!!!!!!!!!!!', task)
+    return res.json({ task: task })
 }));
 
 module.exports = router;

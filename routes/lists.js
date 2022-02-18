@@ -3,12 +3,13 @@ const router = express.Router();
 const { Op } = require('sequelize');
 const { check, validationResult } = require('express-validator');
 const { logoutUser, restoreUser, requireAuth, checkUser } = require('../auth');
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
 
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
 router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
-    console.log("log is here #############",req.session.auth)
     const { userId } = req.session.auth
 
     const user = await User.findOne({
@@ -17,8 +18,9 @@ router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
         }
     })
     if (user) {
-        res.render('lists', { userId: userId, user })
+        res.render('lists', { user, title: `${user.firstName}'s to-do` })
     }
+
 }));
 
 router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
@@ -107,26 +109,6 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     }
     console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
 
-    // const nextSunday = () => {
-    //     let date = new Date();
-    //     let now = date.getDay();
-
-    //     let diff = 6 - now;
-    //     diff = diff < 1 ? 7 + diff : diff;
-
-    //     let nextSunday = date.getTime() + (1000 * 60 * 60 * 24 * diff);
-
-    //     const sunday = new Date(nextSunday);
-
-    //     const year = sunday.getFullYear();
-    //     const month = (sunday.getMonth() + 1).toString();
-    //     const dayNum = (sunday.getDate()).toString();
-    //     const fulldate = [year, month, dayNum]
-    //     const ourFormat = fulldate.join('-')
-    //     return ourFormat
-    // };
-    // console.log('Next Sunday!!!!!!!!!!!!!!!!', nextSunday())
-
     return res.json({tasksArray})
 }));
 
@@ -150,7 +132,7 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(a
 
 router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const { title, description, experienceReward, listId, dueDate, dueTime } = req.body;
-    const userId = req.params.userId
+    const userId = req.params.userId;
     const userIdParsed = parseInt(userId, 10);
     const newTask = await Task.create({
         title,
@@ -166,5 +148,17 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     console.log(newTask, 'New task created!')
     return
 }))
+
+router.post('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId;
+    const { title } = req.body;
+    const newList = await List.create({
+        title,
+        userId
+    });
+    console.log(newList, "New list created!");
+    return;
+}))
+
 
 module.exports = router;
