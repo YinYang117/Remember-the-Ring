@@ -34,8 +34,13 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         <p>${elem.dueDate}</p>
                         <p>${elem.dueTime}</p>
                         <button class="task-edit-update-button">Update</button>
-                        <button class="task-edit-delete-button">Delete</button> 
+                        <button class="task-edit-delete-button">Delete</button>
                     </div>`
+                    const updateBtn = document.querySelector('.task-edit-update-button');
+                    updateBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        await fetch ()
+                    })
                 })
             })
             console.log("*****************Should be getting all tasks")
@@ -74,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         else if (e.target.id === 'this-week-tasks') {
             const res = await fetch(`/lists/this-week-tasks/${userId}`);
             const { tasksArray } = await res.json();
-        
+
             tasksArray.forEach(el => {
                 const li = document.createElement('li');
                 const taskArea = document.querySelector('.task-list');
