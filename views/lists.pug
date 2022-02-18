@@ -45,7 +45,7 @@ div(class='page-container')
                         ul#user-made-lists Lists
             div(class="task-area")
                 div(class="new-task-form-container")
-                    form(id="new-task-form" action=`/lists/${userId}/tasks` method="post")
+                    form(id="new-task-form" action=`/lists/${user.id}/tasks` method="post")
                         input(type="text" name="title" placeholder="Create new task..." id="task-name-input")
                         input(type='text' name="description" placeholder='Add description' id="task-description-input")
                         div(class="date-time-container")
