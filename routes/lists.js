@@ -82,6 +82,9 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     const tasksArray = [];
 
     const today = new Date()
+    const todaysInteger = today.getDate();
+    const dayInteger = today.getDay();
+    const nextSunday = todaysInteger + (7 - dayInteger)
 
     const dateFormatter = (date) => {
         const year = date.getFullYear().toString;
@@ -89,7 +92,6 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
         const currentDay = date.getDate().toString();
         const fulldate = [year, month, currentDay];
         const dbFormatedDate = fulldate.join('-');
-
         return dbFormatedDate;
     }
 
@@ -123,7 +125,6 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     //     const ourFormat = fulldate.join('-')
     //     return ourFormat
     // };
-
     // console.log('Next Sunday!!!!!!!!!!!!!!!!', nextSunday())
 
     return res.json({tasksArray})
@@ -148,7 +149,7 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(a
 }));
 
 router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
-    const { title, description, experienceReward, dueDate, dueTime } = req.body;
+    const { title, description, experienceReward, listId, dueDate, dueTime } = req.body;
     const userId = req.params.userId
     const userIdParsed = parseInt(userId, 10);
     const newTask = await Task.create({
@@ -156,7 +157,7 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
         description,
         experienceReward: experienceReward || 10,
         completed: false,
-        listId: 1,
+        listId,
         userId: userIdParsed,
         dueDate,
         dueTime

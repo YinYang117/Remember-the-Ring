@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
+            console.log("*************** User Info", userInfo)
             userInfo.userTasks.forEach(elem => {
                 const li = document.createElement('li');
                 const taskArea = document.querySelector('.task-list')
@@ -22,9 +23,20 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', (event) => {
-                    console.log(elem.description);
+                    const taskEditArea = document.querySelector(".task-edit-area")
+                    taskEditArea.innerHTML = `
+                    <div class="task-edit-div">
+                        <p>${elem.title}</p>
+                        <p>${elem.description}</p>
+                        <p>${elem.experienceReward}</p>
+                        <p>${elem.dueDate}</p>
+                        <p>${elem.dueTime}</p>
+                        <button class="task-edit-update-button">Update</button>
+                        <button class="task-edit-delete-button">Delete</button> 
+                    </div>`
                 })
             })
+            console.log("*****************Should be getting all tasks")
         }
 
         else if (e.target.id === 'today-tasks') {
