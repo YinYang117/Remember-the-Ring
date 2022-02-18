@@ -33,7 +33,7 @@ module.exports = {
         references: { model: "Users" }
       },
       dueDate: {
-        type: Sequelize.STRING
+        type: Sequelize.DATEONLY
       },
       dueTime: {
         type: Sequelize.STRING
