@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <form id="form-edit">
-                            <input type="text" name="title" placeholder="title" id="task-name-edit" value=${updateTaskValues.task.title}>
-                            <input type='text' name="description" placeholder="description" id="task-description-edit" value=${updateTaskValues.task.description}>
+                            <input type="text" name="title" placeholder="title" id="task-name-edit" value="${updateTaskValues.task.title}">
+                            <input type='text' name="description" placeholder="description" id="task-description-edit" value="${updateTaskValues.task.description}">
                             <div class="date-time-edit-container">
                                 <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
                                 <input type="time" name="dueTime" id="task-time-edit" value=${updateTaskValues.task.dueTime}>
