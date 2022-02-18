@@ -4,7 +4,7 @@ const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
 router.delete('/:taskId(\\d+)', asyncHandler(async (req, res) => {
-    const taskId = req.params.taskId;
+    const taskId = parseInt(req.params.taskId, 10);
     const doomedTask = await Task.findByPk(taskId);
     await doomedTask.destroy();
 }));

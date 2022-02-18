@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
     const listElement = document.querySelector('#user-lists');
-    console.log(sessionStorage)
 
     const defaultLists = document.querySelector('.default-lists')
 
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
-            console.log("*************** User Info", userInfo)
             userInfo.userTasks.forEach(elem => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
@@ -24,8 +22,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 li.innerHTML = elem.title
                 li.id = elem.id
                 taskArea.append(li);
-                li.addEventListener('click', (event) => {
+                li.addEventListener('click', (e) => {
                     const taskEditArea = document.querySelector(".task-edit-area")
+
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <p>${elem.title}</p>
@@ -36,10 +35,13 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         <button class="task-edit-update-button">Update</button>
                         <button class="task-edit-delete-button">Delete</button>
                     </div>`
-                    const updateBtn = document.querySelector('.task-edit-update-button');
-                    updateBtn.addEventListener('click', (e) => {
+                    const deleteBtn = document.querySelector('.task-edit-delete-button');
+                    deleteBtn.addEventListener('click', async (e) => {
+                        e.stopImmediatePropagation();
                         e.preventDefault();
-                        await fetch(`/tasks/${elem.id}`, { method: "DELETE" });
+                        li.remove();
+                        taskEditArea.innerHTML = '';
+                        const res = await fetch(`/tasks/${elem.id}`, { method: 'DELETE' });
                     })
                 })
             })
