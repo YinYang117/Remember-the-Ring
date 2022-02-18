@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             newListSubmit.className = 'new-list-submit';
             cancelListSubmit.className = 'cancel-list-submit';
             newListInput.setAttribute('name', 'title');
+            newListInput.setAttribute('value', '');
             csrfInput.setAttribute("type", "hidden");
             csrfInput.setAttribute("name", "_csrf");
             // TODO Find out if this needs csrf
@@ -138,9 +139,28 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
             hidePopUp.addEventListener('click', e => {
-                if (e.target.className === 'hide-pop-up') hidePopUp.remove();
+                event.preventDefault();
+                if (e.target.className === 'hide-pop-up' || e.target.className === 'cancel-list-submit') hidePopUp.remove();
             });
+
+
+            newListForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const res = await fetch(`/lists/${userId}/lists`, {
+                    method: 'post',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: newListInput.value, })
+                });
+
+                const newTaskRes = res.json();
+
+                console.log("dsfsdfsfdsfsdafsd)");
+            });
+
         }
-    })
+    });
 
 })

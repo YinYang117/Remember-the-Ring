@@ -157,6 +157,7 @@ router.post('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, nex
         userId
     });
     console.log(newList, "New list created!");
+    return;
 }))
 
 
