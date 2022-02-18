@@ -152,7 +152,7 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
 
 const newListValidator = [
     check('title')
-        .custom((title) => {
+        .custom((title, { req }) => {
             return List.findOne({
                 where: {
                     userId: req.params.userId,
@@ -163,23 +163,36 @@ const newListValidator = [
                     if (title) return Promise.reject('That list already exists')
                 })
         })
-]
+        .isLength({ max: 20 })
+        .withMessage()
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a list name')
+];
 
 router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const { title } = req.body;
-    const listValidators = validationResult();
+    const listValidators = validationResult(req);
+
+    const newList = List.build({
+        title,
+        userId
+    });
 
     if (listValidators.isEmpty()) {
-        const newList = await List.create({
-            title,
-            userId
-        });
-        return res.json({ newList })
+
+        await newList.save();
+        console.log(newList, "#### NEW LIST CREATED ####")
+
+        return res.json({ newList });
+
     } else {
+        const errors = {}
+        listValidators.array().forEach(err => {
+            errors[err.param] = err.msg
+        });
 
-
-        return res.json({ listValue })
+        return res.json({ errors });
     }
 
 }))

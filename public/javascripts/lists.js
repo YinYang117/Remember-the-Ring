@@ -180,9 +180,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             newListForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 try {
-                    const userListsRes = await fetch(`/lists/${userId}/lists`);
-                    const userLists = await userListsRes.json();
-                    console.log(userLists);
 
                     const taskCreateRes = await fetch(`/lists/${userId}/lists`, {
                         method: 'post',
@@ -192,18 +189,30 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         },
                         body: JSON.stringify({ title: newListInput.value, })
                     });
+
                     const taskCreate = await taskCreateRes.json();
-                    console.log(taskCreate.newList.title)
-                    if (!typeof taskCreate.newList.errors) {
-                        
+                    
+                    if (taskCreate.errors) {
+                        newListError.innerHTML = taskCreate.errors.title
+                    } else {
+                        hidePopUp.remove();
+                        const newListElement = document.createElement('li')
+                        newListElement.innerHTML = taskCreate.newList.title;
+                        userMadeLists.append(newListElement)
                     }
+
+        
                 } catch {
-                    console.log('damn it');
+                    newListError.innerHTML = taskCreate.errors.title
                 }
                 
             });
 
         }
+
+
+
+
     });
 
 })
