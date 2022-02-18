@@ -1,3 +1,5 @@
+const { json } = require("sequelize/types");
+
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
@@ -53,13 +55,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: {
-                                
-
-                            }
-
+                            body: JSON.stringify({
+                                title: titleValue,
+                                description: descriptionValue,
+                                experienceReward: experienceValue,
+                                dueDate: dateValue,
+                                dueTime: timeValue
+                            })
                         })
-
                     })
 
                     const deleteBtn = document.querySelector('.task-edit-delete-button');
