@@ -1,3 +1,7 @@
+
+
+
+
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
@@ -32,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     const defaultLists = document.querySelector('.default-lists')
     defaultLists.addEventListener('click', async (e) => {
+
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
@@ -45,7 +50,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 taskArea.append(li);
                 li.addEventListener('click', (e) => {
                     const taskEditArea = document.querySelector(".task-edit-area")
-
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <form id="form-edit">
@@ -140,5 +144,75 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 })
             })
         }
-    })
+    });
+
+    const userMadeLists = document.querySelector(".user-made-lists-container")
+
+    userMadeLists.addEventListener('click', async e => {
+
+        if (e.target.id === 'new-list-button') {
+            const newListWindow = document.createElement('div');
+            const hidePopUp = document.createElement('div');
+            const pageContainer = document.querySelector('.page-container');
+            const newListInput = document.createElement('input');
+            const newListSubmit = document.createElement('button');
+            const cancelListSubmit = document.createElement('button');
+            const createNewListText = document.createElement('p');
+            const newListButtonsDiv = document.createElement('div');
+            const newListForm = document.createElement('form');
+            const csrfInput = document.createElement('form');
+
+
+            newListWindow.append(createNewListText);
+            newListWindow.append(newListForm);
+            newListForm.append(csrfInput);
+            newListForm.append(newListInput);
+            newListForm.append(newListButtonsDiv);
+            newListButtonsDiv.append(newListSubmit);
+            newListButtonsDiv.append(cancelListSubmit);
+
+            hidePopUp.classList.toggle("hide-pop-up");
+            newListWindow.classList.toggle("new-list-window");
+            newListSubmit.className = 'new-list-submit';
+            cancelListSubmit.className = 'cancel-list-submit';
+            newListInput.setAttribute('name', 'title');
+            newListInput.setAttribute('value', '');
+            csrfInput.setAttribute("type", "hidden");
+            csrfInput.setAttribute("name", "_csrf");
+            // TODO Find out if this needs csrf
+
+            createNewListText.innerHTML = 'New list name:'
+            newListSubmit.innerHTML = 'Submit'
+            cancelListSubmit.innerHTML = 'Cancel'
+
+            document.body.insertBefore(hidePopUp, pageContainer);
+            hidePopUp.append(newListWindow);
+
+
+
+            hidePopUp.addEventListener('click', e => {
+                event.preventDefault();
+                if (e.target.className === 'hide-pop-up' || e.target.className === 'cancel-list-submit') hidePopUp.remove();
+            });
+
+
+            newListForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const res = await fetch(`/lists/${userId}/lists`, {
+                    method: 'post',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: newListInput.value, })
+                });
+
+                const newTaskRes = res.json();
+
+                console.log("dsfsdfsfdsfsdafsd)");
+            });
+
+        }
+    });
+
 })
