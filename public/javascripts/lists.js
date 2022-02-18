@@ -137,12 +137,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const newListSubmit = document.createElement('button');
             const cancelListSubmit = document.createElement('button');
             const createNewListText = document.createElement('p');
+            const newListError = document.createElement('span')
             const newListButtonsDiv = document.createElement('div');
             const newListForm = document.createElement('form');
             const csrfInput = document.createElement('form');
 
 
             newListWindow.append(createNewListText);
+            newListWindow.append(newListError);
             newListWindow.append(newListForm);
             newListForm.append(csrfInput);
             newListForm.append(newListInput);
@@ -177,18 +179,28 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
             newListForm.addEventListener('submit', async e => {
                 e.preventDefault();
-                const res = await fetch(`/lists/${userId}/lists`, {
-                    method: 'post',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ title: newListInput.value, })
-                });
+                try {
+                    const userListsRes = await fetch(`/lists/${userId}/lists`);
+                    const userLists = await userListsRes.json();
+                    console.log(userLists);
 
-                const newTaskRes = res.json();
-
-                console.log("dsfsdfsfdsfsdafsd)");
+                    const taskCreateRes = await fetch(`/lists/${userId}/lists`, {
+                        method: 'post',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ title: newListInput.value, })
+                    });
+                    const taskCreate = await taskCreateRes.json();
+                    console.log(taskCreate.newList.title)
+                    if (!typeof taskCreate.newList.errors) {
+                        
+                    }
+                } catch {
+                    console.log('damn it');
+                }
+                
             });
 
         }

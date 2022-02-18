@@ -36,7 +36,7 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
     const userLists = await List.findAll({
         where: { userId: userId }
     });
-    return res.json({ userLists, userTasks })
+    return res.json({ userLists })
 }));
 
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
@@ -109,7 +109,7 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     }
     console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
 
-    return res.json({tasksArray})
+    return res.json({ tasksArray })
 }));
 
 
@@ -149,15 +149,39 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     return
 }))
 
-router.post('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
+
+const newListValidator = [
+    check('title')
+        .custom((title) => {
+            return List.findOne({
+                where: {
+                    userId: req.params.userId,
+                    title
+                }
+            })
+                .then(title => {
+                    if (title) return Promise.reject('That list already exists')
+                })
+        })
+]
+
+router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const { title } = req.body;
-    const newList = await List.create({
-        title,
-        userId
-    });
-    console.log(newList, "New list created!");
-    return;
+    const listValidators = validationResult();
+
+    if (listValidators.isEmpty()) {
+        const newList = await List.create({
+            title,
+            userId
+        });
+        return res.json({ newList })
+    } else {
+
+
+        return res.json({ listValue })
+    }
+
 }))
 
 
