@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     dueDate: {
-      type: DataTypes.STRING
+      type: DataTypes.DATEONLY
     },
     dueTime: {
       type: DataTypes.STRING
