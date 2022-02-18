@@ -27,24 +27,36 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
-                        <p>${elem.title}</p>
-                        <p>${elem.description}</p>
-                        <p>${elem.experienceReward}</p>
-                        <p>${elem.dueDate}</p>
-                        <p>${elem.dueTime}</p>
-                        <div class="update-task"></div>
-                        <button class="task-edit-update-button">Update</button>
-                        <button class="task-edit-delete-button">Delete</button>
+                        <form id="form-edit">
+                            <input type="text" name="title" placeholder=${elem.title} id="task-name-edit">
+                            <input type='text' name="description" placeholder=${elem.description} id="task-description-edit">
+                            <div class="date-time-edit-container">
+                                <input type="date" name="dueDate" placeholder=${elem.dueDate} id="task-date-edit">
+                                <input type="time" name="dueTime" placeholder=${elem.dueTime} id="task-time-edit">
+                                <input type="number" name="experienceReward" placeholder=${elem.experienceReward} id="task-exp-edit">
+                            </div>
+                            <button class="task-edit-update-button">Update</button>
+                            <button class="task-edit-delete-button">Delete</button>
+                        </form>
                     </div>`
+
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
-                        const updateDiv = document.querySelector('.update-task');
-                        updateDiv.innerHTML = ``
+                        const titleValue = document.getElementById("task-name-edit").value;
+                        const descriptionValue = document.getElementById("task-description-edit").value;
+                        const dateValue = document.getElementById("task-date-edit").value;
+                        const timeValue = document.getElementById("task-time-edit").value;
+                        const experienceValue = document.getElementById("task-exp-edit").value;
+
                         const res = await fetch(`/tasks/${elem.id}`, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json"
                             },
+                            body: {
+                                
+
+                            }
 
                         })
 
