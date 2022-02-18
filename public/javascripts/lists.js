@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
     const listElement = document.querySelector('#user-lists');
-    console.log(sessionStorage)
 
     const taskSearchInput = document.getElementById('task-search-input')
     const taskSearchButton = document.getElementById('task-search-button')
@@ -36,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
-            console.log("*************** User Info", userInfo)
             userInfo.userTasks.forEach(elem => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
@@ -45,21 +43,56 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 li.innerHTML = elem.title
                 li.id = elem.id
                 taskArea.append(li);
-                li.addEventListener('click', (event) => {
+                li.addEventListener('click', (e) => {
                     const taskEditArea = document.querySelector(".task-edit-area")
+
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
-                        <p>${elem.title}</p>
-                        <p>${elem.description}</p>
-                        <p>${elem.experienceReward}</p>
-                        <p>${elem.dueDate}</p>
-                        <p>${elem.dueTime}</p>
-                        <button class="task-edit-update-button">Update</button>
-                        <button class="task-edit-delete-button">Delete</button> 
+                        <form id="form-edit">
+                            <input type="text" name="title" placeholder=${elem.title} id="task-name-edit">
+                            <input type='text' name="description" placeholder=${elem.description} id="task-description-edit">
+                            <div class="date-time-edit-container">
+                                <input type="date" name="dueDate" placeholder=${elem.dueDate} id="task-date-edit">
+                                <input type="time" name="dueTime" placeholder=${elem.dueTime} id="task-time-edit">
+                                <input type="number" name="experienceReward" placeholder=${elem.experienceReward} id="task-exp-edit">
+                            </div>
+                            <button class="task-edit-update-button">Update</button>
+                            <button class="task-edit-delete-button">Delete</button>
+                        </form>
                     </div>`
+
+                    const updateBtn = document.querySelector('.task-edit-update-button');
+                    updateBtn.addEventListener('click', async (e) => {
+                        const titleValue = document.getElementById("task-name-edit").value;
+                        const descriptionValue = document.getElementById("task-description-edit").value;
+                        const dateValue = document.getElementById("task-date-edit").value;
+                        const timeValue = document.getElementById("task-time-edit").value;
+                        const experienceValue = document.getElementById("task-exp-edit").value;
+
+                        const res = await fetch(`/tasks/${elem.id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: {
+                                
+
+                            }
+
+                        })
+
+                    })
+
+                    const deleteBtn = document.querySelector('.task-edit-delete-button');
+                    deleteBtn.addEventListener('click', async (e) => {
+                        e.stopImmediatePropagation();
+                        e.preventDefault();
+                        li.remove();
+                        taskEditArea.innerHTML = '';
+                        const res = await fetch(`/tasks/${elem.id}`, { method: 'DELETE' });
+                    })
                 })
             })
-            console.log("*****************Should be getting all tasks")
         }
 
         else if (e.target.id === 'today-tasks') {
