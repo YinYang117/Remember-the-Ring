@@ -8,7 +8,7 @@ const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
 router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
-    console.log("log is here #############",req.session.auth)
+    console.log("log is here #############", req.session.auth)
     const { userId } = req.session.auth
 
     const user = await User.findOne({
@@ -22,6 +22,16 @@ router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
 }));
 
 router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId;
+    const userTasks = await Task.findAll({
+        where: { userId: userId }
+    });
+    return res.json({ userTasks })
+}));
+
+router.get('/:userId(//d+)/tasks/search/', checkUser, asyncHandler(async (req, res) => {
+    // console.log("*###*#*#*#*#*#*#*##*#*# REQ BODY FOR SEARCHING")
+    // console.log(req.body)
     const userId = req.params.userId;
     const userTasks = await Task.findAll({
         where: { userId: userId }
@@ -127,10 +137,8 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     // };
     // console.log('Next Sunday!!!!!!!!!!!!!!!!', nextSunday())
 
-    return res.json({tasksArray})
+    return res.json({ tasksArray })
 }));
-
-
 
 router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, next) => {
     const taskId = req.params.taskId
