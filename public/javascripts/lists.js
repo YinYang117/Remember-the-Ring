@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = elem.title
+                li.innerHTML = `<div class="task-display"><span id="title-element">${elem.title}</span><span id="dueTime-element">  ${elem.dueTime}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -72,12 +72,20 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     </div>`
 
                     const titleInput = document.querySelector('#task-name-edit');
+                    const timeInput = document.querySelector('#task-time-edit');
+                    const titleSpan = document.querySelector('#title-element');
+                    const timeSpan = document.querySelector('#dueTime-element');
 
-                    function handleInput(e) {
-                        li.innerHTML = e.target.value;
-                    }
+                    function handleTitleInput(e) {
+                        titleSpan.innerHTML = e.target.value;
+                    };
 
-                    titleInput.oninput = handleInput;
+                    function handleTimeInput(e) {
+                        timeSpan.innerHTML = e.target.value;
+                    };
+
+                    titleInput.oninput = handleTitleInput;
+                    timeInput.oninput = handleTimeInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
