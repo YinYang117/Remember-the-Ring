@@ -24,6 +24,7 @@ router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
 }));
 
 router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
+    res.clearCookie('listId');
     const userId = req.params.userId;
     const userTasks = await Task.findAll({
         where: { userId: userId }
@@ -36,12 +37,13 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
     const userLists = await List.findAll({
         where: { userId: userId }
     });
-    return res.json({ userLists, userTasks })
+    return res.json({ userLists })
 }));
 
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = parseInt(req.params.userId, 10);
-
+    res.clearCookie('listId');
+    
     const today = new Date();
 
     const tasksToday = await Task.findAll({
@@ -58,6 +60,7 @@ router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
 
 router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = req.params.userId;
+    res.clearCookie('listId');
 
     const todayMillis = Date.now();
 
@@ -74,6 +77,7 @@ router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
 }));
 
 router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
+    res.clearCookie('listId');
     const userId = req.params.userId;
 
     const today = new Date();
@@ -137,16 +141,25 @@ router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, n
 
 router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const listId = req.params.listId;
+
     const taskList = await Task.findAll({
-        where: { listId: listId }
+        where: {
+            listId: listId
+        }
     });
+    
+    res.cookie('listId', listId, {httpOnly: true, secure: true})
     return res.json({ taskList })
 }));
 
 router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
-    const { title, description, experienceReward, listId, dueDate, dueTime } = req.body;
+    const { title, description, experienceReward, dueDate, dueTime } = req.body;
+    const { listId } = req.cookies;
     const userId = req.params.userId;
     const userIdParsed = parseInt(userId, 10);
+
+    console.log("########## MADE IT", listId)
+
     const newTask = await Task.create({
         title,
         description,
@@ -154,24 +167,63 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
         completed: false,
         listId,
         userId: userIdParsed,
-        dueDate,
-        dueTime
+        dueDate: dueDate || null,
+        dueTime: dueTime || null
     });
 
     console.log(newTask, 'New task created!')
-    return
+    res.json({ newTask })
 }))
 
-router.post('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
+
+const newListValidator = [
+    check('title')
+        .custom((title, { req }) => {
+            return List.findOne({
+                where: {
+                    userId: req.params.userId,
+                    title
+                }
+            })
+                .then(title => {
+                    if (title) return Promise.reject('That list already exists')
+                })
+        })
+        .isLength({ max: 20 })
+        .withMessage()
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a list name')
+];
+
+router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const { title } = req.body;
-    const newList = await List.create({
+    const listValidators = validationResult(req);
+
+    const newList = List.build({
         title,
         userId
     });
-    console.log(newList, "New list created!");
-    return;
-}))
+
+    if (listValidators.isEmpty()) {
+
+        await newList.save();
+        console.log(newList, "#### NEW LIST CREATED ####")
+
+        return res.json({ newList });
+
+    } else {
+        const errors = {}
+        listValidators.array().forEach(err => {
+            errors[err.param] = err.msg
+        });
+
+        return res.json({ errors });
+    }
+
+}));
+
+
 
 
 module.exports = router;
