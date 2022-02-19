@@ -16,6 +16,38 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     defaultLists.addEventListener('click', async (e) => {
 
+        const taskSearchButton = document.getElementById('task-search-button')
+        const taskSearchForm = document.querySelector('.search-form')
+        taskSearchForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const taskSearchInput = document.getElementById('task-search-input')
+            console.log("taskSearchInput value", taskSearchInput)
+
+            let input = taskSearchInput.value
+            console.log("user input: ", input)
+
+            // // input = input.toLowerCase();
+
+            const res = await fetch(`/lists/${userId}/tasks/search`);
+            const userTasks = await res.json()
+            // console.log("User Tasks", userTasks)
+            console.log("userTasks . userTasks", userTasks.userTasks)
+            const filteredTasks = userTasks.userTasks.filter((task) => {
+                task.title.includes(input)
+                //  || task.description.includes(input)
+            })
+
+            const taskListAllLi = document.querySelectorAll('.task-list > li')
+            console.log("Task List", taskListAllLi)
+            taskListAllLi.forEach((task) => {
+                task.remove()
+            })
+            const taskList = document.querySelector('.task-list')
+
+            console.log("filtered tasks", filteredTasks)
+            // taskList.append(filteredTasks)
+        })
+
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
@@ -58,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                                 "Content-Type": "application/json"
                             },
                             body: {
-                                
+
 
                             }
 
