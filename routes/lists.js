@@ -31,6 +31,14 @@ router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next
     return res.json({ userTasks })
 }));
 
+router.get('/:userId(\\d+)/tasks/search', checkUser, asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const userTasks = await Task.findAll({
+        where: { userId: userId }
+    });
+    return res.json({ userTasks })
+}));
+
 router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const userLists = await List.findAll({
