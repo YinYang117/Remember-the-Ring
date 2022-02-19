@@ -41,9 +41,9 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
 }));
 
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId, 10);
     res.clearCookie('listId');
-
+    
     const today = new Date();
 
     const tasksToday = await Task.findAll({
