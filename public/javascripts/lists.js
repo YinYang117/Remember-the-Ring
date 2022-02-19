@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     // const res = await fetch(`/lists/info/${userId}`);
     // const userInfo = await res.json();
-
-
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
