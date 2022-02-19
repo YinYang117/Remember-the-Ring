@@ -134,6 +134,7 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     const { title, description, experienceReward, listId, dueDate, dueTime } = req.body;
     const userId = req.params.userId;
     const userIdParsed = parseInt(userId, 10);
+
     const newTask = await Task.create({
         title,
         description,
@@ -141,12 +142,12 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
         completed: false,
         listId,
         userId: userIdParsed,
-        dueDate,
-        dueTime
+        dueDate: dueDate || null,
+        dueTime: dueTime || null
     });
 
     console.log(newTask, 'New task created!')
-    return
+    res.redirect(`/lists/${userId}`);
 }))
 
 
@@ -195,7 +196,9 @@ router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(as
         return res.json({ errors });
     }
 
-}))
+}));
+
+
 
 
 module.exports = router;

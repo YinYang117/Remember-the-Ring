@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <form id="form-edit">
-                            <input type="text" name="title" placeholder="title" id="task-name-edit" value=${updateTaskValues.task.title}>
+                            <input type="text" name="title" placeholder="title" id="task-name-edit" value="${updateTaskValues.task.title}">
                             <input type='text' name="description" placeholder="description" id="task-description-edit" value=${updateTaskValues.task.description}>
                             <div class="date-time-edit-container">
                                 <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
@@ -128,6 +128,11 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         }
     });
 
+
+
+
+
+
     const userMadeLists = document.querySelector(".user-made-lists-container")
 
     userMadeLists.addEventListener('click', async e => {
@@ -194,21 +199,93 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     });
 
                     const taskCreate = await taskCreateRes.json();
-                    
-                    if (taskCreate.errors) {
-                        newListError.innerHTML = taskCreate.errors.title
-                    } else {
-                        hidePopUp.remove();
-                        const newListElement = document.createElement('li')
-                        newListElement.innerHTML = taskCreate.newList.title;
-                        userMadeLists.append(newListElement)
-                    }
 
-        
+                    if (taskCreate.errors) return newListError.innerHTML = taskCreate.errors.title
+
+                    hidePopUp.remove();
+                    const newListElement = document.createElement('li')
+                    newListElement.innerHTML = taskCreate.newList.title;
+                    userMadeLists.append(newListElement)
+
+
+                    // TODO BREAK THIS DOWN INTO A FUNCTION
+                    
+                    newListElem.addEventListener('click', async (e) => {
+                        const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
+                        const userInfo = await res.json();
+                        userInfo.userTasks.forEach(elem => {
+                            const anchor = document.createElement('a')
+                            const li = document.createElement('li');
+                            anchor.append(li)
+                            const taskArea = document.querySelector('.task-list')
+                            li.innerHTML = elem.title
+                            li.id = elem.id
+                            taskArea.append(li);
+                            li.addEventListener('click', async (event) => {
+                                const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
+                                const updateTaskValues = await updateTaskValuesRes.json();
+                                const taskEditArea = document.querySelector(".task-edit-area")
+                                taskEditArea.innerHTML = `
+                                        <div class="task-edit-div">
+                                            <form id="form-edit">
+                                                <input type="text" name="title" placeholder="title" id="task-name-edit" value="${updateTaskValues.task.title}">
+                                                <input type='text' name="description" placeholder="description" id="task-description-edit" value=${updateTaskValues.task.description}>
+                                                <div class="date-time-edit-container">
+                                                    <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
+                                                    <input type="time" name="dueTime" id="task-time-edit" value=${updateTaskValues.task.dueTime}>
+                                                    <input type="number" name="experienceReward" placeholder="xp" id="task-exp-edit" value=${updateTaskValues.task.experienceReward}>
+                                                </div>
+                                                <button class="task-edit-update-button">Update</button>
+                                                <button class="task-edit-delete-button">Delete</button>
+                                            </form>
+                                        </div>`
+                                const updateBtn = document.querySelector('.task-edit-update-button');
+                                updateBtn.addEventListener('click', async (e) => {
+                                    e.preventDefault();
+                                    const titleValue = document.getElementById("task-name-edit").value;
+                                    const descriptionValue = document.getElementById("task-description-edit").value;
+                                    const dateValue = document.getElementById("task-date-edit").value;
+                                    const timeValue = document.getElementById("task-time-edit").value || null;
+                                    const experienceValue = document.getElementById("task-exp-edit").value;
+
+                                    const res = await fetch(`/tasks/${elem.id}`, {
+                                        method: "PUT",
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                            title: titleValue,
+                                            description: descriptionValue,
+                                            experienceReward: experienceValue,
+                                            dueDate: dateValue,
+                                            dueTime: timeValue
+                                        })
+                                    })
+                                    const updatedRes = await res.json();
+                                    event.target.innerHTML = updatedRes.updatedTask.title;
+
+                                })
+
+                                const deleteBtn = document.querySelector('.task-edit-delete-button');
+                                deleteBtn.addEventListener('click', async (e) => {
+                                    e.stopImmediatePropagation();
+                                    e.preventDefault();
+                                    li.remove();
+                                    taskEditArea.innerHTML = '';
+                                    const res = await fetch(`/tasks/${elem.id}`, { method: 'DELETE' });
+                                })
+                            })
+                        })
+                    })
+                    // ABOVE THIS IS WHEN THE IMPORTED CODE STARTS
+
+
+
+
                 } catch {
-                    newListError.innerHTML = taskCreate.errors.title
+                    console.log('yo')
                 }
-                
+
             });
 
         }
@@ -219,3 +296,74 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     });
 
 })
+
+
+
+// newListElem.addEventListener('click', async (e) => {
+//     const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
+//     const userInfo = await res.json();
+//     userInfo.userTasks.forEach(elem => {
+//         const anchor = document.createElement('a')
+//         const li = document.createElement('li');
+//         anchor.append(li)
+//         const taskArea = document.querySelector('.task-list')
+//         li.innerHTML = elem.title
+//         li.id = elem.id
+//         taskArea.append(li);
+//         li.addEventListener('click', async (event) => {
+//             const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
+//             const updateTaskValues = await updateTaskValuesRes.json();
+//             const taskEditArea = document.querySelector(".task-edit-area")
+//             taskEditArea.innerHTML = `
+//                     <div class="task-edit-div">
+//                         <form id="form-edit">
+//                             <input type="text" name="title" placeholder="title" id="task-name-edit" value="${updateTaskValues.task.title}">
+//                             <input type='text' name="description" placeholder="description" id="task-description-edit" value=${updateTaskValues.task.description}>
+//                             <div class="date-time-edit-container">
+//                                 <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
+//                                 <input type="time" name="dueTime" id="task-time-edit" value=${updateTaskValues.task.dueTime}>
+//                                 <input type="number" name="experienceReward" placeholder="xp" id="task-exp-edit" value=${updateTaskValues.task.experienceReward}>
+//                             </div>
+//                             <button class="task-edit-update-button">Update</button>
+//                             <button class="task-edit-delete-button">Delete</button>
+//                         </form>
+//                     </div>`
+
+//             const updateBtn = document.querySelector('.task-edit-update-button');
+//             updateBtn.addEventListener('click', async (e) => {
+//                 e.preventDefault();
+//                 const titleValue = document.getElementById("task-name-edit").value;
+//                 const descriptionValue = document.getElementById("task-description-edit").value;
+//                 const dateValue = document.getElementById("task-date-edit").value;
+//                 const timeValue = document.getElementById("task-time-edit").value || null;
+//                 const experienceValue = document.getElementById("task-exp-edit").value;
+
+//                 const res = await fetch(`/tasks/${elem.id}`, {
+//                     method: "PUT",
+//                     headers: {
+//                         "Content-Type": "application/json"
+//                     },
+//                     body: JSON.stringify({
+//                         title: titleValue,
+//                         description: descriptionValue,
+//                         experienceReward: experienceValue,
+//                         dueDate: dateValue,
+//                         dueTime: timeValue
+//                     })
+//                 })
+//                 const updatedRes = await res.json();
+//                 event.target.innerHTML = updatedRes.updatedTask.title;
+
+//             })
+
+//             const deleteBtn = document.querySelector('.task-edit-delete-button');
+//             deleteBtn.addEventListener('click', async (e) => {
+//                 e.stopImmediatePropagation();
+//                 e.preventDefault();
+//                 li.remove();
+//                 taskEditArea.innerHTML = '';
+//                 const res = await fetch(`/tasks/${elem.id}`, { method: 'DELETE' });
+//             })
+//         })
+//     })
+// })
