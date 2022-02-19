@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     const taskSearchButton = document.getElementById('task-search-button')
     const taskSearchForm = document.querySelector('.search-form')
 
+
+    // SEARCH FORM CODE
     taskSearchForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const taskSearchInput = document.getElementById('task-search-input')
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         })
     })
 
+    // CODE FOR DEAULT LISTS
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
@@ -327,6 +330,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     const userMadeLists = document.querySelector(".user-made-lists-container")
 
+    // CODE FOR CREATING NEW LISTS
     userMadeLists.addEventListener('click', async e => {
 
         if (e.target.id === 'new-list-button') {
@@ -371,17 +375,17 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             hidePopUp.append(newListWindow);
 
 
-
+            // REMOVES POP UP WINDOW
             hidePopUp.addEventListener('click', e => {
                 event.preventDefault();
                 if (e.target.className === 'hide-pop-up' || e.target.className === 'cancel-list-submit') hidePopUp.remove();
             });
 
-
+            // FORM SUBMIT FOR POP UP WINDOW TO CREATE NEW LIST
             newListForm.addEventListener('submit', async e => {
                 e.preventDefault();
                 try {
-
+                    // FETCH REQUEST TO CREATE NEW LIST
                     const taskCreateRes = await fetch(`/lists/${userId}/lists`, {
                         method: 'post',
                         credentials: 'include',
@@ -398,10 +402,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     hidePopUp.remove();
                     const newListElement = document.createElement('li')
                     newListElement.innerHTML = taskCreate.newList.title;
-                    userMadeLists.append(newListElement)
+                    
+                    const listElementDiv = document.createElement('div');
+                    const listUl = document.getElementById('user-made-lists')
+                    listElementDiv.className = 'user-li-div'
+                    listElementDiv.append(newListElement);
+                    listUl.append(listElementDiv)
 
                     // TODO BREAK THIS DOWN INTO A FUNCTION
-                    newListElement.addEventListener('click', async (e) => {
+                    // ADDS EVENT LISTENER TO LIST TO DISPLAY TASKS ON CLICK
+                    listElementDiv.addEventListener('click', async (e) => {
                         const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
                         const newListTasks = await res.json();
 
@@ -536,14 +546,17 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     allUserLists.userLists.forEach(elem => {
 
         // SELECTS UL AND CREATES LI TO APPEND CURRENT LISTS TITLE TO UL
-        const listLi = document.createElement('li');
-        const userListsUl = document.getElementById('user-made-lists');
-        listLi.innerHTML = elem.title
-        userListsUl.append(listLi);
+        const newListElement = document.createElement('li')
+        newListElement.innerHTML = elem.title
+        const listElementDiv = document.createElement('div');
+        const listUl = document.getElementById('user-made-lists')
+        listElementDiv.className = 'user-li-div'
+        listElementDiv.append(newListElement);
+        listUl.append(listElementDiv)
 
 
         // ADDS EVENT LISTENER TO CURRENT LIST
-        listLi.addEventListener('click', async (e) => {
+        listElementDiv.addEventListener('click', async (e) => {
 
             // CHANGES URL
             // window.history.pushState({}, "Title", `/lists/${userId}/lists/${elem.id}`);

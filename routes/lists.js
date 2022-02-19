@@ -43,7 +43,7 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = parseInt(req.params.userId, 10);
     res.clearCookie('listId');
-    
+
     const today = new Date();
 
     const tasksToday = await Task.findAll({
@@ -222,6 +222,18 @@ router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(as
     }
 
 }));
+
+router.post('/:userId/lists', checkUser, newListValidator, asyncHandler(async (req, res, next) => {
+    const { title } = req.body;
+    const { listId } = req.cookies
+    const updatedList = await List.findByPk(listId);
+
+    updatedList.title = title;
+
+    await updatedList.save();
+    
+    return res.json({ updatedList });
+}))
 
 
 
