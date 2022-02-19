@@ -325,6 +325,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 experienceReward: experienceReward.value
             })
         });
+        const taskCreate = await taskCreateRes.json();
+
+        // TODO ADD VALIDATION FOR BLANK TITLE
+        // if (taskCreate.errors) return newListError.innerHTML = taskCreate.errors.title
+
+        const newListElement = document.createElement('li')
+        const taskArea = document.querySelector('.task-list')
+        newListElement.innerHTML = taskCreate.newTask.title;
+        taskArea.append(newListElement);
+        console.log('hey')
     })
 
     // GETS ALL LISTS ASSOCIATED WITH CURRENT USER
