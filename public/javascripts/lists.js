@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         })
     })
 
-
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
@@ -88,7 +87,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                                 dueTime: timeValue
                             })
                         })
-
                     })
 
                     const deleteBtn = document.querySelector('.task-edit-delete-button');
