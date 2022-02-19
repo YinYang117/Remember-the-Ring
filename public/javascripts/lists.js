@@ -1,7 +1,3 @@
-
-
-
-
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
@@ -12,41 +8,40 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
+    const taskSearchButton = document.getElementById('task-search-button')
+    const taskSearchForm = document.querySelector('.search-form')
+
+    taskSearchForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const taskSearchInput = document.getElementById('task-search-input')
+        console.log("taskSearchInput value", taskSearchInput)
+
+        let input = taskSearchInput.value
+        console.log("user input: ", input)
+
+        // // input = input.toLowerCase();
+
+        const res = await fetch(`/lists/${userId}/tasks/search/${input}`);
+        const userTasks = await res.json()
+        // console.log("User Tasks", userTasks)
+        console.log("userTasks . userTasks", userTasks.userTasks)
+        // const listChildren = document.childNodes(.)
+        const taskListAllLi = document.querySelectorAll('.task-list > li')
+        console.log("Task List all li's", taskListAllLi)
+        taskListAllLi.forEach((task) => {
+            task.remove()
+        })
+        const taskList = document.querySelector('.task-list')
+
+        userTasks.userTasks.forEach((task) => {
+            const li = document.createElement('li')
+            li.innerHTML = task.title 
+            taskList.append(li)
+        })
+    })
 
 
     defaultLists.addEventListener('click', async (e) => {
-
-        const taskSearchButton = document.getElementById('task-search-button')
-        const taskSearchForm = document.querySelector('.search-form')
-        taskSearchForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const taskSearchInput = document.getElementById('task-search-input')
-            console.log("taskSearchInput value", taskSearchInput)
-
-            let input = taskSearchInput.value
-            console.log("user input: ", input)
-
-            // // input = input.toLowerCase();
-
-            const res = await fetch(`/lists/${userId}/tasks/search/${input}`);
-            const userTasks = await res.json()
-            // console.log("User Tasks", userTasks)
-            console.log("userTasks . userTasks", userTasks.userTasks)
-            // const listChildren = document.childNodes(.)
-            const taskListAllLi = document.querySelectorAll('.task-list > li')
-            console.log("Task List all li's", taskListAllLi)
-            taskListAllLi.forEach((task) => {
-                task.remove()
-            })
-            const taskList = document.querySelector('.task-list')
-
-            userTasks.userTasks.forEach((task) => {
-                const li = document.createElement('li')
-                li.innerHTML = task.title 
-                taskList.append(li)
-            })
-        })
-
         if (e.target.id === 'all-tasks') {
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
@@ -82,17 +77,18 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         const dateValue = document.getElementById("task-date-edit").value;
                         const timeValue = document.getElementById("task-time-edit").value;
                         const experienceValue = document.getElementById("task-exp-edit").value;
-
                         const res = await fetch(`/tasks/${elem.id}`, {
                             method: "PUT",
                             headers: {
                                 "Content-Type": "application/json"
                             },
-                            body: {
-
-
-                            }
-
+                            body: JSON.stringify({
+                                title: titleValue,
+                                description: descriptionValue,
+                                experienceReward: experienceValue,
+                                dueDate: dateValue,
+                                dueTime: timeValue
+                            })
                         })
 
                     })
