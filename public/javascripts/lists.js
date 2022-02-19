@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         userTasks.userTasks.forEach((task) => {
             const li = document.createElement('li')
-            li.innerHTML = task.title 
+            li.innerHTML = task.title
             taskList.append(li)
         })
     })
@@ -70,6 +70,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+
+                    function handleInput(e) {
+                        li.innerHTML = e.target.value;
+                    }
+
+                    titleInput.oninput = handleInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -139,6 +147,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+
+                    function handleInput(e) {
+                        li.innerHTML = e.target.value;
+                    }
+
+                    titleInput.oninput = handleInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -210,6 +226,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         </form>
                     </div>`
 
+                    const titleInput = document.querySelector('#task-name-edit');
+
+                    function handleInput(e) {
+                        li.innerHTML = e.target.value;
+                    }
+
+                    titleInput.oninput = handleInput;
+
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
                         e.preventDefault();
@@ -279,6 +303,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+
+                    function handleInput(e) {
+                        li.innerHTML = e.target.value;
+                    }
+
+                    titleInput.oninput = handleInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -551,7 +583,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             // GETS ALL TASKS ASSOCIATED WITH CURRENT LIST ITERATIONS ID
             const res = await fetch(`/lists/${userId}/lists/${elem.id}/tasks`);
             const listRes = await res.json();
-            
+
             console.log(listRes);
 
             // CLEARS ALL TASKS FROM TASK LIST
