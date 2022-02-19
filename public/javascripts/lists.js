@@ -28,24 +28,23 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
             // // input = input.toLowerCase();
 
-            const res = await fetch(`/lists/${userId}/tasks/search`);
+            const res = await fetch(`/lists/${userId}/tasks/search/${input}`);
             const userTasks = await res.json()
             // console.log("User Tasks", userTasks)
             console.log("userTasks . userTasks", userTasks.userTasks)
-            const filteredTasks = userTasks.userTasks.filter((task) => {
-                task.title.includes(input)
-                //  || task.description.includes(input)
-            })
-
+            // const listChildren = document.childNodes(.)
             const taskListAllLi = document.querySelectorAll('.task-list > li')
-            console.log("Task List", taskListAllLi)
+            console.log("Task List all li's", taskListAllLi)
             taskListAllLi.forEach((task) => {
                 task.remove()
             })
             const taskList = document.querySelector('.task-list')
 
-            console.log("filtered tasks", filteredTasks)
-            // taskList.append(filteredTasks)
+            userTasks.userTasks.forEach((task) => {
+                const li = document.createElement('li')
+                li.innerHTML = task.title 
+                taskList.append(li)
+            })
         })
 
         if (e.target.id === 'all-tasks') {
