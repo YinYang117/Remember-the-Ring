@@ -4,12 +4,40 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     // const res = await fetch(`/lists/info/${userId}`);
     // const userInfo = await res.json();
-
-
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
+    const taskSearchButton = document.getElementById('task-search-button')
+    const taskSearchForm = document.querySelector('.search-form')
 
+    taskSearchForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const taskSearchInput = document.getElementById('task-search-input')
+        console.log("taskSearchInput value", taskSearchInput)
+
+        let input = taskSearchInput.value
+        console.log("user input: ", input)
+
+        // // input = input.toLowerCase();
+
+        const res = await fetch(`/lists/${userId}/tasks/search/${input}`);
+        const userTasks = await res.json()
+        // console.log("User Tasks", userTasks)
+        console.log("userTasks . userTasks", userTasks.userTasks)
+        // const listChildren = document.childNodes(.)
+        const taskListAllLi = document.querySelectorAll('.task-list > li')
+        console.log("Task List all li's", taskListAllLi)
+        taskListAllLi.forEach((task) => {
+            task.remove()
+        })
+        const taskList = document.querySelector('.task-list')
+
+        userTasks.userTasks.forEach((task) => {
+            const li = document.createElement('li')
+            li.innerHTML = task.title 
+            taskList.append(li)
+        })
+    })
 
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
@@ -51,7 +79,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         const dateValue = document.getElementById("task-date-edit").value;
                         const timeValue = document.getElementById("task-time-edit").value || null;
                         const experienceValue = document.getElementById("task-exp-edit").value;
-
                         const res = await fetch(`/tasks/${elem.id}`, {
                             method: "PUT",
                             headers: {
