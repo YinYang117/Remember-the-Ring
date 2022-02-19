@@ -65,13 +65,11 @@ div(class='page-container')
                         div(id="exp")
                     div(class="task-summaries")
                         div(id="unfinished-tasks-box")
-                            | 0
-                            br
-                            | Tasks
+                            span(id='unfinished-tasks-num')
+                            span unfinished
                         div(id="finished-tasks-box")
-                            | 0
-                            br
-                            | completed
+                            span(id='finished-tasks-num')
+                            span completed
                     span(class="finished-tasks-container")
                         ul(id="finished-tasks-list") Finished Tasks
                             li ex 1

@@ -124,8 +124,11 @@ router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, n
 
 router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
     const listId = req.params.listId;
+
     const taskList = await Task.findAll({
-        where: { listId: listId }
+        where: {
+            listId: listId
+        }
     });
     return res.json({ taskList })
 }));
