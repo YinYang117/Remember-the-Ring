@@ -40,21 +40,18 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
 }));
 
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId, 10);
 
-    const today = new Date()
-    const year = today.getFullYear().toString;
-    const month = (today.getMonth() + 1).toString();
-    const date = today.getDate().toString();
-    const fulldate = [year, month, date];
-    const dbFormatedDate = fulldate.join('-');
+    const today = new Date();
 
     const tasksToday = await Task.findAll({
         where: {
-            [Op.and]: [{ userId: userId }, { dueDate: dbFormatedDate }]
+            userId: userId,
+            dueDate: today
         },
         order: [['dueTime', 'ASC']]
     })
+    console.log('Over Here!!!!!!!!!!!!!!!', tasksToday)
 
     return res.json({ tasksToday });
 }));
@@ -62,16 +59,13 @@ router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
 router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = req.params.userId;
 
-    const today = new Date()
-    const year = today.getFullYear().toString;
-    const month = (today.getMonth() + 1).toString();
-    const dateTomorrow = (today.getDate() + 1).toString();
-    const fulldate = [year, month, dateTomorrow];
-    const dbFormatedDate = fulldate.join('-');
+    const todayMillis = Date.now();
+
+    const tomorrow = new Date(todayMillis + 86400000);
 
     const tasksTomorrow = await Task.findAll({
         where: {
-            [Op.and]: [{ userId: userId }, { dueDate: dbFormatedDate }]
+            [Op.and]: [{ userId: userId }, { dueDate: tomorrow }]
         },
         order: [['dueTime', 'ASC']]
     })
@@ -81,35 +75,54 @@ router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
 
 router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = req.params.userId;
-    const tasksArray = [];
 
-    const today = new Date()
-    const todaysInteger = today.getDate();
-    const dayInteger = today.getDay();
-    const nextSunday = todaysInteger + (7 - dayInteger)
+    const today = new Date();
 
-    const dateFormatter = (date) => {
-        const year = date.getFullYear().toString;
-        const month = (date.getMonth() + 1).toString();
-        const currentDay = date.getDate().toString();
-        const fulldate = [year, month, currentDay];
-        const dbFormatedDate = fulldate.join('-');
-        return dbFormatedDate;
-    }
+    const todayMillis = Date.now();
 
-    for (let i = 0; i < (7 - today.getDay()); i++) {
-        let iDay = dateFormatter(today + i)
-        let tasks = await Task.findAll({
-            where: {
-                [Op.and]: [{ userId: userId }, { dueDate: iDay }]
-            },
-            order: [['dueTime', 'ASC']]
-        })
-        tasksArray.push(...tasks)
-    }
-    console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
+    const currentDayOfWeek = today.getDay();
 
-    return res.json({tasksArray})
+    const remainingDays = 6 - currentDayOfWeek;
+
+    const saturday = new Date(remainingDays * 86400000 + todayMillis)
+
+    const tasksWeek = await Task.findAll({
+        where: {
+            userId: userId,
+            dueDate: {
+                [Op.between]: [today, saturday]
+            }
+        },
+        order: [['dueDate', 'ASC']]
+    });
+
+    // const today = new Date()
+    // const todaysInteger = today.getDate();
+    // const dayInteger = today.getDay();
+    // const nextSunday = todaysInteger + (7 - dayInteger)
+
+    // const dateFormatter = (date) => {
+    //     const year = date.getFullYear().toString;
+    //     const month = (date.getMonth() + 1).toString();
+    //     const currentDay = date.getDate().toString();
+    //     const fulldate = [year, month, currentDay];
+    //     const dbFormatedDate = fulldate.join('-');
+    //     return dbFormatedDate;
+    // }
+
+    // for (let i = 0; i < (7 - today.getDay()); i++) {
+    //     let iDay = dateFormatter(today + i)
+    //     let tasks = await Task.findAll({
+    //         where: {
+    //             [Op.and]: [{ userId: userId }, { dueDate: iDay }]
+    //         },
+    //         order: [['dueTime', 'ASC']]
+    //     })
+    //     tasksArray.push(...tasks)
+    // }
+    // console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
+
+    return res.json({ tasksWeek: tasksWeek });
 }));
 
 
