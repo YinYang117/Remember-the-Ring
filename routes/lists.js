@@ -59,16 +59,13 @@ router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
 router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = req.params.userId;
 
-    const today = new Date()
-    const year = today.getFullYear().toString;
-    const month = (today.getMonth() + 1).toString();
-    const dateTomorrow = (today.getDate() + 1).toString();
-    const fulldate = [year, month, dateTomorrow];
-    const dbFormatedDate = fulldate.join('-');
+    const todayMillis = Date.now();
+
+    const tomorrow = new Date(todayMillis + 86400000);
 
     const tasksTomorrow = await Task.findAll({
         where: {
-            [Op.and]: [{ userId: userId }, { dueDate: dbFormatedDate }]
+            [Op.and]: [{ userId: userId }, { dueDate: tomorrow }]
         },
         order: [['dueTime', 'ASC']]
     })
