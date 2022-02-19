@@ -40,21 +40,18 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
 }));
 
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId, 10);
 
-    const today = new Date()
-    const year = today.getFullYear().toString;
-    const month = (today.getMonth() + 1).toString();
-    const date = today.getDate().toString();
-    const fulldate = [year, month, date];
-    const dbFormatedDate = fulldate.join('-');
+    const today = new Date();
 
     const tasksToday = await Task.findAll({
         where: {
-            [Op.and]: [{ userId: userId }, { dueDate: dbFormatedDate }]
+            userId: userId,
+            dueDate: today
         },
         order: [['dueTime', 'ASC']]
     })
+    console.log('Over Here!!!!!!!!!!!!!!!', tasksToday)
 
     return res.json({ tasksToday });
 }));
