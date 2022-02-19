@@ -14,27 +14,13 @@ router.put('/:taskId(\\d+)', asyncHandler(async (req, res) => {
     const taskId = parseInt(req.params.taskId, 10);
     const updatedTask = await Task.findByPk(taskId);
 
-
     updatedTask.title = title;
-
-
-
     updatedTask.description = description;
-
-
-
     updatedTask.experienceReward = experienceReward;
-
-
-
     updatedTask.dueDate = dueDate;
-
-
-
     updatedTask.dueTime = dueTime;
 
     await updatedTask.save();
-    console.log('Over Here!!!!!!!!!!!!!!', updatedTask)
     return res.json({ updatedTask: updatedTask });
 }));
 
