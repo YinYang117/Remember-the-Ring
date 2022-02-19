@@ -24,6 +24,7 @@ router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
 }));
 
 router.get('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
+    res.clearCookie('listId');
     const userId = req.params.userId;
     const userTasks = await Task.findAll({
         where: { userId: userId }
@@ -41,6 +42,7 @@ router.get('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next
 
 router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = req.params.userId;
+    res.clearCookie('listId');
 
     const today = new Date()
     const year = today.getFullYear().toString;
@@ -61,6 +63,7 @@ router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
 
 router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
     const userId = req.params.userId;
+    res.clearCookie('listId');
 
     const today = new Date()
     const year = today.getFullYear().toString;
@@ -80,6 +83,7 @@ router.get('/tomorrow/:userId(\\d+)', asyncHandler(async (req, res) => {
 }));
 
 router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
+    res.clearCookie('listId');
     const userId = req.params.userId;
     const tasksArray = [];
 
@@ -130,13 +134,18 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(a
             listId: listId
         }
     });
+    
+    res.cookie('listId', listId, {httpOnly: true, secure: true})
     return res.json({ taskList })
 }));
 
 router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, next) => {
-    const { title, description, experienceReward, listId, dueDate, dueTime } = req.body;
+    const { title, description, experienceReward, dueDate, dueTime } = req.body;
+    const { listId } = req.cookies;
     const userId = req.params.userId;
     const userIdParsed = parseInt(userId, 10);
+
+    console.log("########## MADE IT", listId)
 
     const newTask = await Task.create({
         title,
@@ -150,7 +159,7 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     });
 
     console.log(newTask, 'New task created!')
-    res.redirect(`/lists/${userId}`);
+    res.json({ newTask })
 }))
 
 

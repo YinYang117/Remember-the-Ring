@@ -138,6 +138,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     userMadeLists.addEventListener('click', async e => {
 
         if (e.target.id === 'new-list-button') {
+
             const newListWindow = document.createElement('div');
             const hidePopUp = document.createElement('div');
             const pageContainer = document.querySelector('.page-container');
@@ -209,8 +210,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     // TODO BREAK THIS DOWN INTO A FUNCTION
                     newListElement.addEventListener('click', async (e) => {
-                        // {"html": response.html, "pageTitle": response.pageTitle}, "", urlPath)
-                        window.history.pushState({ "pageTitle": "YOOOOOO" }, "Title", "/HEY!");
                         document.URL = `/lists/${userId}/lists/${taskCreate.newList.id}`
                         const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
                         const newListTasks = await res.json();
@@ -299,32 +298,79 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     });
 
+
+
+
+    // LISTENER FUNCTION FOR NEW TASK FORM
+    const newTaskForm = document.getElementById('new-task-form');
+
+    newTaskForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('task-name-input');
+        const description = document.getElementById('task-description-input');
+        const dueDate = document.getElementById('task-date-input');
+        const dueTime = document.getElementById('task-time-input');
+        const experienceReward = document.getElementById('task-exp-input');
+        console.log(title);
+        const taskCreateRes = await fetch(`/lists/${userId}/tasks`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title.value,
+                description: description.value,
+                dueDate: dueDate.value,
+                dueTime: dueTime.value,
+                experienceReward: experienceReward.value
+            })
+        });
+    })
+
+    // GETS ALL LISTS ASSOCIATED WITH CURRENT USER
     const allUserListsRes = await fetch(`/lists/${userId}/lists`);
     const allUserLists = await allUserListsRes.json();
 
+    // BEGINS LOOPING THROUGH EACH LIST TO ADD EVENT LISTENERS
     allUserLists.userLists.forEach(elem => {
+
+        // SELECTS UL AND CREATES LI TO APPEND CURRENT LISTS TITLE TO UL
         const listLi = document.createElement('li');
         const userListsUl = document.getElementById('user-made-lists');
         listLi.innerHTML = elem.title
         userListsUl.append(listLi);
 
-        const unfinishedCounter = 0;
-        if (!elem.completed) unfinishedCounter++;
-        const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
-        unfinishedTasksNum.innerHTML = counter
 
-
+        // ADDS EVENT LISTENER TO CURRENT LIST
         listLi.addEventListener('click', async (e) => {
-            window.history.pushState({}, "Title", `/lists/${userId}/lists/${elem.id}`);
-            const res = await fetch(`/lists/${userId}/lists/${elem.id}/tasks`);
-            const newListTasks = await res.json();
 
+            // CHANGES URL
+            // window.history.pushState({}, "Title", `/lists/${userId}/lists/${elem.id}`);
+
+            // GETS ALL TASKS ASSOCIATED WITH CURRENT LIST ITERATIONS ID
+            const res = await fetch(`/lists/${userId}/lists/${elem.id}/tasks`);
+            const listRes = await res.json();
+            
+            console.log(listRes);
+
+            // CLEARS ALL TASKS FROM TASK LIST
             const taskListAllLi = document.querySelectorAll('.task-list > li')
             taskListAllLi.forEach((task) => {
                 task.remove()
             })
 
-            newListTasks.taskList.forEach(elem => {
+            //COUNTER FOR UNFINISHED TASKS
+            let unfinishedCounter = 0;
+
+            // ITERATES THROUGH EACH TASK FROM THE CURRENT LIST
+            listRes.taskList.forEach(elem => {
+                // CHECKS IF TASK IS COMPLETED AND CHANGES UNFINISHED TASK COUNT
+                // TODO ---- STOP COMPLETED TASKS FROM DISPLAYING
+                if (!elem.completed) unfinishedCounter++;
+                const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+                unfinishedTasksNum.innerHTML = unfinishedCounter;
+                console.log(unfinishedCounter);
+
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
@@ -390,7 +436,11 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         })
     });
 
-})
+
+
+
+});
+
 
 
 
