@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     };
 
                     function handleTimeInput(e) {
-                        timeSpan.innerHTML = e.target.value;
+                        timeSpan.innerHTML = ` ${e.target.value}`;
                     };
 
                     titleInput.oninput = handleTitleInput;
