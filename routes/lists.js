@@ -129,7 +129,19 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     return res.json({ tasksWeek: tasksWeek });
 }));
 
-
+router.get('/:userId(\\d+)/tasks/search/:searchInput', checkUser, asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const searchTerm = req.params.searchInput
+    const userTasks = await Task.findAll({
+        where: {
+            userId: userId,
+            title: {
+                [Op.substring]: searchTerm 
+            }
+        }
+    });
+    return res.json({ userTasks })
+}));
 
 router.get('/:userId(\\d+)/tasks/:taskId(\\d+)', asyncHandler(async (req, res, next) => {
     const taskId = req.params.taskId
