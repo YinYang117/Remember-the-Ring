@@ -118,8 +118,9 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
 router.get('/login', csrfProtection, (req, res, next) => {
 
-  const { userId } = req.session.auth;
-  if (userId) {
+  
+  if (req.session.auth) {
+    const { userId } = req.session.auth;
     res.redirect(`/lists/${userId}`);
   } else {
     res.render('login', {
