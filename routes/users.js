@@ -152,14 +152,19 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
   if (validationErrors.isEmpty()) {
     const user = await User.findOne({ where: { email } });
-    const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
-    if (passwordMatch && user) {
-      loginUser(req, res, user);
+    
+    if (user) {
+      const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
 
-      req.session.save(() => {
-        res.redirect(`/lists/${user.id}`);
-      });
-      return
+      if (passwordMatch) {
+        loginUser(req, res, user);
+
+        req.session.save(() => {
+          res.redirect(`/lists/${user.id}`);
+        });
+        return
+      }
+
     }
     loginErrors.push('Login failed, please try again')
   } else {
