@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
