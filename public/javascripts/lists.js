@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = elem.title
+                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -76,6 +76,22 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+                    const timeInput = document.querySelector('#task-time-edit');
+                    const titleSpan = document.querySelector(`#title-${elem.id}`);
+                    const timeSpan = document.querySelector(`#dueTime-${elem.id}`);
+
+                    function handleTitleInput(e) {
+                        titleSpan.innerHTML = e.target.value;
+                    };
+
+                    function handleTimeInput(e) {
+                        timeSpan.innerHTML = ` ${e.target.value}`;
+                    };
+
+                    titleInput.oninput = handleTitleInput;
+                    timeInput.oninput = handleTimeInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -99,6 +115,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -124,7 +141,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = el.title
+                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime}</span></div>`
                 li.id = el.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -145,6 +162,22 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+                    const timeInput = document.querySelector('#task-time-edit');
+                    const titleSpan = document.querySelector(`#title-${el.id}`);
+                    const timeSpan = document.querySelector(`#dueTime-${el.id}`);
+
+                    function handleTitleInput(e) {
+                        titleSpan.innerHTML = e.target.value;
+                    };
+
+                    function handleTimeInput(e) {
+                        timeSpan.innerHTML = ` ${e.target.value}`;
+                    };
+
+                    titleInput.oninput = handleTitleInput;
+                    timeInput.oninput = handleTimeInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -169,6 +202,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -194,7 +228,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = el.title
+                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime}</span></div>`
                 li.id = el.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -215,6 +249,22 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+                    const timeInput = document.querySelector('#task-time-edit');
+                    const titleSpan = document.querySelector(`#title-${el.id}`);
+                    const timeSpan = document.querySelector(`#dueTime-${el.id}`);
+
+                    function handleTitleInput(e) {
+                        titleSpan.innerHTML = e.target.value;
+                    };
+
+                    function handleTimeInput(e) {
+                        timeSpan.innerHTML = ` ${e.target.value}`;
+                    };
+
+                    titleInput.oninput = handleTitleInput;
+                    timeInput.oninput = handleTimeInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -239,6 +289,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -264,7 +315,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a');
                 const li = document.createElement('li');
                 anchor.append(li);
-                li.innerHTML = el.title;
+                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime}</span></div>`
                 li.id = el.id;
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -285,6 +336,22 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             <button class="task-edit-delete-button">Delete</button>
                         </form>
                     </div>`
+
+                    const titleInput = document.querySelector('#task-name-edit');
+                    const timeInput = document.querySelector('#task-time-edit');
+                    const titleSpan = document.querySelector(`#title-${el.id}`);
+                    const timeSpan = document.querySelector(`#dueTime-${el.id}`);
+
+                    function handleTitleInput(e) {
+                        titleSpan.innerHTML = e.target.value;
+                    };
+
+                    function handleTimeInput(e) {
+                        timeSpan.innerHTML = ` ${e.target.value}`;
+                    };
+
+                    titleInput.oninput = handleTitleInput;
+                    timeInput.oninput = handleTimeInput;
 
                     const updateBtn = document.querySelector('.task-edit-update-button');
                     updateBtn.addEventListener('click', async (e) => {
@@ -309,6 +376,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
