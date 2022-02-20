@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-element">${elem.title}</span><span id="dueTime-element">  ${elem.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     const titleInput = document.querySelector('#task-name-edit');
                     const timeInput = document.querySelector('#task-time-edit');
-                    const titleSpan = document.querySelector('#title-element');
-                    const timeSpan = document.querySelector('#dueTime-element');
+                    const titleSpan = document.querySelector(`#title-${elem.id}`);
+                    const timeSpan = document.querySelector(`#dueTime-${elem.id}`);
 
                     function handleTitleInput(e) {
                         titleSpan.innerHTML = e.target.value;
