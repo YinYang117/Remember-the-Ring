@@ -523,14 +523,18 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         body: JSON.stringify({ title: newListInput.value })
                     });
 
+                    
                     const taskCreate = await taskCreateRes.json();
-
-
+                    
+                    
                     const refreshTaskArea = document.querySelector('.task-list')
                     refreshTaskArea.innerHTML = ''
-
-
+                    
+                    
                     if (taskCreate.errors) return newListError.innerHTML = taskCreate.errors.title
+
+                    const currentListTitle = document.querySelector('.current-task-title');
+                    currentListTitle.innerHTML = taskCreate.newList.title;
 
                     // USED TO SET COOKIE FOR NEW LIST
                     const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
@@ -554,17 +558,32 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
                         const newListTasks = await res.json();
 
+                        const currentListTitle = document.querySelector('.current-task-title');
+                        currentListTitle.innerHTML = e.target.innerHTML;
+
                         const taskListAllLi = document.querySelectorAll('.task-list > li')
                         taskListAllLi.forEach((task) => {
                             task.remove()
                         })
 
+                        let unfinishedCounter = 0;
+                        const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+                        unfinishedTasksNum.innerHTML = unfinishedCounter;
+
                         newListTasks.taskList.forEach(elem => {
+                            // CHECKS IF TASK IS COMPLETED AND CHANGES UNFINISHED TASK COUNT
+                            // TODO ---- STOP COMPLETED TASKS FROM DISPLAYING
+
+
+                            if (!elem.completed) unfinishedCounter++;
+                            unfinishedTasksNum.innerHTML = unfinishedCounter;
+                            console.log(unfinishedCounter);
+
                             const anchor = document.createElement('a')
                             const li = document.createElement('li');
                             anchor.append(li)
                             const taskArea = document.querySelector('.task-list')
-                            li.innerHTML = elem.li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
+                            li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                             li.id = elem.id
                             taskArea.append(li);
                             li.addEventListener('click', async (event) => {
