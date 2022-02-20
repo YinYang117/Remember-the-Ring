@@ -8,6 +8,7 @@ html
         link(rel="stylesheet" href="/stylesheets/lists-right-page.css")
         link(rel="stylesheet" href="/stylesheets/lists-center-page.css")
         link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+        link(rel='stylesheet' href='/stylesheets/user-home-list-bar.css')
         script(src='/javascripts/lists.js' type='module' defer)
 
 
@@ -29,7 +30,7 @@ div(class='page-container')
                 button(class="task-search-button") Search
         div(class='upper-right-nav')
             span(id="welcome-user") Welcome #{user.firstName}
-            a(id="sign-out-button" href="") Sign out
+            a(id="sign-out-button" href="/users/signout") Sign out
     div(class="body-container")
         div(class="body-styling-container")
             div(class="list-sidebar")
@@ -45,6 +46,7 @@ div(class='page-container')
                         ul#user-made-lists Lists
             div(class="task-area")
                 div(class="new-task-form-container")
+                    div(class="new-task-error")
                     form(id="new-task-form")
                         input(type="text" name="title" placeholder="Create new task..." id="task-name-input")
                         input(type='text' name="description" placeholder='Add description' id="task-description-input")
@@ -53,6 +55,7 @@ div(class='page-container')
                             input(type="time" name="dueTime" id="task-time-input")
                             input(type="number" name="experienceReward" placeholder="xp" id="task-exp-input")
                             button(type='submit' id='new-task-submit') Submit
+                    div(class="current-task-title")
                 div(class="task-list-area")
                     ul(class="task-list")
             div(class="task-edit-area" id="")

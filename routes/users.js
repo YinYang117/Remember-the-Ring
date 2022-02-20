@@ -99,7 +99,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
       res.redirect(`/lists/${user.id}`);
     });
     return
-    
+
   } else {
     const errors = {}
     validationErrors.array().forEach(err => {
@@ -117,12 +117,19 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
 
 router.get('/login', csrfProtection, (req, res, next) => {
-  res.render('login', {
-    errors: {},
-    loginErrors: [],
-    title: 'Wizard Login',
-    csrfToken: req.csrfToken(),
-  })
+
+  
+  if (req.session.auth) {
+    const { userId } = req.session.auth;
+    res.redirect(`/lists/${userId}`);
+  } else {
+    res.render('login', {
+      errors: {},
+      loginErrors: [],
+      title: 'Wizard Login',
+      csrfToken: req.csrfToken(),
+    })
+  }
 });
 
 const loginValidators = [
@@ -179,10 +186,8 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   });
 }));
 
-router.post('/logout', (req, res) => {
 
-})
-
+router.get('/signout', logoutUser, (req, res) => {})
 
 
 
