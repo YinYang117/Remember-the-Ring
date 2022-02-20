@@ -25,8 +25,8 @@ div(class='page-container')
         div(class='center-nav')
             form(class="search-form" action="")
                 label(for="search")
-                input(type="text" placeholder="Search...")
-                button(id="search-button") Search
+                input(id="task-search-input" type="text" placeholder="Search...")
+                button(class="task-search-button") Search
         div(class='upper-right-nav')
             span(id="welcome-user") Welcome #{user.firstName}
             a(id="sign-out-button" href="") Sign out
