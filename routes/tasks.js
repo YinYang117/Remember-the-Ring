@@ -17,8 +17,8 @@ router.put('/:taskId(\\d+)', asyncHandler(async (req, res) => {
     updatedTask.title = title;
     updatedTask.description = description;
     updatedTask.experienceReward = experienceReward;
-    updatedTask.dueDate = dueDate;
-    updatedTask.dueTime = dueTime;
+    updatedTask.dueDate = dueDate || null;
+    updatedTask.dueTime = dueTime || null;
 
     await updatedTask.save();
     return res.json({ updatedTask: updatedTask });
