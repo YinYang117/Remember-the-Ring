@@ -186,13 +186,8 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   });
 }));
 
-router.get('/signout', logoutUser, (req, res) => {
-  // delete req.session.auth;
-  // req.session.save(() => {
-  //   res.redirect('/')
-  // })
 
-})
+router.get('/signout', logoutUser, (req, res) => {})
 
 
 

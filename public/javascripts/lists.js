@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
 
-    console.log(document.cookie);
-
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
@@ -16,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     // SEARCH FORM CODE
     taskSearchForm.addEventListener('submit', async (event) => {
+
         event.preventDefault();
         const taskSearchInput = document.getElementById('task-search-input')
         console.log("taskSearchInput value", taskSearchInput)
@@ -1117,12 +1116,12 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     }
 
-
-
+    
+    
+    
 
     async function completeTask(event, taskId) {
-        const markCompleted = await fetch(`/tasks/${taskId}`)
-        const addExperience = await fetch('/')
+        const addExperience = await fetch();
     }
 
 
