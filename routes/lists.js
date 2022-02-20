@@ -223,16 +223,38 @@ router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(as
 
 }));
 
-router.post('/:userId/lists', checkUser, newListValidator, asyncHandler(async (req, res, next) => {
+router.put('/:userId/lists', checkUser, newListValidator, asyncHandler(async (req, res, next) => {
     const { title } = req.body;
-    const { listId } = req.cookies
+    const { listId } = req.cookies;
     const updatedList = await List.findByPk(listId);
 
+    const listValidators = validationResult(req);
+
+    if (listValidators.isEmpty()) {
     updatedList.title = title;
 
     await updatedList.save();
-    
+
     return res.json({ updatedList });
+
+    } else {
+
+        const errors = {}
+        listValidators.array().forEach(err => {
+            errors[err.param] = err.msg
+        });
+
+        return res.json({ errors });
+    }
+}))
+
+router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
+    const { listId } = req.cookies;
+    console.log("######### I AM HERE", listId)
+    const listIdParse = parseInt(listId, 10)
+    const doomedList = await List.findByPk(listIdParse);
+    await doomedList.destroy();
+    return;
 }))
 
 

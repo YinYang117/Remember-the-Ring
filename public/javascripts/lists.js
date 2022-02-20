@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
     console.log('User Id is here!!!!!!!!!!!!!', userId)
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         userTasks.userTasks.forEach((task) => {
             const li = document.createElement('li')
-            li.innerHTML = task.title 
+            li.innerHTML = task.title
             taskList.append(li)
         })
     })
@@ -402,12 +405,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     hidePopUp.remove();
                     const newListElement = document.createElement('li')
                     newListElement.innerHTML = taskCreate.newList.title;
-                    
+
                     const listElementDiv = document.createElement('div');
                     const listUl = document.getElementById('user-made-lists')
                     listElementDiv.className = 'user-li-div'
                     listElementDiv.append(newListElement);
-                    listUl.append(listElementDiv)
+                    listUl.append(listElementDiv);
+
+                    listElementDiv.addEventListener('mouseenter', listMouseOver, false);
 
                     // TODO BREAK THIS DOWN INTO A FUNCTION
                     // ADDS EVENT LISTENER TO LIST TO DISPLAY TASKS ON CLICK
@@ -555,6 +560,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         listUl.append(listElementDiv)
 
 
+        listElementDiv.addEventListener('mouseenter', listMouseOver, false);
+        // listElementDiv.addEventListener('mouseleave', listMouseLeave, false)
+
         // ADDS EVENT LISTENER TO CURRENT LIST
         listElementDiv.addEventListener('click', async (e) => {
 
@@ -564,7 +572,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             // GETS ALL TASKS ASSOCIATED WITH CURRENT LIST ITERATIONS ID
             const res = await fetch(`/lists/${userId}/lists/${elem.id}/tasks`);
             const listRes = await res.json();
-            
+
             console.log(listRes);
 
             // CLEARS ALL TASKS FROM TASK LIST
@@ -652,5 +660,211 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
 
+    function listMouseOver(firstEvent) {
+        // e.stopPropagation();
+
+        const checkForDropDiv = document.querySelector('.dropdown-div');
+        if (checkForDropDiv) checkForDropDiv.remove();
+
+        const listLiDiv = firstEvent.target
+        const dropDown = document.createElement('div');
+        dropDown.classList = 'dropdown-div';
+        const dropIcon = document.createElement('img')
+
+        dropIcon.src = '../images/dropdown-arrow.png';
+
+
+        dropDown.append(dropIcon);
+        // listLiDiv.insertAfter()
+        listLiDiv.append(dropDown);
+
+        listLiDiv.addEventListener('mouseleave', (e) => {
+            dropDown.remove();
+        })
+
+
+
+        dropDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const checkForDropDown = document.querySelector('.dropdown-content')
+            if (checkForDropDown) checkForDropDown.remove();
+
+            const dropDownContent = document.createElement('div');
+            dropDownContent.className = 'dropdown-content'
+            const editListSpan = document.createElement('span');
+            editListSpan.classList = 'list-edit-span';
+            const deleteListSpan = document.createElement('span');
+            deleteListSpan.classList = 'list-delete-span';
+
+            editListSpan.innerHTML = 'Edit list name';
+            deleteListSpan.innerHTML = 'Delete list';
+
+            dropDown.append(dropDownContent);
+            dropDownContent.append(editListSpan);
+            dropDownContent.append(deleteListSpan);
+
+            dropDownContent.addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                if (e.target === editListSpan) {
+                    const newListWindow = document.createElement('div');
+                    const hidePopUp = document.createElement('div');
+                    const pageContainer = document.querySelector('.page-container');
+                    const newListInput = document.createElement('input');
+                    const newListSubmit = document.createElement('button');
+                    const cancelListSubmit = document.createElement('button');
+                    const createNewListText = document.createElement('p');
+                    const newListError = document.createElement('span')
+                    const newListButtonsDiv = document.createElement('div');
+                    const newListForm = document.createElement('form');
+                    const csrfInput = document.createElement('form');
+
+
+                    newListWindow.append(createNewListText);
+                    newListWindow.append(newListError);
+                    newListWindow.append(newListForm);
+                    newListForm.append(csrfInput);
+                    newListForm.append(newListInput);
+                    newListForm.append(newListButtonsDiv);
+                    newListButtonsDiv.append(newListSubmit);
+                    newListButtonsDiv.append(cancelListSubmit);
+
+                    hidePopUp.classList.toggle("hide-pop-up");
+                    newListWindow.classList.toggle("new-list-window");
+                    newListSubmit.className = 'new-list-submit';
+                    cancelListSubmit.className = 'cancel-list-submit';
+                    newListInput.setAttribute('name', 'title');
+                    newListInput.setAttribute('value', '');
+                    csrfInput.setAttribute("type", "hidden");
+                    csrfInput.setAttribute("name", "_csrf");
+                    // TODO Find out if this needs csrf
+
+                    createNewListText.innerHTML = 'Change list name:'
+                    newListSubmit.innerHTML = 'Submit'
+                    cancelListSubmit.innerHTML = 'Cancel'
+
+                    document.body.insertBefore(hidePopUp, pageContainer);
+                    hidePopUp.append(newListWindow);
+
+
+                    // REMOVES POP UP WINDOW
+                    hidePopUp.addEventListener('click', e => {
+                        event.preventDefault();
+                        if (e.target.className === 'hide-pop-up' || e.target.className === 'cancel-list-submit') hidePopUp.remove();
+                    });
+
+
+                    // FORM SUBMIT FOR POP UP WINDOW TO CREATE NEW LIST
+                    newListForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        try {
+                            // FETCH REQUEST TO CREATE NEW LIST
+                            const taskEditRes = await fetch(`/lists/${userId}/lists`, {
+                                method: 'PUT',
+                                credentials: 'include',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ title: newListInput.value }),
+                            });
+
+                            const taskEdit = await taskEditRes.json();
+
+                            if (taskEdit.errors) {
+                                newListError.innerHTML = taskEdit.errors.title
+                                return
+                            }
+
+                            hidePopUp.remove();
+                            dropDown.remove();
+
+                            // const selectedList = listLiDiv.firstChild;
+
+                            listLiDiv.innerHTML = `<li>${taskEdit.updatedList.title}</li>`;
+
+                        } catch (err) {
+                            console.error(err)
+                        }
+
+                    })
+
+                } else if (e.target === deleteListSpan) {
+                    const newListWindow = document.createElement('div');
+                    const hidePopUp = document.createElement('div');
+                    const pageContainer = document.querySelector('.page-container');
+                    const newListSubmit = document.createElement('button');
+                    const cancelListSubmit = document.createElement('button');
+                    const createNewListText = document.createElement('p');
+                    const newListError = document.createElement('span')
+                    const newListButtonsDiv = document.createElement('div');
+
+
+                    newListWindow.append(createNewListText);
+                    newListWindow.append(newListError);
+                    newListButtonsDiv.append(newListSubmit);
+                    newListButtonsDiv.append(cancelListSubmit);
+                    newListWindow.append(newListButtonsDiv);
+
+                    hidePopUp.classList.toggle("hide-pop-up");
+                    newListWindow.classList.toggle("new-list-window");
+                    newListSubmit.className = 'new-list-submit';
+                    cancelListSubmit.className = 'cancel-list-submit';
+                    // TODO Find out if this needs csrf
+
+                    createNewListText.innerHTML = 'Are you sure you want to delete this list?<br>All tasks associated with it will be deleted.'
+                    newListSubmit.innerHTML = 'Submit'
+                    cancelListSubmit.innerHTML = 'Cancel'
+
+                    document.body.insertBefore(hidePopUp, pageContainer);
+                    hidePopUp.append(newListWindow);
+
+
+                    // REMOVES POP UP WINDOW
+                    hidePopUp.addEventListener('click', e => {
+                        event.preventDefault();
+                        if (e.target.className === 'hide-pop-up' || e.target.className === 'cancel-list-submit') hidePopUp.remove();
+                    });
+
+
+                    // FORM SUBMIT FOR POP UP WINDOW TO CREATE NEW LIST
+                    newListSubmit.addEventListener('click', async (e) => {
+                        console.log('howdy folks')
+                        e.preventDefault();
+                        try {
+                            // FETCH REQUEST TO CREATE NEW LIST
+                            const taskEditRes = await fetch(`/lists/${userId}/lists`, {
+                                method: 'DELETE'
+                            });
+
+                            hidePopUp.remove();
+                            dropDown.remove();
+
+                            // const selectedList = listLiDiv.firstChild;
+
+                            listLiDiv.remove();
+
+                        } catch (err) {
+                            console.error(err)
+                        }
+
+                    })
+                }
+
+            })
+
+        })
+
+
+    }
 
 });
+
+
+
+
+
+
+
+
+
+
+
