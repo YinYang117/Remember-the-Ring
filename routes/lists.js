@@ -274,23 +274,23 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
 }))
 
 
-router.get('/yoooo'), /*checkUser*/ asyncHandler(async (req, res, next) => {
-    const taskId = parseInt(req.params.taskId, 10);
-    const userId = parseInt(req.params.userId, 10);
+// router.get('/test-xp-func'), /*checkUser*/ asyncHandler(async (req, res, next) => {
+//     const taskId = parseInt(req.params.taskId, 10);
+//     const userId = parseInt(req.params.userId, 10);
     
-    const updatedTask = await Task.findByPk(taskId, {
-        include: User
-    });
+//     const updatedTask = await Task.findByPk(taskId, {
+//         include: User
+//     });
     
-    console.log("#######################", updatedTask);
-    
-    updatedTask.completed = true;
+//     console.log("#######################", updatedTask);
 
-    updatedTask.completed = true;
+//     updatedTask.completed = true;
 
-    await updatedTask.save();
+//     updatedTask.completed = true;
 
-})
+//     await updatedTask.save();
+
+// })
 
 
 

@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 if (!elem.completed) unfinishedCounter++;
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
 
-
+                
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
@@ -1120,9 +1120,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     
     
 
-    async function completeTask(event, taskId) {
-        const addExperience = await fetch();
-    }
+    // async function completeTask(event, taskId) {
+    //     const addExperience = await fetch();
+    // }
 
 
 
