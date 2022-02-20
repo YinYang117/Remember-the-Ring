@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -195,6 +196,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -281,6 +283,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -367,6 +370,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
