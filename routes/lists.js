@@ -130,6 +130,7 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
 }));
 
 router.get('/:userId(\\d+)/tasks/search/:searchInput', checkUser, asyncHandler(async (req, res) => {
+    res.clearCookie('listId');
     const userId = req.params.userId;
     const searchTerm = req.params.searchInput
     const userTasks = await Task.findAll({
@@ -194,15 +195,17 @@ const newListValidator = [
             return List.findOne({
                 where: {
                     userId: req.params.userId,
-                    title
+                    title: {
+                        [Op.iLike]: `%${title}`
+                    }
                 }
             })
                 .then(title => {
                     if (title) return Promise.reject('That list already exists')
                 })
         })
-        .isLength({ max: 20 })
-        .withMessage()
+        .isLength({max: 20 })
+        .withMessage('List name is too long(max 20 chars)')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a list name')
 ];
@@ -266,6 +269,7 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
     const listIdParse = parseInt(listId, 10)
     const doomedList = await List.findByPk(listIdParse);
     await doomedList.destroy();
+    res.clearCookie(listId)
     return;
 }))
 

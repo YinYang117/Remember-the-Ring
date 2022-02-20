@@ -3,10 +3,10 @@
 
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
-    console.log('User Id is here!!!!!!!!!!!!!', userId)
 
-    // const res = await fetch(`/lists/info/${userId}`);
-    // const userInfo = await res.json();
+
+    console.log(document.cookie);
+
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
@@ -27,6 +27,12 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         const res = await fetch(`/lists/${userId}/tasks/search/${input}`);
         const userTasks = await res.json()
+
+        taskSearchInput.value = ''
+
+        const changeListTitle = document.querySelector('.current-task-title');
+        changeListTitle.innerHTML = 'Your search results'
+
         // console.log("User Tasks", userTasks)
         console.log("userTasks . userTasks", userTasks.userTasks)
         // const listChildren = document.childNodes(.)
@@ -51,11 +57,24 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const userInfo = await res.json();
             const taskArea = document.querySelector('.task-list')
             taskArea.innerHTML = '';
+
+            const changeListTitle = document.querySelector('.current-task-title');
+            changeListTitle.innerHTML = 'All your tasks'
+
+            let unfinishedCounter = 0;
+            const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+            unfinishedTasksNum.innerHTML = unfinishedCounter;
+
             userInfo.userTasks.forEach(elem => {
+
+                if (!elem.completed) unfinishedCounter++;
+                unfinishedTasksNum.innerHTML = unfinishedCounter;
+
+
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -137,11 +156,24 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const { tasksToday } = await res.json();
             const taskArea = document.querySelector('.task-list')
             taskArea.innerHTML = ''
+
+            const changeListTitle = document.querySelector('.current-task-title');
+            changeListTitle.innerHTML = 'Your tasks for today'
+
+
+            let unfinishedCounter = 0;
+            const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+            unfinishedTasksNum.innerHTML = unfinishedCounter;
+
             tasksToday.forEach(el => {
+
+                if (!el.completed) unfinishedCounter++;
+                unfinishedTasksNum.innerHTML = unfinishedCounter;
+
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
                 li.id = el.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -224,11 +256,24 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const { tasksTomorrow } = await res.json();
             const taskArea = document.querySelector('.task-list')
             taskArea.innerHTML = ''
+
+            const changeListTitle = document.querySelector('.current-task-title');
+            changeListTitle.innerHTML = 'Your tasks for tomorrow'
+
+            let unfinishedCounter = 0;
+            const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+            unfinishedTasksNum.innerHTML = unfinishedCounter;
+
             tasksTomorrow.forEach(el => {
+
+                if (!el.completed) unfinishedCounter++;
+                unfinishedTasksNum.innerHTML = unfinishedCounter;
+                console.log(unfinishedCounter);
+
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
                 li.id = el.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -311,11 +356,24 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const { tasksWeek } = await res.json();
             const taskArea = document.querySelector('.task-list')
             taskArea.innerHTML = '';
+
+            const changeListTitle = document.querySelector('.current-task-title');
+            changeListTitle.innerHTML = 'Your tasks for the rest of this week'
+
+            let unfinishedCounter = 0;
+            const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+            unfinishedTasksNum.innerHTML = unfinishedCounter;
+
             tasksWeek.forEach(el => {
+
+                if (!el.completed) unfinishedCounter++;
+                unfinishedTasksNum.innerHTML = unfinishedCounter;
+                console.log(unfinishedCounter);
+
                 const anchor = document.createElement('a');
                 const li = document.createElement('li');
                 anchor.append(li);
-                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
                 li.id = el.id;
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -468,7 +526,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     const taskCreate = await taskCreateRes.json();
 
+
+                    const refreshTaskArea = document.querySelector('.task-list')
+                    refreshTaskArea.innerHTML = ''
+
+
                     if (taskCreate.errors) return newListError.innerHTML = taskCreate.errors.title
+
+                    // USED TO SET COOKIE FOR NEW LIST
+                    const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
+                    const listRes = await res.json();
 
                     hidePopUp.remove();
                     const newListElement = document.createElement('li')
@@ -498,7 +565,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             const li = document.createElement('li');
                             anchor.append(li)
                             const taskArea = document.querySelector('.task-list')
-                            li.innerHTML = elem.li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime}</span></div>`
+                            li.innerHTML = elem.li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                             li.id = elem.id
                             taskArea.append(li);
                             li.addEventListener('click', async (event) => {
@@ -522,8 +589,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                                 const titleInput = document.querySelector('#task-name-edit');
                                 const timeInput = document.querySelector('#task-time-edit');
-                                const titleSpan = document.querySelector(`#title-${el.id}`);
-                                const timeSpan = document.querySelector(`#dueTime-${el.id}`);
+                                const titleSpan = document.querySelector(`#title-${elem.id}`);
+                                const timeSpan = document.querySelector(`#dueTime-${elem.id}`);
 
                                 function handleTitleInput(e) {
                                     titleSpan.innerHTML = e.target.value;
@@ -544,7 +611,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                                     const dateValue = document.getElementById("task-date-edit").value;
                                     const timeValue = document.getElementById("task-time-edit").value || null;
                                     const experienceValue = document.getElementById("task-exp-edit").value;
-
                                     const res = await fetch(`/tasks/${elem.id}`, {
                                         method: "PUT",
                                         headers: {
@@ -559,6 +625,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                                         })
                                     })
                                     const updatedRes = await res.json();
+                                    event.target.innerHTML = '';
                                     event.target.innerHTML = updatedRes.updatedTask.title;
 
                                 })
@@ -574,13 +641,12 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                     })
-                    // ABOVE THIS IS WHEN THE IMPORTED CODE STARTS
 
 
 
 
-                } catch {
-                    console.log('yo')
+                } catch (err) {
+                    console.log('There was an error fetching data')
                 }
 
             });
@@ -618,14 +684,106 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         });
         const taskCreate = await taskCreateRes.json();
 
+        title.value = ''
+        description.value = ''
+        dueDate.value = ''
+        dueTime.value = ''
+        experienceReward.value = ''
+
+
         // TODO ADD VALIDATION FOR BLANK TITLE
         // if (taskCreate.errors) return newListError.innerHTML = taskCreate.errors.title
 
-        const newListElement = document.createElement('li')
+
+        // START #####
+        const anchor = document.createElement('a')
+        const li = document.createElement('li');
         const taskArea = document.querySelector('.task-list')
-        newListElement.innerHTML = taskCreate.newTask.title;
-        taskArea.append(newListElement);
-        console.log('hey')
+        li.innerHTML = taskCreate.newTask.title;
+        taskArea.append(li);
+
+        const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+        let unfinishedCounter = unfinishedTasksNum.innerHTML
+        unfinishedCounter++;
+        unfinishedTasksNum.innerHTML = unfinishedCounter;
+
+        anchor.append(li)
+        li.innerHTML = `<div class="task-display"><span id="title-${taskCreate.newTask.id}" class="spanTitle">${taskCreate.newTask.title}</span><span id="dueTime-${taskCreate.newTask.id}" class="spanDueTime">  ${taskCreate.newTask.dueTime || ''}</span></div>`
+        li.id = taskCreate.newTask.id
+        taskArea.append(li);
+
+        li.addEventListener('click', async (event) => {
+            const updateTaskValuesRes = await fetch(`/tasks/${taskCreate.newTask.id}`);
+            const updateTaskValues = await updateTaskValuesRes.json();
+            const taskEditArea = document.querySelector(".task-edit-area")
+            taskEditArea.innerHTML = `
+                    <div class="task-edit-div">
+                        <form id="form-edit">
+                            <input type="text" name="title" placeholder="title" id="task-name-edit" value="${updateTaskValues.task.title}">
+                            <input type='text' name="description" placeholder="description" id="task-description-edit" value="${updateTaskValues.task.description}">
+                            <div class="date-time-edit-container">
+                                <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
+                                <input type="time" name="dueTime" id="task-time-edit" value=${updateTaskValues.task.dueTime}>
+                                <input type="number" name="experienceReward" placeholder="xp" id="task-exp-edit" value=${updateTaskValues.task.experienceReward}>
+                            </div>
+                            <button class="task-edit-update-button">Update</button>
+                            <button class="task-edit-delete-button">Delete</button>
+                        </form>
+                    </div>`
+
+            const titleInput = document.querySelector('#task-name-edit');
+            const timeInput = document.querySelector('#task-time-edit');
+            const titleSpan = document.querySelector(`#title-${taskCreate.newTask.id}`);
+            const timeSpan = document.querySelector(`#dueTime-${taskCreate.newTask.id}`);
+
+            function handleTitleInput(e) {
+                titleSpan.innerHTML = e.target.value;
+            };
+
+            function handleTimeInput(e) {
+                timeSpan.innerHTML = ` ${e.target.value}`;
+            };
+
+            titleInput.oninput = handleTitleInput;
+            timeInput.oninput = handleTimeInput;
+
+            const updateBtn = document.querySelector('.task-edit-update-button');
+            updateBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const titleValue = document.getElementById("task-name-edit").value;
+                const descriptionValue = document.getElementById("task-description-edit").value;
+                const dateValue = document.getElementById("task-date-edit").value;
+                const timeValue = document.getElementById("task-time-edit").value || null;
+                const experienceValue = document.getElementById("task-exp-edit").value;
+                const res = await fetch(`/tasks/${taskCreate.newTask.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: titleValue,
+                        description: descriptionValue,
+                        experienceReward: experienceValue,
+                        dueDate: dateValue,
+                        dueTime: timeValue
+                    })
+                })
+                const updatedRes = await res.json();
+                event.target.innerHTML = '';
+                event.target.innerHTML = updatedRes.updatedTask.title;
+
+            })
+
+            const deleteBtn = document.querySelector('.task-edit-delete-button');
+            deleteBtn.addEventListener('click', async (e) => {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                li.remove();
+                taskEditArea.innerHTML = '';
+                const res = await fetch(`/tasks/${taskCreate.newTask.id}`, { method: 'DELETE' });
+            })
+        })
+
     })
 
     // GETS ALL LISTS ASSOCIATED WITH CURRENT USER
@@ -646,19 +804,17 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
         listElementDiv.addEventListener('mouseenter', listMouseOver, false);
-        // listElementDiv.addEventListener('mouseleave', listMouseLeave, false)
 
         // ADDS EVENT LISTENER TO CURRENT LIST
         listElementDiv.addEventListener('click', async (e) => {
-
-            // CHANGES URL
-            // window.history.pushState({}, "Title", `/lists/${userId}/lists/${elem.id}`);
 
             // GETS ALL TASKS ASSOCIATED WITH CURRENT LIST ITERATIONS ID
             const res = await fetch(`/lists/${userId}/lists/${elem.id}/tasks`);
             const listRes = await res.json();
 
-            console.log(listRes);
+            const currentListTitle = document.querySelector('.current-task-title');
+            currentListTitle.innerHTML = e.target.innerHTML;
+
 
             // CLEARS ALL TASKS FROM TASK LIST
             const taskListAllLi = document.querySelectorAll('.task-list > li')
@@ -668,13 +824,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
             //COUNTER FOR UNFINISHED TASKS
             let unfinishedCounter = 0;
+            const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+            unfinishedTasksNum.innerHTML = unfinishedCounter;
 
             // ITERATES THROUGH EACH TASK FROM THE CURRENT LIST
             listRes.taskList.forEach(elem => {
                 // CHECKS IF TASK IS COMPLETED AND CHANGES UNFINISHED TASK COUNT
                 // TODO ---- STOP COMPLETED TASKS FROM DISPLAYING
+
+
                 if (!elem.completed) unfinishedCounter++;
-                const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
                 console.log(unfinishedCounter);
 
@@ -682,7 +841,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const li = document.createElement('li');
                 anchor.append(li)
                 const taskArea = document.querySelector('.task-list')
-                li.innerHTML = li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime}</span></div>`
+                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -706,8 +865,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     const titleInput = document.querySelector('#task-name-edit');
                     const timeInput = document.querySelector('#task-time-edit');
-                    const titleSpan = document.querySelector(`#title-${el.id}`);
-                    const timeSpan = document.querySelector(`#dueTime-${el.id}`);
+                    const titleSpan = document.querySelector(`#title-${elem.id}`);
+                    const timeSpan = document.querySelector(`#dueTime-${elem.id}`);
 
                     function handleTitleInput(e) {
                         titleSpan.innerHTML = e.target.value;
@@ -728,7 +887,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         const dateValue = document.getElementById("task-date-edit").value;
                         const timeValue = document.getElementById("task-time-edit").value || null;
                         const experienceValue = document.getElementById("task-exp-edit").value;
-
                         const res = await fetch(`/tasks/${elem.id}`, {
                             method: "PUT",
                             headers: {
@@ -743,6 +901,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             })
                         })
                         const updatedRes = await res.json();
+                        event.target.innerHTML = '';
                         event.target.innerHTML = updatedRes.updatedTask.title;
 
                     })
@@ -761,7 +920,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     });
 
 
-
+    // FUNCTION FOR LIST MOUSEOVER EVENT
     function listMouseOver(firstEvent) {
         // e.stopPropagation();
 
@@ -957,6 +1116,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
     }
+
+
+
+
+    async function completeTask(event, taskId) {
+        const markCompleted = await fetch(`/tasks/${taskId}`)
+        const addExperience = await fetch('/')
+    }
+
+
 
 });
 
