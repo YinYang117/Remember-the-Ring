@@ -242,6 +242,7 @@ router.post('/login/guest', csrfProtection, asyncHandler(async (req, res) => {
   req.session.save(() => {
     res.redirect(`/lists/${user.id}`);
   });
+  return;
 
 }));
 

@@ -278,27 +278,32 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
     const doomedList = await List.findByPk(listIdParse);
     await doomedList.destroy();
     res.clearCookie(listId);
-    return;
+    res.json({ msg: 'List delted'})
 }))
 
 
-// router.get('/test-xp-func'), /*checkUser*/ asyncHandler(async (req, res, next) => {
-//     const taskId = parseInt(req.params.taskId, 10);
-//     const userId = parseInt(req.params.userId, 10);
+router.get('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
+    const taskIds = req.body;
+    const userId = parseInt(req.params.userId, 10);
     
-//     const updatedTask = await Task.findByPk(taskId, {
-//         include: User
-//     });
+    const user = await User.findByPk(userId);
+
+    taskIds.forEach(async elem => {
+        const updatedTask = await Task.findByPk(elem);
+        updatedTask.completed = true;
+
+        user.currentExp += updatedTask.experienceReward;
+        if (user.currentExp >= 100) {
+            user.currentLevel++
+        }
+        await updatedTask.save();
+    })
     
-//     console.log("#######################", updatedTask);
+    await user.save();
 
-//     updatedTask.completed = true;
-
-//     updatedTask.completed = true;
-
-//     await updatedTask.save();
-
-// })
+    console.log("#######################");
+    res.json({ user });
+}))
 
 
 

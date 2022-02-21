@@ -1111,7 +1111,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                     // FORM SUBMIT FOR POP UP WINDOW TO CREATE NEW LIST
                     newListSubmit.addEventListener('click', async (e) => {
-                        console.log('howdy folks')
                         e.preventDefault();
                         try {
                             // FETCH REQUEST TO CREATE NEW LIST
@@ -1143,10 +1142,19 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
 
+    // const userLevelUp = async (event) => {
 
-    async function completeTask(event, taskId) {
-        const addExperience = await fetch(`/`);
-    }
+        
+    //     await fetch(`/lists/${userId}/exp-gain`, {
+    //         method: 'PUT',
+    //         credentials: 'include',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ title: newListInput.value }),
+    //     });
+
+    // }
 
 
 
