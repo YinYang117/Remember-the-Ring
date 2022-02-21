@@ -20,10 +20,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         event.preventDefault();
         const taskSearchInput = document.getElementById('task-search-input')
-        console.log("taskSearchInput value", taskSearchInput)
 
         let input = taskSearchInput.value
-        console.log("user input: ", input)
 
         // // input = input.toLowerCase();
 
@@ -34,10 +32,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         const changeListTitle = document.querySelector('.current-task-title');
         changeListTitle.innerHTML = 'Your search results'
-
-        // console.log("User Tasks", userTasks)
-        console.log("userTasks . userTasks", userTasks.userTasks)
-        // const listChildren = document.childNodes(.)
 
         const taskCompleteButtonCheck = document.getElementById('task-complete-button');
         if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
@@ -403,7 +397,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                 if (!el.completed) unfinishedCounter++;
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
-                console.log(unfinishedCounter);
 
                 const anchor = document.createElement('a')
                 const li = document.createElement('label');
@@ -511,7 +504,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                 if (!el.completed) unfinishedCounter++;
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
-                console.log(unfinishedCounter);
 
                 const anchor = document.createElement('a');
                 const li = document.createElement('label');
@@ -731,7 +723,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                             if (!elem.completed) unfinishedCounter++;
                             unfinishedTasksNum.innerHTML = unfinishedCounter;
-                            console.log(unfinishedCounter);
 
                             const anchor = document.createElement('a')
                             const li = document.createElement('label');
@@ -1016,7 +1007,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
                 if (!elem.completed) unfinishedCounter++;
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
-                console.log(unfinishedCounter);
 
                 const anchor = document.createElement('a')
                 const li = document.createElement('label');
@@ -1337,7 +1327,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         
         
         boxValues.forEach(async elem => {
-            console.log(elem)
             await fetch(`/tasks/${elem}`, { method: 'delete' })
             const removeMe = document.getElementById(elem)
             removeMe.parentElement.removeChild(removeMe)
