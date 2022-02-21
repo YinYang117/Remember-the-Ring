@@ -90,7 +90,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         const taskCompleteButton = document.createElement('button');
                         taskCompleteButton.id = 'task-complete-button';
                         taskCompleteButton.form = "completed-task-form";
+                        taskCompleteButton.innerHTML = 'Complete task!'
                         const taskHeader = document.querySelector(".task-header-area")
+                        const listTitle = document.querySelector('.current-task-title')
+                        taskHeader.insertBefore(listTitle, taskCompleteButton)
                     }
 
 

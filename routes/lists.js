@@ -295,6 +295,9 @@ router.get('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
         user.currentExp += updatedTask.experienceReward;
         if (user.currentExp >= 100) {
             user.currentLevel++
+            const leftOverXp = user.currentExp % 100
+
+            user.currentExp = leftOverXp;
         }
         await updatedTask.save();
     })
