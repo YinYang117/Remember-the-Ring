@@ -98,3 +98,7 @@
 #task-exp-input {
     min-width: 25px;
 }
+
+.task-header-area {
+    width: 100%;
+}

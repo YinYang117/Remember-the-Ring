@@ -67,7 +67,7 @@ div(class='page-container')
                     div(id="user-level") Current level: #{user.currentLevel}
                     img(src="../images/gandalf.png" alt="gandalf-image" id="gandalf")
                     div(id="exp-bar")
-                        div(id="exp")
+                        div(id="exp" style=`width:${user.currentExp}%`)
                     div(class="task-summaries")
                         div(id="unfinished-tasks-box")
                             span(id='unfinished-tasks-num') 0

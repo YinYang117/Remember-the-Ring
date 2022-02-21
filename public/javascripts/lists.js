@@ -57,6 +57,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     // CODE FOR DEAULT LISTS
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
+
+            const submitForm = document.getElementById('completed-task-form');
+            submitForm.addEventListener('submit', completeTask)
+
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
             const taskArea = document.querySelector('.task-list')
@@ -79,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const li = document.createElement('label');
 
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><input type="checkbox" name="${elem.title}" value="${elem.id}"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
+                li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${elem.title}" value="${elem.id}"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
@@ -89,17 +93,13 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     if (!taskCompleteButtonCheck) {
                         const taskCompleteButton = document.createElement('button');
                         taskCompleteButton.id = 'task-complete-button';
-                        taskCompleteButton.form = "completed-task-form";
-                        taskCompleteButton.innerHTML = 'Complete task!'
+
+                        taskCompleteButton.setAttribute("form", "completed-task-form");
+                        taskCompleteButton.innerHTML = 'Complete!'
                         const taskHeader = document.querySelector(".task-header-area")
                         const listTitle = document.querySelector('.current-task-title')
-                        taskHeader.insertBefore(listTitle, taskCompleteButton)
+                        taskHeader.insertBefore(taskCompleteButton, listTitle)
                     }
-
-
-
-
-
 
                     const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
@@ -175,6 +175,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         }
 
         else if (e.target.id === 'today-tasks') {
+
+            const submitForm = document.getElementById('completed-task-form');
+            submitForm.addEventListener('submit', completeTask)
+
             const res = await fetch(`/lists/today/${userId}`);
             const { tasksToday } = await res.json();
             const taskArea = document.querySelector('.task-list')
@@ -194,12 +198,15 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
 
                 const anchor = document.createElement('a')
-                const li = document.createElement('li');
+                const li = document.createElement('label');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
+                li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${el.title}" value="${el.id}"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
                 li.id = el.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
+
+                    submitTasksButton();
+
                     const updateTaskValuesRes = await fetch(`/tasks/${el.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
                     const taskEditArea = document.querySelector(".task-edit-area")
@@ -1158,25 +1165,54 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     }
 
+    function submitTasksButton(e) {
+        const taskCompleteButtonCheck = document.getElementById('task-complete-button');
 
+        if (!taskCompleteButtonCheck) {
+            const taskCompleteButton = document.createElement('button');
+            taskCompleteButton.id = 'task-complete-button';
 
-
-    const userLevelUp = async (event) => {
-
-        
-        await fetch(`/lists/${userId}/exp-gain`, {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ title: newListInput.value }),
-        });
-
+            taskCompleteButton.setAttribute("form", "completed-task-form");
+            taskCompleteButton.innerHTML = 'Complete!'
+            const taskHeader = document.querySelector(".task-header-area")
+            const listTitle = document.querySelector('.current-task-title')
+            taskHeader.insertBefore(taskCompleteButton, listTitle)
+        }
     }
 
 
+    async function completeTask(e) {
+        const boxValues = []
+        const checkBoxes = document.querySelectorAll('.task-check-boxes');
+        checkBoxes.forEach(box => {
+            if (box.checked) boxValues.push(box.value)
+        })
+        e.preventDefault();
+        const submitTasksRes = await fetch(`/lists/${userId}/exp-gain`, {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ taskIds: boxValues })
+        });
 
+        const { user } = await submitTasksRes.json();
+
+        const userLevel = document.getElementById('user-level')
+        userLevel.innerHTML = `Current level: ${user.currentLevel}`
+
+
+        const expBar = document.getElementById('exp')
+        expBar.style.width = `${user.currentExp}%`
+
+
+        boxValues.forEach(async elem => {
+            console.log(elem)
+            await fetch(`/tasks/${elem}`, { method: 'delete' })
+            const removeMe = document.getElementById(elem)
+            removeMe.parentElement.removeChild(removeMe)
+        })
+
+
+    }
 });
 
 

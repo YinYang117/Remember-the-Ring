@@ -61,6 +61,7 @@
     width: 0px;
     background-color: #C46928;
     border-radius: 13px 0px 0px 13px;
+    transition: width 1s;
 }
 
 .task-summaries {

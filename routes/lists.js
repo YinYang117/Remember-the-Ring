@@ -282,30 +282,38 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
 }))
 
 
-router.get('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
-    const taskIds = req.body;
+router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
+    const { taskIds } = req.body;
     const userId = parseInt(req.params.userId, 10);
     
+    
+    
     const user = await User.findByPk(userId);
+    const startingExp = user.currentExp
 
     taskIds.forEach(async elem => {
-        const updatedTask = await Task.findByPk(elem);
+        console.log('######################', elem)
+        const parsedNum = parseInt(elem, 10)
+        const updatedTask = await Task.findByPk(parsedNum);
         updatedTask.completed = true;
+        await updatedTask.save();
 
         user.currentExp += updatedTask.experienceReward;
+
         if (user.currentExp >= 100) {
             user.currentLevel++
             const leftOverXp = user.currentExp % 100
-
+            
             user.currentExp = leftOverXp;
+            await user.save();
+            // console.log("#######################", user.currentExp, user.currentLevel);
+        } else {
+            await user.save();
         }
-        await updatedTask.save();
+        
     })
     
-    await user.save();
-
-    console.log("#######################");
-    res.json({ user });
+    res.json({ user: user });
 }))
 
 
