@@ -1130,7 +1130,6 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
         dropDown.addEventListener('click', (e) => {
-            e.stopPropagation();
             const checkForDropDown = document.querySelector('.dropdown-content')
             if (checkForDropDown) checkForDropDown.remove();
 
