@@ -137,7 +137,7 @@ router.get('/:userId(\\d+)/tasks/search/:searchInput', checkUser, asyncHandler(a
         where: {
             userId: userId,
             title: {
-                [Op.substring]: searchTerm 
+                [Op.substring]: searchTerm
             }
         }
     });
@@ -160,7 +160,7 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(a
             listId: listId
         }
     });
-    
+
     res.cookie('listId', listId, {httpOnly: true, secure: true})
     return res.json({ taskList })
 }));
@@ -219,6 +219,7 @@ router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(as
         title,
         userId
     });
+    console.log('List validators is here!!!!', listValidators)
 
     if (listValidators.isEmpty()) {
 
@@ -277,11 +278,11 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
 // router.get('/test-xp-func'), /*checkUser*/ asyncHandler(async (req, res, next) => {
 //     const taskId = parseInt(req.params.taskId, 10);
 //     const userId = parseInt(req.params.userId, 10);
-    
+
 //     const updatedTask = await Task.findByPk(taskId, {
 //         include: User
 //     });
-    
+
 //     console.log("#######################", updatedTask);
 
 //     updatedTask.completed = true;
