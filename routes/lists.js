@@ -9,6 +9,14 @@ const csrfProtection = csrf({ cookie: true });
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
+
+router.get('/:userId(\\d+)/user-info', checkUser, asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const listId = req.cookies.listId;
+    const userInfo = await User.findByPk(userId);
+    res.json({ userInfo, listId })
+}))
+
 router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
     const { userId } = req.session.auth
 
@@ -265,11 +273,11 @@ router.put('/:userId/lists', checkUser, newListValidator, asyncHandler(async (re
 
 router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
     const { listId } = req.cookies;
-    console.log("######### I AM HERE", listId)
+
     const listIdParse = parseInt(listId, 10)
     const doomedList = await List.findByPk(listIdParse);
     await doomedList.destroy();
-    res.clearCookie(listId)
+    res.clearCookie(listId);
     return;
 }))
 

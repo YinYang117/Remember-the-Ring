@@ -109,7 +109,7 @@ h1 {
     font-size: 22px;
 }
 
-#submit-button {
+.submit-button {
     font-family: 'Apple Chancery';
     border: 3px solid #841818;
     border-radius: 3px;
@@ -138,4 +138,26 @@ form label {
 .login-fail-span {
     color: red;
 
+}
+
+#guest-user-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    width: 150px;
+    background-color: #C4692870;
+    border-color: #84181870;
+    color: #00000070;
+    text-decoration: none;
+}
+
+#guest-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
 }

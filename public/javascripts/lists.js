@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
 
+    // GETS USER INFO
+    const getUserInfo = await fetch(`/lists/${userId}/user-info`);
+    const { userInfo, listId } = await getUserInfo.json();
+
+
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
@@ -69,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 if (!elem.completed) unfinishedCounter++;
                 unfinishedTasksNum.innerHTML = unfinishedCounter;
 
-                
+
                 const anchor = document.createElement('a')
                 const li = document.createElement('li');
                 anchor.append(li)
@@ -523,14 +528,14 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         body: JSON.stringify({ title: newListInput.value })
                     });
 
-                    
+
                     const taskCreate = await taskCreateRes.json();
-                    
-                    
+
+
                     const refreshTaskArea = document.querySelector('.task-list')
                     refreshTaskArea.innerHTML = ''
-                    
-                    
+
+
                     if (taskCreate.errors) return newListError.innerHTML = taskCreate.errors.title
 
                     const currentListTitle = document.querySelector('.current-task-title');
@@ -1135,9 +1140,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     }
 
-    
-    
-    
+
+
+
 
     // async function completeTask(event, taskId) {
     //     const addExperience = await fetch();
