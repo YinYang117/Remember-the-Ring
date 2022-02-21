@@ -145,7 +145,7 @@ router.get('/:userId(\\d+)/tasks/search/:searchInput', checkUser, asyncHandler(a
         where: {
             userId: userId,
             title: {
-                [Op.substring]: searchTerm 
+                [Op.substring]: searchTerm
             }
         }
     });
@@ -168,8 +168,8 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(a
             listId: listId
         }
     });
-    
-    res.cookie('listId', listId, {httpOnly: true, secure: true})
+
+    res.cookie('listId', listId, { httpOnly: true, secure: true })
     return res.json({ taskList })
 }));
 
@@ -212,7 +212,7 @@ const newListValidator = [
                     if (title) return Promise.reject('That list already exists')
                 })
         })
-        .isLength({max: 20 })
+        .isLength({ max: 20 })
         .withMessage('List name is too long(max 20 chars)')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a list name')
@@ -254,11 +254,11 @@ router.put('/:userId/lists', checkUser, newListValidator, asyncHandler(async (re
     const listValidators = validationResult(req);
 
     if (listValidators.isEmpty()) {
-    updatedList.title = title;
+        updatedList.title = title;
 
-    await updatedList.save();
+        await updatedList.save();
 
-    return res.json({ updatedList });
+        return res.json({ updatedList });
 
     } else {
 
@@ -278,21 +278,19 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
     const doomedList = await List.findByPk(listIdParse);
     await doomedList.destroy();
     res.clearCookie(listId);
-    res.json({ msg: 'List delted'})
+    res.json({ msg: 'List delted' })
 }))
 
 
 router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
     const { taskIds } = req.body;
     const userId = parseInt(req.params.userId, 10);
-    
-    
-    
+
+
+
     const user = await User.findByPk(userId);
-    const startingExp = user.currentExp
 
     taskIds.forEach(async elem => {
-        console.log('######################', elem)
         const parsedNum = parseInt(elem, 10)
         const updatedTask = await Task.findByPk(parsedNum);
         updatedTask.completed = true;
@@ -303,16 +301,17 @@ router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
         if (user.currentExp >= 100) {
             user.currentLevel++
             const leftOverXp = user.currentExp % 100
-            
+
             user.currentExp = leftOverXp;
-            await user.save();
             // console.log("#######################", user.currentExp, user.currentLevel);
-        } else {
-            await user.save();
         }
-        
+        await user.save();
+
     })
-    
+
+    await user.save();
+
+
     res.json({ user: user });
 }))
 

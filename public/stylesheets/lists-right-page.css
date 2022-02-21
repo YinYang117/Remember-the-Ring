@@ -62,6 +62,16 @@
     background-color: #C46928;
     border-radius: 13px 0px 0px 13px;
     transition: width 1s;
+    animation: loadXp 1s;
+}
+
+@keyframes loadXp {
+    0% {
+        width: 0%;
+    }
+    100% {
+        transform: 100%;
+    }
 }
 
 .task-summaries {

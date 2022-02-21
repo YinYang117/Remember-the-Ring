@@ -4,10 +4,8 @@
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
-
-    // GETS USER INFO
-    const getUserInfo = await fetch(`/lists/${userId}/user-info`);
-    const { userInfo, listId } = await getUserInfo.json();
+    const submitForm = document.getElementById('completed-task-form');
+    submitForm.addEventListener('submit', completeTask)
 
 
     const listElement = document.querySelector('#user-lists');
@@ -51,6 +49,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const li = document.createElement('li')
             li.innerHTML = task.title
             taskList.append(li)
+
+            
         })
     })
 
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
 
-            const submitForm = document.getElementById('completed-task-form');
-            submitForm.addEventListener('submit', completeTask)
+            const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+            if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
 
             const res = await fetch(`/lists/${userId}/tasks`);
             const userInfo = await res.json();
@@ -176,8 +176,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         else if (e.target.id === 'today-tasks') {
 
-            const submitForm = document.getElementById('completed-task-form');
-            submitForm.addEventListener('submit', completeTask)
+            const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+            if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
 
             const res = await fetch(`/lists/today/${userId}`);
             const { tasksToday } = await res.json();
@@ -282,6 +282,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         }
 
         else if (e.target.id === 'tomorrow-tasks') {
+
+            const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+            if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
+
             const res = await fetch(`/lists/tomorrow/${userId}`);
             const { tasksTomorrow } = await res.json();
             const taskArea = document.querySelector('.task-list')
@@ -301,12 +305,15 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 console.log(unfinishedCounter);
 
                 const anchor = document.createElement('a')
-                const li = document.createElement('li');
+                const li = document.createElement('label');
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
+                li.innerHTML = li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${el.title}" value="${el.id}"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
                 li.id = el.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
+
+                    submitTasksButton()
+
                     const updateTaskValuesRes = await fetch(`/tasks/${el.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
                     const taskEditArea = document.querySelector(".task-edit-area")
@@ -382,6 +389,11 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         }
 
         else if (e.target.id === 'this-week-tasks') {
+
+            const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+            if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
+
+
             const res = await fetch(`/lists/this-week-tasks/${userId}`);
             const { tasksWeek } = await res.json();
             const taskArea = document.querySelector('.task-list')
@@ -401,14 +413,17 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 console.log(unfinishedCounter);
 
                 const anchor = document.createElement('a');
-                const li = document.createElement('li');
+                const li = document.createElement('label');
                 anchor.append(li);
-                li.innerHTML = `<div class="task-display"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
+                li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${el.title}" value="${el.id}"><span id="title-${el.id}" class="spanTitle">${el.title}</span><span id="dueTime-${el.id}" class="spanDueTime">  ${el.dueTime || ''}</span></div>`
                 li.id = el.id;
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
                     const updateTaskValuesRes = await fetch(`/tasks/${el.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
+
+                    submitTasksButton()
+
                     const taskEditArea = document.querySelector(".task-edit-area")
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
@@ -588,6 +603,13 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     listElementDiv.addEventListener('click', async (e) => {
                         const res = await fetch(`/lists/${userId}/lists/${taskCreate.newList.id}/tasks`);
                         const newListTasks = await res.json();
+                        const taskArea = document.querySelector('.task-list')
+                        taskArea.innerHTML = '';
+
+                        const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+                        if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
+
+
 
                         const currentListTitle = document.querySelector('.current-task-title');
                         currentListTitle.innerHTML = e.target.innerHTML;
@@ -611,15 +633,18 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                             console.log(unfinishedCounter);
 
                             const anchor = document.createElement('a')
-                            const li = document.createElement('li');
+                            const li = document.createElement('label');
                             anchor.append(li)
                             const taskArea = document.querySelector('.task-list')
-                            li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
+                            li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${elem.title}" value="${elem.id}"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                             li.id = elem.id
                             taskArea.append(li);
                             li.addEventListener('click', async (event) => {
                                 const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
                                 const updateTaskValues = await updateTaskValuesRes.json();
+
+                                submitTasksButton()
+
                                 const taskEditArea = document.querySelector(".task-edit-area")
                                 taskEditArea.innerHTML = `
                                         <div class="task-edit-div">
@@ -717,7 +742,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         const dueDate = document.getElementById('task-date-input');
         const dueTime = document.getElementById('task-time-input');
         const experienceReward = document.getElementById('task-exp-input');
-        console.log(title);
+
         const taskCreateRes = await fetch(`/lists/${userId}/tasks`, {
             method: 'post',
             headers: {
@@ -746,7 +771,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         // START #####
         const anchor = document.createElement('a')
-        const li = document.createElement('li');
+        const li = document.createElement('label');
         const taskArea = document.querySelector('.task-list')
         li.innerHTML = taskCreate.newTask.title;
         taskArea.append(li);
@@ -757,13 +782,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         unfinishedTasksNum.innerHTML = unfinishedCounter;
 
         anchor.append(li)
-        li.innerHTML = `<div class="task-display"><span id="title-${taskCreate.newTask.id}" class="spanTitle">${taskCreate.newTask.title}</span><span id="dueTime-${taskCreate.newTask.id}" class="spanDueTime">  ${taskCreate.newTask.dueTime || ''}</span></div>`
+        li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${taskCreate.newTask.title}" value="${taskCreate.newTask.id}"><span id="title-${taskCreate.newTask.id}" class="spanTitle">${taskCreate.newTask.title}</span><span id="dueTime-${taskCreate.newTask.id}" class="spanDueTime">  ${taskCreate.newTask.dueTime || ''}</span></div>`
         li.id = taskCreate.newTask.id
         taskArea.append(li);
 
         li.addEventListener('click', async (event) => {
             const updateTaskValuesRes = await fetch(`/tasks/${taskCreate.newTask.id}`);
             const updateTaskValues = await updateTaskValuesRes.json();
+
+            submitTasksButton()
+
             const taskEditArea = document.querySelector(".task-edit-area")
             taskEditArea.innerHTML = `
                     <div class="task-edit-div">
@@ -861,6 +889,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const res = await fetch(`/lists/${userId}/lists/${elem.id}/tasks`);
             const listRes = await res.json();
 
+            const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+            if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
+
             const currentListTitle = document.querySelector('.current-task-title');
             currentListTitle.innerHTML = e.target.innerHTML;
 
@@ -887,13 +918,16 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 console.log(unfinishedCounter);
 
                 const anchor = document.createElement('a')
-                const li = document.createElement('li');
+                const li = document.createElement('label');
                 anchor.append(li)
                 const taskArea = document.querySelector('.task-list')
-                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
+                li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${elem.title}" value="${elem.id}"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
+
+                    submitTasksButton()
+
                     const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
                     const taskEditArea = document.querySelector(".task-edit-area")
@@ -1165,7 +1199,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     }
 
-    function submitTasksButton(e) {
+    
+    function submitTasksButton() {
         const taskCompleteButtonCheck = document.getElementById('task-complete-button');
 
         if (!taskCompleteButtonCheck) {
@@ -1199,19 +1234,21 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         const userLevel = document.getElementById('user-level')
         userLevel.innerHTML = `Current level: ${user.currentLevel}`
 
-
-        const expBar = document.getElementById('exp')
-        expBar.style.width = `${user.currentExp}%`
-
-
+        
+        
         boxValues.forEach(async elem => {
             console.log(elem)
             await fetch(`/tasks/${elem}`, { method: 'delete' })
             const removeMe = document.getElementById(elem)
             removeMe.parentElement.removeChild(removeMe)
         })
+        
+        
+        const expBar = document.getElementById('exp')
+        expBar.style.width = `${user.currentExp}%`
 
-
+        const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+        if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
     }
 });
 
