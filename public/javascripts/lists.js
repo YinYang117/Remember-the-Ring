@@ -76,12 +76,28 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
                 const anchor = document.createElement('a')
-                const li = document.createElement('li');
+                const li = document.createElement('label');
+
                 anchor.append(li)
-                li.innerHTML = `<div class="task-display"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
+                li.innerHTML = `<div class="task-display"><input type="checkbox" name="${elem.title}" value="${elem.id}"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
                 li.id = elem.id
                 taskArea.append(li);
                 li.addEventListener('click', async (event) => {
+
+                    const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+
+                    if (!taskCompleteButtonCheck) {
+                        const taskCompleteButton = document.createElement('button');
+                        taskCompleteButton.id = 'task-complete-button';
+                        taskCompleteButton.form = "completed-task-form";
+                        const taskHeader = document.querySelector(".task-header-area")
+                    }
+
+
+
+
+
+
                     const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
                     const taskEditArea = document.querySelector(".task-edit-area")
@@ -1142,19 +1158,19 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
 
-    // const userLevelUp = async (event) => {
+    const userLevelUp = async (event) => {
 
         
-    //     await fetch(`/lists/${userId}/exp-gain`, {
-    //         method: 'PUT',
-    //         credentials: 'include',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ title: newListInput.value }),
-    //     });
+        await fetch(`/lists/${userId}/exp-gain`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: newListInput.value }),
+        });
 
-    // }
+    }
 
 
 

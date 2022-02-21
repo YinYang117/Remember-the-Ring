@@ -55,9 +55,11 @@ div(class='page-container')
                             input(type="time" name="dueTime" id="task-time-input")
                             input(type="number" name="experienceReward" placeholder="xp" id="task-exp-input")
                             button(type='submit' id='new-task-submit') Submit
-                    div(class="current-task-title")
+                    div(class="task-header-area")
+                        div(class="current-task-title")
                 div(class="task-list-area")
-                    ul(class="task-list")
+                    form(id="completed-task-form") 
+                        ul(class="task-list")
             div(class="task-edit-area" id="")
             //- can add div things for task editing
             div(class="right-page-container")
@@ -75,8 +77,3 @@ div(class='page-container')
                             span completed
                     span(class="finished-tasks-container")
                         ul(id="finished-tasks-list") Finished Tasks
-                            li ex 1
-                            li ex 2
-                            li ex 3
-                            li ex 4
-                            li ex 5
