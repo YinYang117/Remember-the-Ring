@@ -38,19 +38,118 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         // console.log("User Tasks", userTasks)
         console.log("userTasks . userTasks", userTasks.userTasks)
         // const listChildren = document.childNodes(.)
-        const taskListAllLi = document.querySelectorAll('.task-list > li')
-        console.log("Task List all li's", taskListAllLi)
-        taskListAllLi.forEach((task) => {
-            task.remove()
-        })
-        const taskList = document.querySelector('.task-list')
 
-        userTasks.userTasks.forEach((task) => {
-            const li = document.createElement('li')
-            li.innerHTML = task.title
-            taskList.append(li)
+        const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+        if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
 
-            
+        const taskArea = document.querySelector('.task-list')
+        taskArea.innerHTML = '';
+
+
+        let unfinishedCounter = 0;
+        const unfinishedTasksNum = document.getElementById('unfinished-tasks-num');
+        unfinishedTasksNum.innerHTML = unfinishedCounter;
+
+        userTasks.userTasks.forEach(elem => {
+
+            if (!elem.completed) unfinishedCounter++;
+            unfinishedTasksNum.innerHTML = unfinishedCounter;
+
+
+            const anchor = document.createElement('a')
+            const li = document.createElement('label');
+
+            anchor.append(li)
+            li.innerHTML = `<div class="task-display"><input type="checkbox" class="task-check-boxes" name="${elem.title}" value="${elem.id}"><span id="title-${elem.id}" class="spanTitle">${elem.title}</span><span id="dueTime-${elem.id}" class="spanDueTime">  ${elem.dueTime || ''}</span></div>`
+            li.id = elem.id
+            taskArea.append(li);
+            li.addEventListener('click', async (event) => {
+
+                const taskCompleteButtonCheck = document.getElementById('task-complete-button');
+
+                if (!taskCompleteButtonCheck) {
+                    const taskCompleteButton = document.createElement('button');
+                    taskCompleteButton.id = 'task-complete-button';
+
+                    taskCompleteButton.setAttribute("form", "completed-task-form");
+                    taskCompleteButton.innerHTML = 'Complete!'
+                    const taskHeader = document.querySelector(".task-header-area")
+                    const listTitle = document.querySelector('.current-task-title')
+                    taskHeader.insertBefore(taskCompleteButton, listTitle)
+                }
+
+                
+
+                const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
+                const updateTaskValues = await updateTaskValuesRes.json();
+                const taskEditArea = document.querySelector(".task-edit-location")
+                taskEditArea.innerHTML = `
+                    <div class="task-edit-div">
+                        <form id="form-edit">
+                            <input type="text" name="title" placeholder="title" id="task-name-edit" value="${updateTaskValues.task.title}">
+                            <input type='text' name="description" placeholder="description" id="task-description-edit" value="${updateTaskValues.task.description}">
+                            <div class="date-time-edit-container">
+                                <input type="date" name="dueDate" id="task-date-edit" value=${updateTaskValues.task.dueDate}>
+                                <input type="time" name="dueTime" id="task-time-edit" value=${updateTaskValues.task.dueTime}>
+                                <input type="number" name="experienceReward" placeholder="xp" id="task-exp-edit" value=${updateTaskValues.task.experienceReward}>
+                            </div>
+                            <button class="task-edit-update-button">Update</button>
+                            <button class="task-edit-delete-button">Delete</button>
+                        </form>
+                    </div>`
+
+                const titleInput = document.querySelector('#task-name-edit');
+                const timeInput = document.querySelector('#task-time-edit');
+                const titleSpan = document.querySelector(`#title-${elem.id}`);
+                const timeSpan = document.querySelector(`#dueTime-${elem.id}`);
+
+                function handleTitleInput(e) {
+                    titleSpan.innerHTML = e.target.value;
+                };
+
+                function handleTimeInput(e) {
+                    timeSpan.innerHTML = ` ${e.target.value}`;
+                };
+
+                titleInput.oninput = handleTitleInput;
+                timeInput.oninput = handleTimeInput;
+
+                const updateBtn = document.querySelector('.task-edit-update-button');
+                updateBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const titleValue = document.getElementById("task-name-edit").value;
+                    const descriptionValue = document.getElementById("task-description-edit").value;
+                    const dateValue = document.getElementById("task-date-edit").value;
+                    const timeValue = document.getElementById("task-time-edit").value || null;
+                    const experienceValue = document.getElementById("task-exp-edit").value;
+                    const res = await fetch(`/tasks/${elem.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            title: titleValue,
+                            description: descriptionValue,
+                            experienceReward: experienceValue,
+                            dueDate: dateValue,
+                            dueTime: timeValue
+                        })
+                    })
+                    const updatedRes = await res.json();
+                    event.target.innerHTML = '';
+                    event.target.innerHTML = updatedRes.updatedTask.title;
+
+                })
+
+                const deleteBtn = document.querySelector('.task-edit-delete-button');
+                deleteBtn.addEventListener('click', async (e) => {
+                    e.stopImmediatePropagation();
+                    e.preventDefault();
+                    li.remove();
+                    taskEditArea.innerHTML = '';
+                    const res = await fetch(`/tasks/${elem.id}`, { method: 'DELETE' });
+                })
+            })
         })
     })
 
@@ -101,8 +200,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                         taskHeader.insertBefore(taskCompleteButton, listTitle)
                     }
 
+
                     const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
                     const updateTaskValues = await updateTaskValuesRes.json();
+                    
                     const taskEditArea = document.querySelector(".task-edit-area")
                     taskEditArea.innerHTML = `
                     <div class="task-edit-div">
@@ -1040,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             const deleteListSpan = document.createElement('span');
             deleteListSpan.classList = 'list-delete-span';
 
-            editListSpan.innerHTML = 'Edit list name';
+            editListSpan.innerHTML = 'Edit list';
             deleteListSpan.innerHTML = 'Delete list';
 
             dropDown.append(dropDownContent);
@@ -1249,6 +1350,11 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
         const taskCompleteButtonCheck = document.getElementById('task-complete-button');
         if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
+
+        const unfinishedTasks = document.getElementById('unfinished-tasks-num')
+        const unfinishedNum = parseInt(unfinishedTasks.innerHTML, 10);
+        const newNum = unfinishedNum - boxValues.length
+        unfinishedTasks.innerHTML = newNum
     }
 });
 

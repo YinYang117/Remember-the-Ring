@@ -42,8 +42,7 @@ div(class='page-container')
                         li#this-week-tasks This Week
                 div(class="user-made-lists-container")
                     div(class="user-made-lists-header")
-                        button(id="new-list-button" type="button") +
-                        ul#user-made-lists Lists
+                        ul#user-made-lists Lists #[button(id="new-list-button" type="button") +]
             div(class="task-area")
                 div(class="new-task-form-container")
                     div(class="new-task-error")
@@ -72,8 +71,4 @@ div(class='page-container')
                         div(id="unfinished-tasks-box")
                             span(id='unfinished-tasks-num') 0
                             span unfinished
-                        div(id="finished-tasks-box")
-                            span(id='finished-tasks-num') 0
-                            span completed
-                    span(class="finished-tasks-container")
-                        ul(id="finished-tasks-list") Finished Tasks
+                        

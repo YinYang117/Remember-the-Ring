@@ -77,18 +77,21 @@
 .task-summaries {
     margin-top: 30px;
     display: flex;
+    justify-content: center;
     width: 198px;
     height: 60px;
     color: #E7C087;
 }
 
 #unfinished-tasks-box {
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    width: 99px;
+    width: 115px;
     background-color: #841818;
     text-align: center;
     align-items: center;
-    border-radius: 3px 0px 0px 3px;
+    border-radius: 3px;
 }
 
 #finished-tasks-box {
@@ -113,4 +116,8 @@
 
 #finished-tasks-list li{
     text-align: left;
+}
+
+.right-page-container * {
+    opacity: 0.9;
 }
