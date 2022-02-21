@@ -42,8 +42,7 @@ div(class='page-container')
                         li#this-week-tasks This Week
                 div(class="user-made-lists-container")
                     div(class="user-made-lists-header")
-                        button(id="new-list-button" type="button") +
-                        ul#user-made-lists Lists
+                        ul#user-made-lists Lists #[button(id="new-list-button" type="button") +]
             div(class="task-area")
                 div(class="new-task-form-container")
                     div(class="new-task-error")
@@ -55,9 +54,11 @@ div(class='page-container')
                             input(type="time" name="dueTime" id="task-time-input")
                             input(type="number" name="experienceReward" placeholder="xp" id="task-exp-input")
                             button(type='submit' id='new-task-submit') Submit
-                    div(class="current-task-title")
+                    div(class="task-header-area")
+                        div(class="current-task-title")
                 div(class="task-list-area")
-                    ul(class="task-list")
+                    form(id="completed-task-form") 
+                        ul(class="task-list")
             div(class="task-edit-area" id="")
             //- can add div things for task editing
             div(class="right-page-container")
@@ -65,18 +66,9 @@ div(class='page-container')
                     div(id="user-level") Current level: #{user.currentLevel}
                     img(src="../images/gandalf.png" alt="gandalf-image" id="gandalf")
                     div(id="exp-bar")
-                        div(id="exp")
+                        div(id="exp" style=`width:${user.currentExp}%`)
                     div(class="task-summaries")
                         div(id="unfinished-tasks-box")
                             span(id='unfinished-tasks-num') 0
                             span unfinished
-                        div(id="finished-tasks-box")
-                            span(id='finished-tasks-num') 0
-                            span completed
-                    span(class="finished-tasks-container")
-                        ul(id="finished-tasks-list") Finished Tasks
-                            li ex 1
-                            li ex 2
-                            li ex 3
-                            li ex 4
-                            li ex 5
+                        

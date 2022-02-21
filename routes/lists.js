@@ -9,6 +9,14 @@ const csrfProtection = csrf({ cookie: true });
 const { User, List, Task } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 
+
+router.get('/:userId(\\d+)/user-info', checkUser, asyncHandler(async (req, res) => {
+    const userId = req.params.userId;
+    const listId = req.cookies.listId;
+    const userInfo = await User.findByPk(userId);
+    res.json({ userInfo, listId })
+}))
+
 router.get('/:userId(\\d+)', checkUser, asyncHandler(async (req, res) => {
     const { userId } = req.session.auth
 
@@ -137,7 +145,7 @@ router.get('/:userId(\\d+)/tasks/search/:searchInput', checkUser, asyncHandler(a
         where: {
             userId: userId,
             title: {
-                [Op.substring]: searchTerm 
+                [Op.substring]: searchTerm
             }
         }
     });
@@ -160,8 +168,8 @@ router.get('/:userId(\\d+)/lists/:listId(\\d+)/tasks', checkUser, asyncHandler(a
             listId: listId
         }
     });
-    
-    res.cookie('listId', listId, {httpOnly: true, secure: true})
+
+    res.cookie('listId', listId, { httpOnly: true, secure: true })
     return res.json({ taskList })
 }));
 
@@ -204,7 +212,7 @@ const newListValidator = [
                     if (title) return Promise.reject('That list already exists')
                 })
         })
-        .isLength({max: 20 })
+        .isLength({ max: 20 })
         .withMessage('List name is too long(max 20 chars)')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a list name')
@@ -246,11 +254,11 @@ router.put('/:userId/lists', checkUser, newListValidator, asyncHandler(async (re
     const listValidators = validationResult(req);
 
     if (listValidators.isEmpty()) {
-    updatedList.title = title;
+        updatedList.title = title;
 
-    await updatedList.save();
+        await updatedList.save();
 
-    return res.json({ updatedList });
+        return res.json({ updatedList });
 
     } else {
 
@@ -265,32 +273,47 @@ router.put('/:userId/lists', checkUser, newListValidator, asyncHandler(async (re
 
 router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, next) => {
     const { listId } = req.cookies;
-    console.log("######### I AM HERE", listId)
+
     const listIdParse = parseInt(listId, 10)
     const doomedList = await List.findByPk(listIdParse);
     await doomedList.destroy();
-    res.clearCookie(listId)
-    return;
+    res.clearCookie(listId);
+    res.json({ msg: 'List delted' })
 }))
 
 
-// router.get('/test-xp-func'), /*checkUser*/ asyncHandler(async (req, res, next) => {
-//     const taskId = parseInt(req.params.taskId, 10);
-//     const userId = parseInt(req.params.userId, 10);
-    
-//     const updatedTask = await Task.findByPk(taskId, {
-//         include: User
-//     });
-    
-//     console.log("#######################", updatedTask);
+router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
+    const { taskIds } = req.body;
+    const userId = parseInt(req.params.userId, 10);
 
-//     updatedTask.completed = true;
 
-//     updatedTask.completed = true;
 
-//     await updatedTask.save();
+    const user = await User.findByPk(userId);
 
-// })
+    taskIds.forEach(async elem => {
+        const parsedNum = parseInt(elem, 10)
+        const updatedTask = await Task.findByPk(parsedNum);
+        updatedTask.completed = true;
+        await updatedTask.save();
+
+        user.currentExp += updatedTask.experienceReward;
+
+        if (user.currentExp >= 100) {
+            user.currentLevel++
+            const leftOverXp = user.currentExp % 100
+
+            user.currentExp = leftOverXp;
+            // console.log("#######################", user.currentExp, user.currentLevel);
+        }
+        await user.save();
+
+    })
+
+    await user.save();
+
+
+    res.json({ user: user });
+}))
 
 
 

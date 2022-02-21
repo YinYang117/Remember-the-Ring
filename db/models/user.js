@@ -26,10 +26,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER
     },
+    isGuest: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
   }, {});
   User.associate = function(models) {
-    User.hasMany(models.Task, { foreignKey: 'userId'})
-    User.hasMany(models.List, { foreignKey: 'userId'})
+    User.hasMany(models.Task, { foreignKey: 'userId', onDelete: 'cascade', hooks: true })
+    User.hasMany(models.List, { foreignKey: 'userId', onDelete: 'cascade', hooks: true })
   };
   return User;
 };
