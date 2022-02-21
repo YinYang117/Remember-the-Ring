@@ -1144,9 +1144,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
 
-    // async function completeTask(event, taskId) {
-    //     const addExperience = await fetch();
-    // }
+    async function completeTask(event, taskId) {
+        const addExperience = await fetch(`/`);
+    }
 
 
 

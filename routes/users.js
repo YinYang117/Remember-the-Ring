@@ -235,9 +235,9 @@ router.post('/login/guest', csrfProtection, asyncHandler(async (req, res) => {
 
   loginUser(req, res, user);
 
-  setTimeout(async () => {
-    await user.destroy();
-  }, 86400);
+  // setTimeout(async () => {
+  //   await user.destroy();
+  // }, 86400);
 
   req.session.save(() => {
     res.redirect(`/lists/${user.id}`);
