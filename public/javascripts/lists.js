@@ -7,12 +7,15 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     const submitForm = document.getElementById('completed-task-form');
     submitForm.addEventListener('submit', completeTask)
 
+    displayAllTasks();
 
     const listElement = document.querySelector('#user-lists');
 
     const defaultLists = document.querySelector('.default-lists')
     const taskSearchButton = document.getElementById('task-search-button')
     const taskSearchForm = document.querySelector('.search-form')
+
+
 
 
     // SEARCH FORM CODE
@@ -40,16 +43,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
     // CODE FOR DEAULT LISTS
     defaultLists.addEventListener('click', async (e) => {
         if (e.target.id === 'all-tasks') {
-
-            const res = await fetch(`/lists/${userId}/tasks`);
-            const userInfo = await res.json();
-            const taskArea = document.querySelector('.task-list')
-            taskArea.innerHTML = '';
-
-            const changeListTitle = document.querySelector('.current-task-title');
-            changeListTitle.innerHTML = 'All your tasks'
-
-            addListItem(userInfo.userTasks)
+            displayAllTasks();
         }
 
         else if (e.target.id === 'today-tasks') {
@@ -589,6 +583,18 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
     }
 
+    async function displayAllTasks () {
+        const res = await fetch(`/lists/${userId}/tasks`);
+        const userInfo = await res.json();
+        const taskArea = document.querySelector('.task-list')
+        taskArea.innerHTML = '';
+
+        const changeListTitle = document.querySelector('.current-task-title');
+        changeListTitle.innerHTML = 'All your tasks'
+
+        addListItem(userInfo.userTasks)
+    }
+
 
     function submitTasksButton() {
         const taskCompleteButtonCheck = document.getElementById('task-complete-button');
@@ -607,12 +613,12 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
     async function completeTask(e) {
+        e.preventDefault();
         const boxValues = []
         const checkBoxes = document.querySelectorAll('.task-check-boxes');
         checkBoxes.forEach(box => {
             if (box.checked) boxValues.push(box.value)
         })
-        e.preventDefault();
         const submitTasksRes = await fetch(`/lists/${userId}/exp-gain`, {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
@@ -635,6 +641,9 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         const expBar = document.getElementById('exp');
         expBar.style.width = `${user.currentExp}%`;
 
+        // const currentExp = expBar.style.width;
+
+
         const taskCompleteButtonCheck = document.getElementById('task-complete-button');
         if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
 
@@ -644,7 +653,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
         unfinishedTasks.innerHTML = newNum
     }
 
-    const addListItem = (loopItem) => {
+    function addListItem (loopItem) {
 
         const taskCompleteButtonCheck = document.getElementById('task-complete-button');
         if (taskCompleteButtonCheck) taskCompleteButtonCheck.remove();
@@ -759,6 +768,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
             })
         })
     }
+
+    
 });
 
 
