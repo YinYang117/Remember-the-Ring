@@ -290,7 +290,26 @@ router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
 
     const user = await User.findByPk(userId);
 
-    taskIds.forEach(async elem => {
+    // taskIds.forEach(async elem => {
+    //     const parsedNum = parseInt(elem, 10)
+    //     const updatedTask = await Task.findByPk(parsedNum);
+    //     updatedTask.completed = true;
+    //     await updatedTask.save();
+
+    //     user.currentExp += updatedTask.experienceReward;
+
+    //     if (user.currentExp >= 100) {
+    //         user.currentLevel++
+    //         const leftOverXp = user.currentExp % 100
+
+    //         user.currentExp = leftOverXp;
+    //         // console.log("#######################", user.currentExp, user.currentLevel);
+    //     }
+    //     await user.save();
+
+    // })
+
+    for await (const elem of taskIds) {
         const parsedNum = parseInt(elem, 10)
         const updatedTask = await Task.findByPk(parsedNum);
         updatedTask.completed = true;
@@ -307,13 +326,15 @@ router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
         }
         await user.save();
 
-    })
+    }
 
     await user.save();
 
 
     res.json({ user: user });
 }))
+
+
 
 
 
