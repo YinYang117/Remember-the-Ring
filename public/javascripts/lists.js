@@ -282,7 +282,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
             submitTasksButton()
 
-            const taskEditArea = document.querySelector(".task-edit-area")
+            const taskEditArea = document.querySelector("#task-edit-area")
+            taskEditArea.classList.add("task-edit-area")
             taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <form id="form-edit">
@@ -695,10 +696,10 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 }
 
 
-
                 const updateTaskValuesRes = await fetch(`/tasks/${elem.id}`);
                 const updateTaskValues = await updateTaskValuesRes.json();
-                const taskEditArea = document.querySelector(".task-edit-area")
+                const taskEditArea = document.querySelector("#task-edit-area")
+                taskEditArea.classList.add("task-edit-area")
                 taskEditArea.innerHTML = `
                     <div class="task-edit-div">
                         <form id="form-edit">
