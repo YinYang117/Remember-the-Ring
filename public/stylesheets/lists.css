@@ -101,7 +101,7 @@ body * {
 
 .body-styling-container {
     display: grid;
-    grid-template-columns: 235px 2fr 1fr 2fr 100px;
+    grid-template-columns: 235px 2fr 300px 2fr 100px;
     height: 95%;
     width: 95%;
     margin-top: 20px;
@@ -277,9 +277,6 @@ li {
     }
 }
 
-.task-edit-area {
-    grid-column: 3;
-}
 
 .task-edit-area input {
     height: 40px;
@@ -290,6 +287,7 @@ li {
 }
 
 .task-edit-area {
+    grid-column: 3;
     background-color: #FFFFFF40;
     height: 30%;
     width: 300px;
@@ -342,9 +340,19 @@ li {
 }
 
 
-/* .task-edit-div {
-    animation: slidein 0.7s cubic-bezier(.55,1.39,.87,1.01);
-} */
+.task-edit-div * {
+    animation: appear 1s;
+    opacity: 100%;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 100%;
+    }
+}
 
 @keyframes slidein {
     from {
