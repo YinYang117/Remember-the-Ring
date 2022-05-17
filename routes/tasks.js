@@ -7,7 +7,7 @@ router.delete('/:taskId(\\d+)', asyncHandler(async (req, res) => {
     const taskId = parseInt(req.params.taskId, 10);
     const doomedTask = await Task.findByPk(taskId);
     await doomedTask.destroy();
-    return;
+    res.json({})
 }));
 
 router.put('/:taskId(\\d+)', asyncHandler(async (req, res) => {

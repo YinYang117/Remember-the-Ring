@@ -118,7 +118,7 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
 
 router.get('/login', csrfProtection, (req, res, next) => {
 
-  
+
   if (req.session.auth) {
     const { userId } = req.session.auth;
     res.redirect(`/lists/${userId}`);
@@ -152,7 +152,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
   if (validationErrors.isEmpty()) {
     const user = await User.findOne({ where: { email } });
-    
+
     if (user) {
       const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
 
@@ -192,7 +192,59 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 }));
 
 
-router.get('/signout', logoutUser, (req, res) => {})
+router.get('/signout', logoutUser, (req, res) => { })
+
+
+
+router.post('/login/guest', csrfProtection, asyncHandler(async (req, res) => {
+
+
+
+  let guestEmail = Math.random().toString(16).substring(2, 20) + "@guest.com"
+  let checkGuestEmail = true;
+
+  while (checkGuestEmail) {
+
+    checkGuestEmail = await User.findOne({
+      where: {
+        email: guestEmail
+      }
+
+    });
+
+    guestEmail = Math.random().toString(16).substring(2, 20) + "@guest.com"
+
+  }
+
+  let guestPassword = Math.random().toString(16).substring(2, 20);
+
+  const hashedPass = await bcrypt.hash(guestPassword, 10);
+
+
+  const user = await User.build({
+    email: guestEmail,
+    firstName: 'Guest',
+    lastName: 'User',
+    hashedPassword: hashedPass,
+    currentLevel: 1,
+    currentExp: 0,
+    isGuest: true
+  });
+
+  await user.save();
+
+  loginUser(req, res, user);
+
+  // setTimeout(async () => {
+  //   await user.destroy();
+  // }, 86400);
+
+  req.session.save(() => {
+    res.redirect(`/lists/${user.id}`);
+  });
+  return;
+
+}));
 
 
 

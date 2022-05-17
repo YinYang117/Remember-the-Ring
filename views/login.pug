@@ -32,4 +32,7 @@ block content
                         label(for="password") Password
                         span(class="error-messages")=errors.password
                     input(type="string" name="password")
-                    button(id="submit-button") Log in!
+                    button(class="submit-button") Log in!
+                form(action="/users/login/guest" method='post' id="guest-form")
+                    input(type="hidden" name="_csrf" value=csrfToken)
+                    button(class="submit-button" id="guest-user-button") Guest user

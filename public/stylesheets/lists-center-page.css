@@ -31,11 +31,13 @@
     width: 99%;
 }
 
-.task-list:first-child li {
+.task-list:first-child .task-display {
     border-top: 0px;
 }
 
-.task-list li{
+
+
+.task-display{
     font-size: 18px;
     padding: 10px 0px 10px 30px;
     border-top: #40404020 solid 1px;
@@ -57,7 +59,7 @@
 #new-task-form input {
     height: 40px;
     font-family: 'Apple Chancery';
-    width: 500px;
+    width: 550px;
     background-color: #FFFFFF60;
     border: #40404020 solid 1px;
     padding-left: 10px;
@@ -65,10 +67,16 @@
 
 }
 
+.date-time-edit-container {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
 .date-time-container {
     display: flex;
     height: 40px;
-    width: 500px;
+    width: 550px;
 }
 
 #task-name-input{
@@ -79,6 +87,7 @@
     height: 100%;
     min-width: 150px;
     border-radius: 0px 0px 0px 10px;
+    
 }
 
 #task-time-input{
@@ -98,3 +107,24 @@
 #task-exp-input {
     min-width: 25px;
 }
+
+.task-header-area {
+    width: 100%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr;
+
+}
+
+.current-task-title {
+    grid-column: 2;
+    justify-self: center;
+    align-self: center;
+    font-size: 36px;
+    color: #00000070;
+    white-space: nowrap;
+
+}
+
+
+

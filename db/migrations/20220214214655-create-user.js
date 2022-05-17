@@ -33,6 +33,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      isGuest: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
