@@ -1,12 +1,12 @@
-@import url(//db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
+@import url(https://db.onlinewebfonts.com/c/596ad608a41bd28960c777827cdd6af1?family=Apple+Chancery);
 @font-face {
     font-family: "Apple Chancery";
-    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
-    src: url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
-    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
-    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
-    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
-    url("//db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
+    src: url("https://db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot");
+    src: url("https://db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.eot?#iefix") format("embedded-opentype"), 
+    url("https://db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff2") format("woff2"), 
+    url("https://db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.woff") format("woff"), 
+    url("https://db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.ttf") format("truetype"), 
+    url("https://db.onlinewebfonts.com/t/596ad608a41bd28960c777827cdd6af1.svg#Apple Chancery") format("svg");
 }
 
 body {
