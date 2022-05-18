@@ -1,6 +1,3 @@
-
-
-
 document.addEventListener('DOMContentLoaded', async (event) => {
     const userId = document.URL.split('/lists/')[1];
 
@@ -339,7 +336,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 const updatedRes = await res.json();
                 event.target.innerHTML = '';
                 event.target.innerHTML = updatedRes.updatedTask.title;
-
+                taskEditArea.innerHTML = '';
+                taskEditArea.classList.remove("task-edit-area");
             })
 
             const deleteBtn = document.querySelector('.task-edit-delete-button');
@@ -348,6 +346,7 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                 e.preventDefault();
                 li.remove();
                 taskEditArea.innerHTML = '';
+                taskEditArea.classList.remove("task-edit-area");
                 const res = await fetch(`/tasks/${taskCreate.newTask.id}`, { method: 'DELETE' });
             })
         })
@@ -755,6 +754,8 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     const updatedRes = await res.json();
                     event.target.innerHTML = '';
                     event.target.innerHTML = updatedRes.updatedTask.title;
+                    taskEditArea.innerHTML = '';
+                    taskEditArea.classList.remove("task-edit-area");
 
                 })
 
@@ -764,22 +765,12 @@ document.addEventListener('DOMContentLoaded', async (event) => {
                     e.preventDefault();
                     li.remove();
                     taskEditArea.innerHTML = '';
+                    taskEditArea.classList.remove("task-edit-area");
                     const res = await fetch(`/tasks/${elem.id}`, { method: 'DELETE' });
                 })
             })
         })
     }
 
-    
+
 });
-
-
-
-
-
-
-
-
-
-
-

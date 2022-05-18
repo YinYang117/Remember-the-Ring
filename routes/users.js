@@ -91,7 +91,6 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
   if (validationErrors.isEmpty()) {
     user.hashedPassword = await bcrypt.hash(password, 10);
     await user.save();
-    console.log(user)
 
     loginUser(req, res, user);
 
@@ -105,7 +104,6 @@ router.post('/signup', userValidators, csrfProtection, asyncHandler(async (req, 
     validationErrors.array().forEach(err => {
       errors[err.param] = err.msg
     });
-    console.log(validationErrors)
     res.render('signup', {
       title: 'Wizard Signup',
       user,

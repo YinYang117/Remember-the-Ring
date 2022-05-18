@@ -32,7 +32,6 @@ router.get('/:taskId(\\d+)', asyncHandler(async (req, res) => {
             id: taskId
         }
     })
-    console.log('Made it!!!!!!!!!!!!!!!!!!!!', task)
     return res.json({ task: task })
 }));
 

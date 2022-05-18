@@ -61,7 +61,6 @@ router.get('/today/:userId(\\d+)', asyncHandler(async (req, res) => {
         },
         order: [['dueTime', 'ASC']]
     })
-    console.log('Over Here!!!!!!!!!!!!!!!', tasksToday)
 
     return res.json({ tasksToday });
 }));
@@ -132,7 +131,6 @@ router.get('/this-week-tasks/:userId(\\d+)', asyncHandler(async (req, res) => {
     //     })
     //     tasksArray.push(...tasks)
     // }
-    // console.log('Array is here!!!!!!!!!!!!!!!!!!!', tasksArray)
 
     return res.json({ tasksWeek: tasksWeek });
 }));
@@ -179,8 +177,6 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
     const userId = req.params.userId;
     const userIdParsed = parseInt(userId, 10);
 
-    console.log("########## MADE IT", listId)
-
     const newTask = await Task.create({
         title,
         description,
@@ -192,7 +188,6 @@ router.post('/:userId(\\d+)/tasks', checkUser, asyncHandler(async (req, res, nex
         dueTime: dueTime || null
     });
 
-    console.log(newTask, 'New task created!')
     res.json({ newTask })
 }))
 
@@ -227,12 +222,10 @@ router.post('/:userId(\\d+)/lists', checkUser, newListValidator, asyncHandler(as
         title,
         userId
     });
-    console.log('List validators is here!!!!', listValidators)
 
     if (listValidators.isEmpty()) {
 
         await newList.save();
-        console.log(newList, "#### NEW LIST CREATED ####")
 
         return res.json({ newList });
 
@@ -291,7 +284,6 @@ router.delete('/:userId(\\d+)/lists', checkUser, asyncHandler(async (req, res, n
 //         include: User
 //     });
 
-//     console.log("#######################", updatedTask);
 router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
     const { taskIds } = req.body;
     const userId = parseInt(req.params.userId, 10);
@@ -313,7 +305,6 @@ router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
     //         const leftOverXp = user.currentExp % 100
 
     //         user.currentExp = leftOverXp;
-    //         // console.log("#######################", user.currentExp, user.currentLevel);
     //     }
     //     await user.save();
 
@@ -332,7 +323,6 @@ router.put('/:userId(\\d+)/exp-gain', asyncHandler(async (req, res, next) => {
             const leftOverXp = user.currentExp % 100
 
             user.currentExp = leftOverXp;
-            // console.log("#######################", user.currentExp, user.currentLevel);
         }
         await user.save();
 
